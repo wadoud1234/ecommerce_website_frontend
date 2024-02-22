@@ -1,59 +1,18 @@
-<script>
-	import Counter from './Counter.svelte';
-	import welcome from '$lib/images/svelte-welcome.webp';
-	import welcome_fallback from '$lib/images/svelte-welcome.png';
+<script lang="ts">
+	import CategoryList from '$lib/components/Category/CategoryList.svelte';
+	import ProductList from '$lib/components/Product/ProductList.svelte';
 </script>
 
-<svelte:head>
-	<title>Home</title>
-	<meta name="description" content="Svelte demo app" />
-</svelte:head>
-
-<section>
-	<h1>
-		<span class="welcome">
-			<picture>
-				<source srcset={welcome} type="image/webp" />
-				<img src={welcome_fallback} alt="Welcome" />
-			</picture>
-		</span>
-
-		to your new<br />SvelteKit app
-	</h1>
-
-	<h2>
-		try editing <strong>src/routes/+page.svelte</strong>
-	</h2>
-
-	<Counter />
-</section>
-
-<style>
-	section {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex: 0.6;
-	}
-
-	h1 {
-		width: 100%;
-	}
-
-	.welcome {
-		display: block;
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
-	}
-
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
-	}
-</style>
+<div class="flex flex-col min-w-screen items-center">
+	<div class="flex flex-col w-full items-center justify-center h-80 gap-4 bg-red-500">
+		<p class="text-4xl text-center font-semibold from-neutral-600">Get Expensive Discounts</p>
+		<button class="bg-blue-700 text-white py-2 px-4 rounded-md font-semibold">Right now !</button>
+	</div>
+	<CategoryList />
+	<!-- Popular Products -->
+	<ProductList title="Popular Products" />
+	<!-- New Products -->
+	<div>New Products</div>
+	<div>Be a memeber</div>
+	<div>Be a sponsor</div>
+</div>
