@@ -1,54 +1,82 @@
 <script lang="ts">
+	import { ArrowLeftOutline, ArrowRightOutline } from 'flowbite-svelte-icons';
+	import Container from '../Container.svelte';
 	import ProductCard from './ProductCard.svelte';
-	const { title, cols = 6, rows } = $props();
-	import Carousel from 'svelte-carousel';
-	import { browser } from '$app/environment';
-	import { onMount } from 'svelte';
-	// import 'svelte-carousel/dist/style.css';
-	let carousel;
-	const productChunks = [];
+	import ProductsSlide from './ProductsSlide.svelte';
+	import { products } from '$lib/data';
+	export let title: string;
+
+	// const products = [
+	// 	{ name: 'Pc Gamer', price: 100, picture: '/products/cap-1.jpeg', likes: 100, id: 0 },
+	// 	{ name: 'Headset For Gamers', price: 200, picture: '/products/jean-1.jpeg', likes: 200, id: 1 },
+	// 	{ name: 'Pc I5 professionel', price: 300, picture: '/products/S24-1.jpeg', likes: 300, id: 2 },
+	// 	{ name: 'Gaming Headset', price: 400, picture: '/products/clock-1.jpeg', likes: 400, id: 3 },
+	// 	{ name: 'Pc Gamer', price: 100, picture: '/products/veste-1.jpeg', likes: 100, id: 4 },
+	// 	{ name: 'Pc Gamer', price: 100, picture: '/products/cap-2.jpeg', likes: 100, id: 0 },
+	// 	{ name: 'Headset For Gamers', price: 200, picture: '/products/jean-2.jpeg', likes: 200, id: 1 },
+	// 	{ name: 'Pc I5 professionel', price: 300, picture: '/products/S24-2.jpeg', likes: 300, id: 2 },
+	// 	{ name: 'Gaming Headset', price: 400, picture: '/products/clock-2.jpeg', likes: 400, id: 3 },
+	// 	{ name: 'Pc Gamer', price: 100, picture: '/products/veste-2.jpeg', likes: 100, id: 4 },
+	// 	{ name: 'Pc Gamer', price: 100, picture: '/products/cap-3.jpeg', likes: 100, id: 0 },
+	// 	{ name: 'Headset For Gamers', price: 200, picture: '/products/jean-3.jpeg', likes: 200, id: 1 },
+	// 	{ name: 'Pc I5 professionel', price: 300, picture: '/products/S24-3.jpeg', likes: 300, id: 2 },
+	// 	{ name: 'Gaming Headset', price: 400, picture: '/products/clock-3.jpeg', likes: 400, id: 3 },
+	// 	{ name: 'Pc Gamer', price: 100, picture: '/products/veste-3.jpeg', likes: 100, id: 4 }
+	// ];
+
 	const chunkSize = 5;
-	const products = [
-		{ name: 'Pc Gamer', price: 100, picture: '/pc_gamer_1.jpg', likes: 100, id: 0 },
-		{ name: 'Headset For Gamers', price: 200, picture: '/headset_1.jpg', likes: 200, id: 1 },
-		{ name: 'Pc I5 professionel', price: 300, picture: '/pc_gamer_1.jpg', likes: 300, id: 2 },
-		{ name: 'Gaming Headset', price: 400, picture: '/headset_1.jpg', likes: 400, id: 3 },
-		{ name: 'Pc Gamer', price: 100, picture: '/pc_gamer_1.jpg', likes: 100, id: 4 },
-		{ name: 'Pc Etude ', price: 200, picture: '/pc_gamer_1.jpg', likes: 200, id: 5 },
-		{ name: 'Product 3', price: 300, picture: '/pc_gamer_1.jpg', likes: 300, id: 6 },
-		{ name: 'Product 4', price: 400, picture: '/headset_1.jpg', likes: 400, id: 7 },
-		{ name: 'Product 1', price: 100, picture: '/pc_gamer_1.jpg', likes: 100, id: 8 },
-		{ name: 'Product 2', price: 200, picture: '/pc_gamer_1.jpg', likes: 200, id: 9 },
-		{ name: 'Product 3', price: 300, picture: '/headset_1.jpg', likes: 300, id: 10 },
-		{ name: 'Product 4', price: 400, picture: '/pc_gamer_1.jpg', likes: 400, id: 11 }
-	];
-	const productsToShow = $derived(products.slice(0, 6));
-	function chunkProducts() {
-		for (let i = 0; i < products.length; i += chunkSize) {
-			productChunks.push(products.slice(i, i + chunkSize));
+	let chunkNumber: number = 0;
+	function goNext() {
+		if (chunkNumber === 3) {
+			chunkNumber = 0;
+		} else {
+			chunkNumber = chunkNumber + 1;
 		}
 	}
-	const handleNextClick = () => {
-		carousel.goToNext();
-	};
+	function goBack() {
+		if (chunkNumber === 0) {
+			chunkNumber = 3;
+		} else {
+			chunkNumber = chunkNumber - 1;
+		}
+	}
+	// let productsToShow = [...products.slice(chunkNumber, chunkNumber + chunkSize)];
 </script>
 
-<div class="flex flex-col gap-6 w-full items-center p-4">
-	<h3 class="text-3xl font-semibold text-center">{title}</h3>
-	<div
-		class={`grid ${'grid-cols-' + (cols - 4)} sm:${'grid-cols-' + (cols - 3)} md:${'grid-cols-' + (cols - 2)} lg:${'grid-cols-' + cols} xl:${'grid-cols-' + (cols + 1)} gap-2 lg:gap-4 overflow-hidden`}
-	>
-		{#each productsToShow as { name, price, picture, likes, id }}
-			<ProductCard {name} {price} {picture} {likes} {id} />
-		{/each}
-	</div>
-	{#if browser}
-		<Carousel perPage={5} bind:this={carousel}>
-			<div>1</div>
-			<div>2</div>
-			<div>3</div>
-		</Carousel>
-	{/if}
-
-	<button on:click={handleNextClick}>Next</button>
+<div class="flex flex-col gap-6 items-center p-4">
+	<Container>
+		<div class="gap-6 flex flex-col items-center justify-center w-full">
+			<div class="flex flex-row justify-between w-full">
+				<h3 class="text-3xl font-semibold text-start text-black/80 dark:text-white/80">{title}</h3>
+				<div class="flex flex-row items-center justify-end gap-2">
+					<ArrowLeftOutline
+						class="border-1 p-1 border-black border hover:text-black/40 rounded-full cursor-pointer"
+						size="xl"
+						on:click={goBack}
+					/>
+					<!-- <p class="text-xl mb-1 font-semibold mx-1">{chunkNumber}</p> -->
+					<ArrowRightOutline
+						class="border-1 rounded-full border-black hover:text-black/40 border-1 border p-1 cursor-pointer"
+						size="xl"
+						on:click={goNext}
+					/>
+				</div>
+			</div>
+			<div>
+				<ProductsSlide hidden={chunkNumber !== 0} products={[...products.slice(0, chunkSize)]} />
+				<ProductsSlide
+					hidden={chunkNumber !== 1}
+					products={[...products.slice(1, 1 + chunkSize)]}
+				/>
+				<ProductsSlide
+					hidden={chunkNumber !== 2}
+					products={[...products.slice(2, 2 + chunkSize)]}
+				/>
+				<ProductsSlide
+					hidden={chunkNumber !== 3}
+					products={[...products.slice(3, 3 + chunkSize)]}
+				/>
+			</div>
+		</div>
+	</Container>
 </div>
