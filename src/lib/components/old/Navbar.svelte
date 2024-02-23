@@ -6,16 +6,19 @@
 	import SearchBar from './SearchBar.svelte';
 	import List from './List.svelte';
 	import Logo from './Logo.svelte';
+	import Container from './Container.svelte';
 </script>
 
 <nav
 	class={`flex items-center px-10 lg:px-20 h-16  dark:bg-gray-950 bg-white shadow shadow-gray w-full justify-center`}
 >
-	<div class="w-5/6">
+	<Container>
 		<div class="min-w-full flex items-center justify-between gap-2 lg:gap-4">
 			<!-- Logo -->
 			<Logo />
-
+			<button class="border-none rounded-lg bg-blue-700 text-white poppins-bold py-2 px-4"
+				><a href="/home">Home</a></button
+			>
 			<!-- Search -->
 			<SearchBar />
 
@@ -23,5 +26,5 @@
 			<List {loggedIn} />
 			<MobileMenu />
 		</div>
-	</div>
+	</Container>
 </nav>

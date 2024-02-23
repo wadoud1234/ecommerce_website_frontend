@@ -8,10 +8,10 @@ export function toggleTheme() {
     const colorMode = get(ThemeStore);
     if (colorMode === "light") {
         ThemeStore.set("dark");
-    } else {
+    } else if (colorMode === "dark") {
         ThemeStore.set("light");
     }
-    get(ThemeStore) === "dark" ? document.documentElement.classList.add("dark") : document?.documentElement.classList.remove("dark");
+    get(ThemeStore) !== "dark" ? document.documentElement.classList.add("dark") : document?.documentElement.classList.remove("dark");
 
 }
 

@@ -4,8 +4,15 @@
 	let showMenu = false;
 </script>
 
-<div class="md:hidden">
-	<img src={MenuIcon} width="24" height="24" alt="menu" class="cursor-pointer" />
+<div class="lg:hidden">
+	<img
+		src="/menu.svg"
+		width="40"
+		height="40"
+		alt="menu"
+		class="cursor-pointer dark:text-gray-200"
+		color="red"
+	/>
 	<div
 		class={`${showMenu ? 'flex' : 'hidden'} min-w-full text-lg flex-col  bg-green-300 absolute top-[68px] right-0`}
 	>

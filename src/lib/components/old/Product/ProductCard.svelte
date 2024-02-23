@@ -30,7 +30,7 @@
 	href={`/products/${id}`}
 	class="flex flex-col rounded-xl relative border-[0.25px] border-gray-300 dark:border-gray-600 shadow-sm"
 >
-	<img src={picture} alt="" class="rounded-t-xl h-48 hover:opacity-80" />
+	<img src={picture} alt="" class="rounded-t-xl max-h-56 hover:opacity-80" />
 	<div class="flex flex-col py-2 px-2 bg-gray-200 dark:bg-gray-700 rounded-b-xl">
 		<p class="font-semibold text-lg font-sans">
 			<span class={'' + discount && 'line-through'}>{price} $</span>

@@ -4,7 +4,7 @@ export const products = [
         "name": "Wireless Bluetooth Headphones",
         "price": 49.99,
         "rating": 1,
-        "picture": "/products/S24-1.jpeg",
+        "picture": "/products/jean-1.jpeg",
         "likes": 120,
         "sold": 500,
         "discount": 10

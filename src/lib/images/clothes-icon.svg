@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+<svg width="800px" height="800px" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<style>.cls-1{fill:#81d0e9;}.cls-2{fill:#56a7c9;}.cls-3{fill:#ffffff;}.cls-4{fill:#194568;}.cls-5{fill:#125488;}.cls-6{fill:#546c8c;}</style>
+</defs>
+<g id="main">
+<rect class="cls-1" height="55" rx="3.31" width="53" x="5" y="8"/>
+<path class="cls-2" d="M18,59H12.31A3.31,3.31,0,0,1,9,55.69V43a1,1,0,0,1,2,0V55.69A1.31,1.31,0,0,0,12.31,57H18a1,1,0,0,1,0,2Z"/>
+<rect class="cls-3" height="12.56" width="26.38" x="18.63" y="2.25"/>
+<path class="cls-4" d="M51.34,11.32,46.92,1.61h0A1.1,1.1,0,0,0,46,1H18a1.07,1.07,0,0,0-.91.59l-4.4,9.92a3,3,0,0,0,.63,3.35l9.29,9.19A3,3,0,0,0,25,24.9a3,3,0,0,0,2.19-1.27L32,16.74l4.81,6.88a3,3,0,0,0,4.58.4l9.34-9.33A3,3,0,0,0,51.34,11.32ZM32,13.64,20.55,3h22.9Z"/>
+<path class="cls-5" d="M32,29a2,2,0,1,1,2-2A2,2,0,0,1,32,29Zm0-2h0Zm0,0h0Zm0,0h0Zm0,0h0Zm0,0h0Zm0,0h0Zm0,0h0Zm0,0h0Z"/>
+<path class="cls-5" d="M32,37a2,2,0,1,1,2-2A2,2,0,0,1,32,37Zm0-2h0Zm0,0h0Zm0,0h0Zm0,0h0Zm0,0h0Zm0,0h0Zm0,0h0Zm0,0h0Z"/>
+<path class="cls-5" d="M32,46a2,2,0,1,1,2-2A2,2,0,0,1,32,46Zm0-2h0Zm0,0h0Zm0,0h0Zm0,0h0Zm0,0h0Zm0,0h0Zm0,0h0Zm0,0h0Z"/>
+<path class="cls-5" d="M32,54a2,2,0,1,1,2-2A2,2,0,0,1,32,54Zm0-2h0Zm0,0h0Zm0,0h0Zm0,0h0Zm0,0h0Zm0,0h0Zm0,0h0Zm0,0h0Z"/>
+<path class="cls-6" d="M44,34a1,1,0,0,1-1-1V27a1,1,0,0,1,2,0v6A1,1,0,0,1,44,34Z"/>
+<rect class="cls-5" height="7" rx="2" width="14" x="39" y="32"/>
+</g>
+</svg>

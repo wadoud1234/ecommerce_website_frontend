@@ -3,7 +3,7 @@
 	export let loggedIn = false;
 </script>
 
-<div class="flex text-base gap-2 lg:gap-4 font-semibold items--center justify-end">
+<div class="hidden lg:flex text-base gap-2 lg:gap-4 font-semibold items--center justify-end">
 	<button class="hover:text-gray-700 mr-2">Categories</button>
 	{#if loggedIn}
 		<!-- Content to render when logged in -->

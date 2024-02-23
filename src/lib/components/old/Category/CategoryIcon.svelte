@@ -4,7 +4,9 @@
 </script>
 
 <div class="flex flex-col text-center items-center cursor-pointer">
-	<div class="bg-white dark:bg-slate-500 rounded-full border-[0.25px] border-gray-300 h-24 w-24">
+	<div
+		class="bg-white dark:bg-slate-500 rounded-full border-[0.25px] border-gray-300 h-16 w-16 md:h-24 md:w-24"
+	>
 		<img
 			src={categoryIconSrc}
 			alt="category"
