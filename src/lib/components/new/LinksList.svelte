@@ -17,16 +17,14 @@
 		{
 			title: 'About',
 			link: '/about'
-		},
-		{
-			title: 'Register',
-			link: '/auth/register'
 		}
 	];
 </script>
 
-<ul class="ml-8 flex flex-row items-center gap-5 flex-1 justify-center">
-	{#each listItems as { title, link }}
-		<LinkListItem {title} {link} active={pathname === link} />
-	{/each}
-</ul>
+<div class="hidden md:flex flex-row items-center flex-1 justify-center">
+	<ul class="flex flex-row items-center justify-around flex-1 gap-4 md:max-w-64">
+		{#each listItems as { title, link }}
+			<LinkListItem {title} {link} active={pathname === link} />
+		{/each}
+	</ul>
+</div>

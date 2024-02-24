@@ -5,9 +5,10 @@
 	let announcement: { title: string; link: string } = { title: '', link: '' };
 </script>
 
-<div class="pb-10 dark:bg-white bg-white">
+<div
+	class="min-h-screen flex flex-col justify-between h-full dark:bg-white bg-white overflow-x-hidden"
+>
 	<NewNavbar {announcement} />
-	<hr class="w-full border-gray-300" />
 	<slot />
 	<NewFooter />
 </div>

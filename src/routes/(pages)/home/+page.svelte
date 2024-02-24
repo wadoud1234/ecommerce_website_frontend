@@ -7,18 +7,20 @@
 	import * as Carousel from '$lib/components/ui/carousel/index.js';
 	import { products, categories } from './data';
 	import { HeroSectionImage, RightArrowIcon } from '$lib/icons';
-	import { AppleSolid, ArrowRightOutline } from 'flowbite-svelte-icons';
 	import { page } from '$app/stores';
+	import HeroSection from '$lib/components/new/HeroSection.svelte';
+	import CategoryCarousel from '$lib/components/new/CategoryCarousel.svelte';
+	import ProductCarousel from '$lib/components/new/ProductCarousel.svelte';
 	let pathname = $page.url.pathname;
 	let queries = $page.url.searchParams;
 </script>
 
 <div class="HomePage w-full min-h-screen h-full">
 	<NewContainer>
-		<div class="flex flex-col">
-			<div class="HeroSection flex flex-row items-start">
+		<div class="flex flex-col w-full">
+			<div class="HeroSection flex flex-row items-start min-h-fit md:h-[450px] w-full lg:h-[380px]">
 				<div
-					class="NavMenu border border-y-0 border-l-0 border-r-1 border-gray-300 min-w-48 py-4 flex flex-col gap-0"
+					class="NavMenu border border-y-0 border-l-0 border-r-1 border-gray-300 min-w-48 py-4 hidden md:flex flex-col gap-0 h-full"
 				>
 					<NavItem title="Women's Fashion">
 						<button>
@@ -39,23 +41,7 @@
 					<NavItem title="Health & Beauty" />
 				</div>
 
-				<div class="Slider pl-6 pt-6 w-full">
-					<div class="bg-black min-w-full w-full flex-1 flex justify-between p-8">
-						<div class="flex flex-col justify-center text-white gap-6 pl-6">
-							<p class="flex items-center gap-6 text-sm font-sans">
-								<AppleSolid class="w-12 h-12" /> iphone 14 Series
-							</p>
-							<h3 class="text-5xl font-sans font-semibold">
-								Up to 10% <br class="mb-5" />off Voucher
-							</h3>
-							<button
-								class="underline underline-offset-1 flex gap-2 text-lg items-center hover:bg-white hover:text-black rounded-md w-fit px-3 py-2"
-								>Shop Now<ArrowRightOutline class="w-6" /></button
-							>
-						</div>
-						<img src={HeroSectionImage} alt="hero" width="400" class="z-10" loading="lazy" />
-					</div>
-				</div>
+				<HeroSection />
 			</div>
 			<Separator />
 			<!-- Search By Category -->
@@ -68,17 +54,7 @@
 				</h3>
 				<div class="flex flex-col gap-6">
 					<p class="text-2xl poppins-medium">Browse By Categories</p>
-					<Carousel.Root id="carousel" opts={{ align: 'start' }} orientation="horizontal">
-						<Carousel.Content class="transition-none duration-0">
-							{#each categories as { name, Icon }}
-								<Carousel.Item class="basis-1/3 lg:basis-1/5">
-									<NewCategoryCard {name} {Icon} />
-								</Carousel.Item>
-							{/each}
-						</Carousel.Content>
-						<Carousel.Previous class="bg-black text-white" />
-						<Carousel.Next class="bg-black text-white" />
-					</Carousel.Root>
+					<CategoryCarousel {categories} />
 					<!-- <div class="flex flex-row w-full overflow-hidden justify-between">
 						<NewCategoryCard details={{ name: 'Phones', picture: MobileIcon }} />
 						<NewCategoryCard details={{ name: 'Computers', picture: ComputerIcon }} />
@@ -104,41 +80,7 @@
 							>View All</button
 						>
 					</div>
-					<Carousel.Root id="carousel" opts={{ align: 'start' }} orientation="horizontal">
-						<Carousel.Content class="transition-none duration-0">
-							{#each [...products.slice(0, 12)] as { id, name, price, picture, discount, rating, sold }}
-								<Carousel.Item class="basis-1/3 lg:basis-1/4">
-									<NewProductCard
-										details={{
-											id,
-											name,
-											price,
-											picture,
-											discount,
-											rating,
-											sold
-										}}
-									/>
-								</Carousel.Item>
-							{/each}
-						</Carousel.Content>
-						<Carousel.Previous class="bg-black text-white" />
-						<Carousel.Next class="bg-black text-white" />
-					</Carousel.Root>
-					<!-- <div class="grid grid-rows-1 grid-cols-4 gap-y-6 w-full overflow-x-hidden">
-						{#each products as { name, price, picture, discount, rating, sold }}
-							<NewProductCard
-								details={{
-									name,
-									price,
-									picture,
-									discount,
-									rating,
-									sold
-								}}
-							/>
-						{/each}
-					</div> -->
+					<ProductCarousel {products} />
 				</div>
 			</div>
 		</div>

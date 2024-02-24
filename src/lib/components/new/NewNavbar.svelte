@@ -3,12 +3,13 @@
 	import LinksList from './LinksList.svelte';
 	import NewContainer from './NewContainer.svelte';
 	import NewLogo from './NewLogo.svelte';
+	import NewMobileMenu from './NewMobileMenu.svelte';
 	import NewSearchBar from './NewSearchBar.svelte';
 
 	export let announcement: { title: string; link: string } = { title: '', link: '' };
 </script>
 
-<div class="w-full flex flex-col">
+<div class="w-full h-fit flex flex-col relative border-b-gray-200 border border-x-0 border-t-0">
 	{#if announcement.title && announcement.link}
 		<div class="Navbar bg-black text-white text-center font-sans py-2">
 			{announcement.title} .
@@ -16,13 +17,13 @@
 		</div>
 	{/if}
 	<NewContainer>
-		<div class="flex flex-row items-center w-full pb-2.5 pt-5 h-full">
+		<div class="flex flex-row items-center justify-between w-full pb-2.5 pt-5 gap-4 h-full">
 			<NewLogo />
 			<LinksList />
-			<div class="flex flex-row items-center gap-5 justify-end">
-				<NewSearchBar />
-				<IconsList />
-			</div>
+
+			<NewSearchBar />
+			<IconsList />
+			<NewMobileMenu registered={false} />
 		</div>
 	</NewContainer>
 </div>

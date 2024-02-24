@@ -31,6 +31,6 @@
 		alt="category"
 		class={`w-12 h-12 object-cover ${active ? 'fill-white text-white stroke-white' : ' fill-black stroke-black text-black'}`}
 	/> -->
-	<Icon size={36} />
+	<svelte:component this={Icon} size={36} />
 	<p class="poppins-medium">{name}</p>
 </a>

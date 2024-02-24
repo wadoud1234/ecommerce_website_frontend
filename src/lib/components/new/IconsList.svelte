@@ -1,6 +1,9 @@
 <script>
-	import { CartIcon, HeartIcon } from '$lib/icons';
+	import { CircleUserRound, Heart, ShoppingCart, UserRound } from 'lucide-svelte';
 </script>
 
-<img src={HeartIcon} alt="favourite" width="24" />
-<img src={CartIcon} alt="cart" width="24" />
+<div class="hidden lg:flex flex-row items-center justify-between gap-4">
+	<Heart size="24" />
+	<ShoppingCart size="24" />
+	<UserRound size="24" />
+</div>
