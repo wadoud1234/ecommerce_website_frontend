@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { SearchOutline } from 'flowbite-svelte-icons';
 	import { Search } from 'lucide-svelte';
 
 	let value = '';

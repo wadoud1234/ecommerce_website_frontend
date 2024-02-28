@@ -3,7 +3,6 @@
 	import MobileMenuItem from '$lib/components/new/MobileMenuItem.svelte';
 	export let registered: boolean;
 	let hidden = false;
-	$: console.log(hidden);
 </script>
 
 <button

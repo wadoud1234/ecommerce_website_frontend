@@ -3,7 +3,6 @@
 	import LinkListItem from './LinkListItem.svelte';
 	let pathname: string;
 	$: pathname = $page.url.pathname;
-	$: console.log(pathname);
 
 	const listItems: { title: string; link: string }[] = [
 		{

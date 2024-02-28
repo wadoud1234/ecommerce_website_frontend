@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { products } from '$lib/data';
 	import { HeartIcon } from '$lib/icons';
-	import StarRating from './../old/StarRating.svelte';
+	import StarRating from './StarRating.svelte';
 
 	type Product = {
 		id: number;

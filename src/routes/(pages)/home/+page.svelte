@@ -83,6 +83,26 @@
 					<ProductCarousel {products} />
 				</div>
 			</div>
+			<Separator />
+			<div>
+				<h3
+					class="flex flex-row gap-2 text-sm items-center justify-start text-red-600 font-semibold h-8 mb-4"
+				>
+					<div class="min-w-4 h-full bg-red-600 rounded-md text-transparent">{'.'}</div>
+					Our Products
+				</h3>
+				<div class="flex flex-col gap-6">
+					<div class="flex flex-row items-center justify-between">
+						<p class="text-2xl poppins-medium">Explore Our Products</p>
+					</div>
+					<ProductCarousel {products} />
+					<div class="flex flex-row justify-center items-center w-full">
+						<button class="text-white bg-red-600 bg-opacity-80 rounded-sm py-3 px-7 poppins-medium">
+							View All Products
+						</button>
+					</div>
+				</div>
+			</div>
 		</div>
 	</NewContainer>
 </div>

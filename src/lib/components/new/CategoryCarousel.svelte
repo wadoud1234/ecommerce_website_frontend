@@ -10,8 +10,9 @@
 	<Carousel.Content class="transition-none duration-0">
 		{#each categories as { name, Icon }}
 			<Carousel.Item
-				class="basis-1/3 sm:basis-1/3 md:basis-1/4 lg:basis-1/5 xl:basis-1/6 2xl:basis-1/7"
+				class="flex flex-nowrap basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5 xl:basis-1/5 2xl:basis-1/6"
 			>
+				<!-- classss flex items-center justify-center xs:basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5 xl:basis-1/6 2xl:basis-1/7 -->
 				<NewCategoryCard {name} {Icon} />
 			</Carousel.Item>
 		{/each}
