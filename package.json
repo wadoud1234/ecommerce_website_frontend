@@ -44,6 +44,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@vercel/analytics": "^1.2.2",
 		"bits-ui": "^0.18.2",
 		"clsx": "^2.1.0",
 		"embla-carousel-svelte": "^8.0.0",
