@@ -6,6 +6,7 @@
 </script>
 
 <button
+	type="button"
 	on:click={() => {
 		hidden = !hidden;
 	}}

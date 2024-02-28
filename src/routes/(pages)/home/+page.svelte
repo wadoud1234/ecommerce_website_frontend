@@ -23,12 +23,12 @@
 					class="NavMenu border border-y-0 border-l-0 border-r-1 border-gray-300 min-w-48 py-4 hidden md:flex flex-col gap-0 h-full"
 				>
 					<NavItem title="Women's Fashion">
-						<button>
+						<button type="button">
 							<img src={RightArrowIcon} alt="enter" width="24" />
 						</button>
 					</NavItem>
 					<NavItem title="Men's Fashion">
-						<button>
+						<button type="button">
 							<img src={RightArrowIcon} alt="enter" width="24" />
 						</button>
 					</NavItem>
@@ -76,7 +76,9 @@
 				<div class="flex flex-col gap-6">
 					<div class="flex flex-row items-center justify-between">
 						<p class="text-2xl poppins-medium">Best Selling Products</p>
-						<button class="text-white bg-red-600 bg-opacity-80 rounded-sm py-3 px-7 poppins-medium"
+						<button
+							type="button"
+							class="text-white bg-red-600 bg-opacity-80 rounded-sm py-3 px-7 poppins-medium"
 							>View All</button
 						>
 					</div>
@@ -97,7 +99,10 @@
 					</div>
 					<ProductCarousel {products} />
 					<div class="flex flex-row justify-center items-center w-full">
-						<button class="text-white bg-red-600 bg-opacity-80 rounded-sm py-3 px-7 poppins-medium">
+						<button
+							type="button"
+							class="text-white bg-red-600 bg-opacity-80 rounded-sm py-3 px-7 poppins-medium"
+						>
 							View All Products
 						</button>
 					</div>

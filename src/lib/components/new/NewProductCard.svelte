@@ -22,7 +22,7 @@
 <div class="flex flex-col gap-1 lg:max-w-56 overflow-x-hidden">
 	<div class="relative h-56 bg-gray-200 flex items-center justify-center">
 		<img src={details.picture} alt="product" class="w-[90%] h-[90%] p-8 hover:p-4" />
-		<button class="absolute top-3 right-3 rounded-full bg-white p-1.5 w-9 hover:p-1">
+		<button type="button" class="absolute top-3 right-3 rounded-full bg-white p-1.5 w-9 hover:p-1">
 			<img src={HeartIcon} alt="favoutite" />
 		</button>
 	</div>

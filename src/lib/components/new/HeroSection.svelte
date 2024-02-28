@@ -13,10 +13,11 @@
 			<p class="flex items-center gap-3 text-sm font-sans">
 				<Apple size="30" /> iphone 14 Series
 			</p>
-			<h3 class="text-3xl lg:text-4xl font-sans font-semibold">
+			<h3 class="text-4xl font-sans font-semibold">
 				Up to 10% <br class="lg:block mb-5 hidden" />off Voucher
 			</h3>
 			<button
+				type="button"
 				class="underline underline-offset-1 flex gap-2 text-lg items-center rounded-md w-fit px-3 py-2"
 				>Shop Now<MoveRight size="24" /></button
 			>

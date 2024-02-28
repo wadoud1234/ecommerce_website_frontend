@@ -44,6 +44,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@fontsource/poppins": "^5.0.8",
 		"@vercel/analytics": "^1.2.2",
 		"@vercel/speed-insights": "^1.0.10",
 		"bits-ui": "^0.18.2",

@@ -5,6 +5,7 @@
 	inject({ mode: dev ? 'development' : 'production' });
 	import { injectSpeedInsights } from '@vercel/speed-insights/sveltekit';
 	injectSpeedInsights();
+	import '@fontsource/roboto';
 </script>
 
 <slot />
