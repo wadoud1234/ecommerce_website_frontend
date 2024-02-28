@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { dev } from '$app/environment';
 	import NewFooter from '$lib/components/new/NewFooter.svelte';
 	import NewNavbar from '$lib/components/new/NewNavbar.svelte';
 	import './../../app.css';

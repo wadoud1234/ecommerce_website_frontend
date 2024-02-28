@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { products } from '$lib/data';
 	import { HeartIcon } from '$lib/icons';
 	import StarRating from './StarRating.svelte';
 
@@ -21,9 +20,10 @@
 
 <div class="flex flex-col gap-1 lg:max-w-56 overflow-x-hidden">
 	<div class="relative h-56 bg-gray-200 flex items-center justify-center">
-		<img src={details.picture} alt="product" class="w-[90%] h-[90%] p-8 hover:p-4" />
+		<!-- <enhanced:img src="./path/to/your/image.jpg" alt="An alt text" /> -->
+		<enhanced:img src={details.picture} alt="product" class="w-[90%] h-[90%] p-8 hover:p-4" />
 		<button type="button" class="absolute top-3 right-3 rounded-full bg-white p-1.5 w-9 hover:p-1">
-			<img src={HeartIcon} alt="favoutite" />
+			<enhanced:img src={HeartIcon} alt="like" />
 		</button>
 	</div>
 

@@ -77,7 +77,7 @@
 
 <style>
 	h3 {
-		@apply text-white;
+		@apply text-white/80;
 	}
 	* {
 		@apply text-white/40 hover:text-white/60;
