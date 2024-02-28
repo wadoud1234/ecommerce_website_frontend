@@ -21,13 +21,13 @@
 				>Shop Now<MoveRight size="24" /></button
 			>
 		</div>
-		<div class="flex flex-col items-center justify-center lg:flex-1">
+		<!-- <div class="flex flex-col items-center justify-center lg:flex-1">
 			<img
 				src={HeroSectionImage}
 				alt="hero"
 				class="z-10 md:w-[300px] lg:w-:[500px]"
 				loading="lazy"
 			/>
-		</div>
+		</div> -->
 	</div>
 </div>
