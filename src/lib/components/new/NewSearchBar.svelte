@@ -14,7 +14,7 @@
 		id="search-keywords"
 		name="search-keywords"
 		bind:value
-		placeholder="What are you looking for ?"
+		placeholder="Search ..."
 		class="bg-inherit text-start font-sans text-sm outline-1 p-2 w-full"
 	/>
 	<button type="submit" class="flex justify-center items-center px-2 h-full bg-gray-200">

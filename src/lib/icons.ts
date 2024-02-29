@@ -7,4 +7,5 @@ import Fourth from "/static/4_.webp?enhanced"
 import Fifth from "/static/5_.webp?enhanced"
 import Sixth from "/static/6_.webp?enhanced"
 import HeartIcon from "/static/heart.webp?enhanced"
-export { HeroSectionImage, First, Second, Third, Fourth, Fifth, Sixth, HeartIcon }
+import GoogleLogo from "$lib/wadoud/google_logo.avif?enhanced"
+export { HeroSectionImage, First, Second, Third, Fourth, Fifth, Sixth, HeartIcon, GoogleLogo }
