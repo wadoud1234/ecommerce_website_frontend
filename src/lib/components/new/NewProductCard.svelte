@@ -19,7 +19,7 @@
 </script>
 
 <div class="flex flex-col gap-1 lg:max-w-56 overflow-x-hidden">
-	<div class="relative h-56 bg-gray-200 flex items-center justify-center">
+	<div class="relative h-56 bg-gray-200 dark:bg-zinc-900 flex items-center justify-center">
 		<!-- <enhanced:img src="./path/to/your/image.jpg" alt="An alt text" /> -->
 		<enhanced:img
 			src={details.picture}
@@ -27,7 +27,10 @@
 			class="w-[90%] h-[90%] p-8 hover:p-4"
 			loading="lazy"
 		/>
-		<button type="button" class="absolute top-3 right-3 rounded-full bg-white p-1.5 w-9 hover:p-1">
+		<button
+			type="button"
+			class="absolute top-3 right-3 rounded-full bg-white dark:bg-zinc-400 p-1.5 w-9 hover:p-1"
+		>
 			<enhanced:img src={HeartIcon} alt="like" loading="lazy" />
 		</button>
 	</div>
@@ -41,14 +44,15 @@
 		>
 		<p>
 			{#if details.discount}
-				<span class="text-red-600 font-medium">${details.discount}</span>
+				<span class="text-red-600 dark:text-red-500 font-medium">${details.discount}</span>
 			{/if}
-			<span class={`${details.discount && 'line-through text-zinc-600'}`}>${details.price}</span>
+			<span class={`${details.discount && 'line-through text-zinc-600 dark:text-zinc-400'}`}
+				>${details.price}</span
+			>
 		</p>
 		<p class="flex items-center gap-1">
-			<StarRating rating={details.rating} /><span class="text-zinc-600 poppins-medium"
-				>({details.sold})</span
-			>
+			<StarRating rating={details.rating} />
+			<span class="text-zinc-600 dark:text-zinc-400 poppins-medium">({details.sold})</span>
 		</p>
 	</div>
 </div>

@@ -1,9 +1,7 @@
 <script lang="ts">
-	import { Camera, Gamepad, Laptop, Laptop2, Smartphone } from 'lucide-svelte';
 	import type { ComponentType } from 'svelte';
 	import type { Icon as IconType } from 'lucide-svelte';
 	import { page } from '$app/stores';
-	import { browser } from '$app/environment';
 	export let name: string;
 	export let Icon: ComponentType<IconType>;
 	let pathname: string;

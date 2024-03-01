@@ -13,9 +13,11 @@
 		password: '',
 		confirm_password: ''
 	};
-	$: console.log({ AuthPicture });
 </script>
 
+<svelte:head>
+	<title>SHOP | Login</title>
+</svelte:head>
 <div
 	class="LoginPage flex flex-row py-10 gap-10 items-center justify-center h-full min-h-full min-w-96s"
 >
@@ -66,7 +68,7 @@
 				<IconButton
 					link="/auth/forget_password"
 					text="Forget Password"
-					className="text-red-600 border-none hover:border border-red-600 rounded-md font-medium"
+					className="dark:text-red-400/90 text-red-600 border-none hover:border border-red-600 rounded-md font-medium"
 				/>
 				<!-- <IconButton
 					type="submit"

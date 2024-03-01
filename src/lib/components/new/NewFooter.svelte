@@ -6,7 +6,9 @@
 	export let loggedIn = false;
 </script>
 
-<footer class="bg-black text-white flex flex-col items-center justify-center w-full mt-8">
+<footer
+	class="bg-black text-white border border-b-0 border-x-0 border-t-gray-200 dark:border-t-zinc-800 flex flex-col items-center justify-center w-full mt-8"
+>
 	<NewContainer>
 		<div class="flex flex-row items-center justify-center w-full py-10">
 			<div
@@ -63,7 +65,7 @@
 				<div class="flex flex-col gap-2 w-fit">
 					<h3 class="text-2xl font-semibold">Quick Links</h3>
 					<ul class="flex flex-col gap-2">
-						<li><a href="/home">Home Page</a></li>
+						<li><a href="/">Home Page</a></li>
 						<li><a href="/about">About</a></li>
 						<li><a href="/contact">Contact</a></li>
 					</ul>
@@ -80,6 +82,6 @@
 		@apply text-white/80;
 	}
 	* {
-		@apply text-white/40 hover:text-white/60;
+		@apply text-white/40 dark:text-zinc-400 dark:hover:text-zinc-300 hover:text-white/60;
 	}
 </style>

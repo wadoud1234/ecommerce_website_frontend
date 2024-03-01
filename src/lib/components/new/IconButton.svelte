@@ -7,7 +7,7 @@
 
 <button {type} class={'flex flex-row items-center justify-center ' + ' ' + className}>
 	{#if link}
-		<a href={link} class="flex flex-row items-center justify-center"><slot />{text}</a>
+		<a href={link} class="w-full flex flex-row items-center justify-center"><slot />{text}</a>
 	{:else}
 		<slot />{text}
 	{/if}

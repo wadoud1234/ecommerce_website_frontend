@@ -1,13 +1,8 @@
 <script lang="ts">
 	import NavItem from '$lib/components/new/NavItem.svelte';
-	import NewCategoryCard from '$lib/components/new/NewCategoryCard.svelte';
 	import NewContainer from '$lib/components/new/NewContainer.svelte';
-	import NewProductCard from '$lib/components/new/NewProductCard.svelte';
 	import Separator from '$lib/components/new/Separator.svelte';
-	import * as Carousel from '$lib/components/ui/carousel/index.js';
 	import { products, categories } from '$lib/data';
-
-	import { page } from '$app/stores';
 	import HeroSection from '$lib/components/new/HeroSection.svelte';
 	import CategoryCarousel from '$lib/components/new/CategoryCarousel.svelte';
 	import ProductCarousel from '$lib/components/new/ProductCarousel.svelte';
@@ -50,9 +45,11 @@
 			<!-- Search By Category -->
 			<div>
 				<h3
-					class="flex flex-row gap-2 text-sm items-center justify-start text-red-600 font-semibold h-8 mb-4"
+					class="flex flex-row gap-2 text-sm items-center justify-start text-red-600 dark:text-red-500 font-semibold h-8 mb-4"
 				>
-					<div class="min-w-4 h-full bg-red-600 rounded-md text-transparent">{'.'}</div>
+					<div class="min-w-4 h-full bg-red-600 dark:bg-red-500 rounded-md text-transparent">
+						{'.'}
+					</div>
 					Categories
 				</h3>
 				<div class="flex flex-col gap-6">
@@ -71,9 +68,11 @@
 			<!-- Best Selling Products -->
 			<div>
 				<h3
-					class="flex flex-row gap-2 text-sm items-center justify-start text-red-600 font-semibold h-8 mb-4"
+					class="flex flex-row gap-2 text-sm items-center justify-start text-red-600 dark:text-red-500 font-semibold h-8 mb-4"
 				>
-					<div class="min-w-4 h-full bg-red-600 rounded-md text-transparent">{'.'}</div>
+					<div class="min-w-4 h-full bg-red-600 dark:bg-red-500 rounded-md text-transparent">
+						{'.'}
+					</div>
 					This Month
 				</h3>
 				<div class="flex flex-col gap-6">
@@ -91,9 +90,11 @@
 			<Separator />
 			<div>
 				<h3
-					class="flex flex-row gap-2 text-sm items-center justify-start text-red-600 font-semibold h-8 mb-4"
+					class="flex flex-row gap-2 text-sm items-center justify-start text-red-600 dark:text-red-500 font-semibold h-8 mb-4"
 				>
-					<div class="min-w-4 h-full bg-red-600 rounded-md text-transparent">{'.'}</div>
+					<div class="min-w-4 h-full bg-red-600 dark:bg-red-500 rounded-md text-transparent">
+						{'.'}
+					</div>
 					Our Products
 				</h3>
 				<div class="flex flex-col gap-6">

@@ -19,5 +19,6 @@ export default defineConfig({
 		rollupOptions: {
 			external: ['@fontsource/poppins']
 		}
-	}
+	},
+
 });

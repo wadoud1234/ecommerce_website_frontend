@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { dev } from '$app/environment';
 	import './../app.css';
 
 	import '@fontsource/poppins/100.css';
@@ -10,11 +9,12 @@
 	import '@fontsource/poppins/600.css';
 	import '@fontsource/poppins/700.css';
 	import '@fontsource/poppins/800.css';
-	import { partytownSnippet } from '@builder.io/partytown/integration';
+	import { ModeWatcher } from 'mode-watcher';
 </script>
 
-<svelte:head>
-	<script>
+<ModeWatcher defaultMode="dark" />
+<!-- <svelte:head> -->
+<!-- <script>
 		partytown = {
 			forward: ['dataLayer.push']
 		};
@@ -40,5 +40,5 @@
 		import { inject } from '@vercel/analytics';
 		inject({ mode: dev ? 'development' : 'production' });
 	</script>
-</svelte:head>
+</svelte:head> -->
 <slot />

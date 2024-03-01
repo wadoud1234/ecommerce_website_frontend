@@ -7,7 +7,7 @@
 	const listItems: { title: string; link: string }[] = [
 		{
 			title: 'Home',
-			link: '/home'
+			link: '/'
 		},
 		{
 			title: 'Contact',

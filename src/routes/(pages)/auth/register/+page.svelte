@@ -13,9 +13,11 @@
 		password: '',
 		confirm_password: ''
 	};
-	$: console.log({ AuthPicture });
 </script>
 
+<svelte:head>
+	<title>SHOP | Register</title>
+</svelte:head>
 <div class="LoginPage flex flex-row py-10 items-center justify-center h-full min-h-full min-w-96s">
 	<div class="sm:flex-1 hidden lg:flex min-h-full h-full">
 		<enhanced:img alt="auth" src={AuthPicture} class="w-full h-full min-h-full" loading="lazy" />
@@ -91,7 +93,8 @@
 				/>
 				<IconButton
 					type="submit"
-					text="Login with Google"
+					text="Login with Github"
+					link="/auth/login/github"
 					className="w-full border border-black/30 hover:bg-black/5 p-1.5 rounded-sm gap-4 max-h-12"
 				>
 					<enhanced:img alt="google" src={GoogleLogo} class="w-8" loading="lazy" />
