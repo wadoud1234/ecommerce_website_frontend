@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { HeartIcon } from '$lib/icons';
-	import StarRating from './StarRating.svelte';
+	import StarRatingBlock from './StarRatingBlock.svelte';
 
 	type Product = {
 		id: number;
@@ -51,7 +51,8 @@
 			>
 		</p>
 		<p class="flex items-center gap-1">
-			<StarRating rating={details.rating} />
+			<!-- <StarRating rating={details.rating} /> -->
+			<StarRatingBlock score={details.rating} starSize={20} />
 			<span class="text-zinc-600 dark:text-zinc-400 poppins-medium">({details.sold})</span>
 		</p>
 	</div>

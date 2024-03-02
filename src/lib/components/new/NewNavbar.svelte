@@ -11,7 +11,7 @@
 </script>
 
 <div
-	class="w-full h-fit flex flex-col relative border-b-gray-200 dark:border-b-zinc-800 border border-x-0 border-t-0"
+	class="w-full h-fit flex flex-col relative border-b-zinc-200 dark:border-b-zinc-700 border border-x-0 border-t-0"
 >
 	{#if announcement.title && announcement.link}
 		<div class="Navbar bg-black text-white text-center font-sans py-2">

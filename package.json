@@ -14,6 +14,7 @@
 		"test:unit": "vitest"
 	},
 	"devDependencies": {
+		"@ernane/svelte-star-rating": "^1.1.5",
 		"@fontsource/fira-mono": "^4.5.10",
 		"@fontsource/poppins": "^5.0.8",
 		"@neoconfetti/svelte": "^1.0.0",
@@ -29,15 +30,12 @@
 		"eslint": "^8.56.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.35.1",
-		"flowbite": "^2.3.0",
-		"flowbite-svelte": "^0.44.24",
 		"lucia": "^3.0.1",
 		"path": "^0.12.7",
 		"postcss": "^8.4.35",
 		"prettier": "^3.1.1",
 		"prettier-plugin-svelte": "^3.1.2",
 		"prisma": "^5.10.2",
-		"rater-js": "^1.0.1",
 		"star-rating.js": "^4.3.0",
 		"svelte": "^4.2.7",
 		"svelte-check": "^3.6.0",
@@ -55,16 +53,20 @@
 		"@vercel/analytics": "^1.2.2",
 		"@vercel/speed-insights": "^1.0.10",
 		"arctic": "^1.2.1",
+		"argon2": "^0.40.1",
 		"bits-ui": "^0.18.2",
 		"clsx": "^2.1.0",
 		"embla-carousel-svelte": "^8.0.0",
+		"formsnap": "^0.5.1",
 		"lucide-svelte": "^0.338.0",
 		"mode-watcher": "^0.2.1",
 		"oslo": "^1.1.3",
 		"rollup-plugin-visualizer": "^5.12.0",
 		"starry-rating": "^5.1.0",
+		"sveltekit-superforms": "^2.6.2",
 		"tailwind-merge": "^2.2.1",
 		"tailwind-variants": "^0.2.0",
-		"tw-elements": "^1.1.0"
+		"tw-elements": "^1.1.0",
+		"zod": "^3.22.4"
 	}
 }

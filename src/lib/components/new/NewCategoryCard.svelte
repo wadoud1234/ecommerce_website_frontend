@@ -22,7 +22,7 @@
 <a
 	href={link}
 	data-sveltekit-noscroll
-	class={`CategoryCard w-40 h-36 rounded-sm border border-gray-400 flex-1 flex flex-col gap-4 items-center justify-center ${active ? 'bg-red-600 bg-opacity-80 text-white' : ''}`}
+	class={`CategoryCard w-40 h-36 rounded-sm border border-zinc-400 dark:border-zinc-600 flex-1 flex flex-col gap-4 items-center justify-center ${active ? 'bg-red-600 bg-opacity-80 text-white' : ''}`}
 >
 	<!-- <img
 		src={active ? details.picture[0] : details.picture[1]}

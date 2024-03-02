@@ -1,10 +1,9 @@
 import { OAuth2RequestError } from "arctic";
-import { generateId } from "lucia";
 import { github, auth } from "$lib/server/auth";
 
 import type { RequestEvent } from "@sveltejs/kit";
 import { PrismaClient, Provider } from "@prisma/client";
-const prisma = new PrismaClient()
+import prisma from "$lib/server/prisma";
 
 export async function GET(event: RequestEvent): Promise<Response> {
     const code = event.url.searchParams.get("code");
@@ -28,8 +27,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 
         const { avatar_url } = githubUser;
 
-        // Replace this with your own DB client.
-        const existingUser = await prisma.user.findFirst({ where: { github_id: `${githubUser.id}` } })//await prisma.user.findFirst({ where: { github_id: githubUser.id } })
+        const existingUser = await prisma.user.findFirst({ where: { github_id: `${githubUser.id}` } })
 
         if (existingUser) {
 
@@ -52,10 +50,8 @@ export async function GET(event: RequestEvent): Promise<Response> {
 
 
             if (primary) {
-                const userId = generateId(40);
-                const createUser = await prisma.user.create({
+                const newUser = await prisma.user.create({
                     data: {
-                        id: `${userId}`,
                         provider: Provider.GITHUB,
                         github_id: `${githubUser.id}`,
                         name: githubUser.login,
@@ -64,7 +60,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
                         avatar: avatar_url
                     }
                 })
-                const session = await auth.createSession(userId, {});
+                const session = await auth.createSession(newUser.id, {});
                 const sessionCookie = auth.createSessionCookie(session.id);
                 event.cookies.set(sessionCookie.name, sessionCookie.value, {
                     path: ".",

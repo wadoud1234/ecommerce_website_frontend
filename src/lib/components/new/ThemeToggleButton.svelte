@@ -6,7 +6,7 @@
 	import { toggleMode } from 'mode-watcher';
 </script>
 
-<Button on:click={toggleMode} class="bg-inherit text-inherit border border-zinc-900" size="icon">
+<Button on:click={toggleMode} class="bg-inherit text-inherit border border-zinc-700" size="icon">
 	<Sun
 		class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
 	/>

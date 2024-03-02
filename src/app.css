@@ -79,7 +79,7 @@
   }
 
   body {
-    @apply dark:text-white/70 bg-white dark:bg-zinc-950 text-foreground;
+    @apply min-h-screen h-full dark:text-white/70 bg-white dark:bg-zinc-950 text-foreground;
   }
 }
 

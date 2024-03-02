@@ -5,9 +5,9 @@
 	export let type: 'button' | 'submit' | 'reset' = 'button';
 </script>
 
-<button {type} class={'flex flex-row items-center justify-center ' + ' ' + className}>
+<button {type} class={'flex flex-row items-center justify-center font-medium' + ' ' + className}>
 	{#if link}
-		<a href={link} class="w-full flex flex-row items-center justify-center"><slot />{text}</a>
+		<a href={link} class="w-full flex flex-row gap-4 items-center justify-center"><slot />{text}</a>
 	{:else}
 		<slot />{text}
 	{/if}

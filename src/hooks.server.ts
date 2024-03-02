@@ -7,6 +7,10 @@ export const handle: Handle = async ({ event, resolve }) => {
     if (!sessionId) {
         event.locals.user = null;
         event.locals.session = null;
+        AuthStore.set({
+            user: null,
+            session: null
+        })
         return resolve(event);
     }
 

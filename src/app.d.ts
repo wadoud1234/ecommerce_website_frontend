@@ -12,8 +12,6 @@ declare global {
 		// interface PageState {}
 		// interface Platform {}
 	}
-	var prisma: PrismaClient
-
 }
 
 export { };

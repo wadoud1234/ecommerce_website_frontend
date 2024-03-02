@@ -12,7 +12,7 @@
 	let user = data?.user;
 </script>
 
-<div class="min-h-screen flex flex-col justify-between h-full overflow-x-hidden">
+<div class="min-h-screen h-full flex flex-col justify-between overflow-x-hidden">
 	<NewNavbar {announcement} {user} />
 	<slot />
 	<NewFooter />

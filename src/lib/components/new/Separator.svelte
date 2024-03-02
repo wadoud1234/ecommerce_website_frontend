@@ -4,5 +4,5 @@
 </script>
 
 <div class={'flex flex-col items-center w-full' + ' ' + padding}>
-	<hr class={'w-[80%] border-gray-300' + ' ' + classNames} />
+	<hr class={'w-[80%] border-zinc-300 dark:border-zinc-700' + ' ' + classNames} />
 </div>

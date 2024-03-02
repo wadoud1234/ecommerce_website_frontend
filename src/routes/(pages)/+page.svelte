@@ -18,7 +18,7 @@
 		<div class="flex flex-col w-full">
 			<div class="HeroSection flex flex-row items-start min-h-fit md:h-[450px] w-full lg:h-[380px]">
 				<div
-					class="NavMenu border border-y-0 border-l-0 border-r-1 border-gray-300 min-w-48 py-4 hidden md:flex flex-col gap-0 h-full"
+					class="NavMenu border border-y-0 border-l-0 border-r-1 border-zinc-300 dark:border-zinc-700 min-w-48 py-4 hidden md:flex flex-col gap-0 h-full"
 				>
 					<NavItem title="Women's Fashion">
 						<button type="button">
