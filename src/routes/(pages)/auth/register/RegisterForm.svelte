@@ -6,6 +6,7 @@
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { get } from 'svelte/store';
 	import { RegisterSchema, type RegisterSchemaType } from './RegisterSchema';
+	import { dev } from '$app/environment';
 
 	export let data: SuperValidated<Infer<RegisterSchemaType>>;
 
@@ -66,4 +67,6 @@
 	</Form.Field>
 	<div class="w-full flex justify-start"><Form.Button>Submit</Form.Button></div>
 </form>
-<SuperDebug data={formData} label="Register Form Data" />
+{#if dev}
+	<SuperDebug data={formData} label="Register Form Data" />
+{/if}

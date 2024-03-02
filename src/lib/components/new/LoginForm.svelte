@@ -1,7 +1,7 @@
 <script lang="ts">
 	import * as Form from '$lib/components/ui/form';
 	import { Input } from '$lib/components/ui/input';
-
+	import {dev} from "$app/environment"
 	import SuperDebug, { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import {
@@ -56,4 +56,6 @@
 		<Form.Button>Submit</Form.Button>
 	</div>
 </form>
-<SuperDebug data={formData} label="Form Data" />
+{#if dev}
+	<SuperDebug data={formData} label="Login Form Data" />
+{/if}
