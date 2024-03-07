@@ -3,7 +3,7 @@
 	import MobileMenuItem from '$lib/components/new/MobileMenuItem.svelte';
 	import type { User } from 'lucia';
 	import LogoutForm from './LogoutForm.svelte';
-	export let user: User;
+	export let user: User | null;
 	let hidden = false;
 
 	let toggle = () => {

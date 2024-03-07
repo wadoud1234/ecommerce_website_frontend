@@ -2,5 +2,5 @@ import { redirect } from "@sveltejs/kit";
 import type { PageLoad } from "./$types";
 
 export const load: PageLoad = () => {
-    redirect(300, "/auth/login")
-}
+	return redirect(300, "/auth/login");
+};

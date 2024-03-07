@@ -1,7 +1,14 @@
 <script lang="ts">
-	export let active = false;
+	import { page } from '$app/stores';
+
 	export let title: string;
 	export let link: string;
+	let active: boolean = false;
+	let pathname: string;
+	$: {
+		pathname = $page.url.pathname;
+		active = pathname === link;
+	}
 </script>
 
 <li>

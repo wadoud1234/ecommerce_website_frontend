@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "User" ALTER COLUMN "avatarChangedAt" SET DEFAULT CURRENT_TIMESTAMP;

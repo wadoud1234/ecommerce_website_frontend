@@ -1,5 +1,5 @@
 <svelte:head>
-	<title>SHOP | Contact</title>
+	<title>Contact</title>
 </svelte:head>
 
 <div>contact</div>

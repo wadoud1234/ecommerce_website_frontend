@@ -4,9 +4,9 @@
 	import NewContainer from './NewContainer.svelte';
 	import NewLogo from './NewLogo.svelte';
 	import NewMobileMenu from './NewMobileMenu.svelte';
-	import NewSearchBar from './NewSearchBar.svelte';
 	import ThemeToggleButton from './ThemeToggleButton.svelte';
-	export let user: User;
+	import LinksList from './LinksList.svelte';
+	export let user: User | null;
 	export let announcement: { title: string; link: string } = { title: '', link: '' };
 </script>
 
@@ -22,9 +22,9 @@
 	<NewContainer>
 		<div class="flex flex-row items-center justify-between w-full pb-2.5 pt-5 gap-4 h-full">
 			<NewLogo />
-			<!-- <LinksList /> -->
+			<LinksList {user} />
 
-			<NewSearchBar />
+			<!-- <NewSearchBar /> -->
 			<div class="flex md:hidden">
 				<ThemeToggleButton />
 			</div>

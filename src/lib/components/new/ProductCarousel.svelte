@@ -10,12 +10,15 @@
 		rating: number;
 		sold: number;
 	}[];
+
+	export let itemsClassName =
+		'w-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 2xl:basis-1/6';
 </script>
 
-<Carousel.Root id="carousel" opts={{ align: 'start' }} orientation="horizontal">
-	<Carousel.Content class="transition-none duration-0">
+<Carousel.Root id="carousel" class="w-full" opts={{ align: 'start' }} orientation="horizontal">
+	<Carousel.Content class="transition-none duration-0 w-full">
 		{#each [...products.slice(0, 12)] as { id, name, price, picture, discount, rating, sold }}
-			<Carousel.Item class="basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 2xl:basis-1/6">
+			<Carousel.Item class={itemsClassName}>
 				<NewProductCard
 					details={{
 						id,

@@ -7,10 +7,23 @@
 	import CategoryCarousel from '$lib/components/new/CategoryCarousel.svelte';
 	import ProductCarousel from '$lib/components/new/ProductCarousel.svelte';
 	import { ChevronRight } from 'lucide-svelte';
+	import { page } from '$app/stores';
+	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
+	let doRefresh:boolean;
+	$:{
+		doRefresh = $page.url.searchParams.get('refresh')=="true";
+		console.log({doRefresh});
+	}
+	onMount(()=>{
+		if(doRefresh){
+			goto("/");
+		}
+	})
 </script>
 
 <svelte:head>
-	<title>SHOP | Home</title>
+	<title>Home</title>
 </svelte:head>
 
 <div class="HomePage w-full min-h-screen h-full">

@@ -1,41 +1,80 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 model User {
-  id            String    @id @unique @default(uuid())
-  name          String    @unique
-  email         String    @unique
-  password      String?
-  avatar        String    @default("")
-  provider      Provider  @default(EMAIL)
-  emailVerified Boolean   @default(false)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  github_id     String    @default("")
-  isAdmin       Boolean   @default(false)
-  sessions      Session[]
+  id            String  @id @unique @default(uuid())
+  name          String  @unique @db.VarChar(100)
+  email         String  @unique @db.VarChar(100)
+  emailVerified Boolean @default(false) @db.Boolean
+
+  password        String?  @db.VarChar(100)
+  avatar          String?
+  avatarChangedAt DateTime @default(now())
+  description     String   @default("") @db.Text
+  isAdmin         Boolean  @default(false) @db.Boolean
+
+  provider  String @default("EMAIL")
+  github_id String @default("")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sessions Session[]
+  links    UserLinks[]
 }
 
 model Session {
   id        String   @id
-  userId    String
+  userId    String   @unique
   expiresAt DateTime
   user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
+}
+
+model Product {
+  id          String         @id @unique @default(uuid())
+  name        String         @unique @db.VarChar(100)
+  price       Float          @db.Real
+  description String         @default("") @db.Text
+  likes       Int            @default(0) @db.SmallInt
+  images      ProductImage[]
 }
 
 enum Provider {
   GITHUB
   EMAIL
+}
+
+model UserLinks {
+  id       String   @id @unique @default(uuid())
+  link     String   @db.Text
+  provider Provider
+  User     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   String   @unique
+}
+
+model ProductImage {
+  id        String  @id @unique @default(uuid())
+  link      String  @db.Text
+  productId String  @unique
+  Product   Product @relation(fields: [productId], references: [id])
+}
+
+enum LinkProviders {
+  GOOGLE
+  FACEBOOK
+  INSTAGRAM
+  WHATS_UP
+  APPLE
+  ALI_BABA
+  ALI_EXPRESS
+  TWITTER
+  GITHUB
+  PERSONAL
 }

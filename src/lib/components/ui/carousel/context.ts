@@ -10,7 +10,9 @@ export type CarouselAPI = NonNullable<
 	? CarouselAPI
 	: never;
 
-type EmblaCarouselConfig = NonNullable<Parameters<typeof emblaCarouselSvelte>[1]>;
+type EmblaCarouselConfig = NonNullable<
+	Parameters<typeof emblaCarouselSvelte>[1]
+>;
 
 export type CarouselOptions = EmblaCarouselConfig["options"];
 export type CarouselPlugins = EmblaCarouselConfig["plugins"];

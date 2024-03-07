@@ -1,6 +1,6 @@
-import { redirect } from '@sveltejs/kit';
-import type { RequestHandler } from './$types';
+import { redirect } from "@sveltejs/kit";
+import type { RequestHandler } from "./$types";
 
 export const GET: RequestHandler = async () => {
-    return redirect(302, '/')
+	return redirect(302, "/");
 };

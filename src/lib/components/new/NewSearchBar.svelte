@@ -6,7 +6,7 @@
 
 <form
 	action=""
-	class="flex flex-row items-center justify-center relative rounded-md border border-zinc-200 dark:border-zinc-700 gap-0.5 h-10 flex-1 max-w-[500px]"
+	class="flex flex-row items-center justify-center relative rounded-md border border-zinc-200 dark:border-zinc-700 gap-0.5 h-10 flex-1 max-w-[300px]"
 >
 	<label for="search-keywords" hidden>Search</label>
 	<input

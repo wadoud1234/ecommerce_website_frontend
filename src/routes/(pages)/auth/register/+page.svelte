@@ -1,6 +1,4 @@
 <script lang="ts">
-	import IconButton from '$lib/components/new/IconButton.svelte';
-	import { GoogleLogo } from '$lib/icons';
 	import AuthPicture from '$lib/wadoud/auth_picture.avif?enhanced';
 	import type { PageData } from './$types';
 	export let data: PageData;
@@ -8,7 +6,7 @@
 </script>
 
 <svelte:head>
-	<title>SHOP | Register</title>
+	<title>Register</title>
 </svelte:head>
 <div class="LoginPage flex flex-row py-10 items-center justify-center h-full min-h-full min-w-96s">
 	<div class="sm:flex-1 hidden lg:flex min-h-full h-full">
@@ -91,18 +89,6 @@
 			</div>
 		</form> -->
 		<RegisterForm data={data.form} />
-		<IconButton
-			type="submit"
-			text="Login with Github"
-			link="/auth/login/github"
-			className="w-full border border-black/30 bg-zinc-100/50 hover:bg-zinc-200/50 dark:bg-zinc-800 dark:hover:bg-zinc-900 p-1.5 rounded-sm gap-4 max-h-12"
-		>
-			<enhanced:img alt="google" src={GoogleLogo} class="w-8" loading="lazy" />
-		</IconButton>
-		<p class="flex gap-3">
-			Already Have Account ?
-			<a href="/auth/login" class="underline underline-offset-2 underline-black">Login</a>
-		</p>
 	</div>
 </div>
 
