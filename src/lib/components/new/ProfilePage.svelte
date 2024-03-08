@@ -4,31 +4,23 @@
 	import ProductCarousel from "./ProductCarousel.svelte";
 	import  type{ ProductsDataType } from "$lib/data";
     import type {User} from "lucia"
-    
-    import {
-		FacebookLogo,
-		GithubLogo,
-		GoogleLogo,
-		InstagramLogo,
-		TwitterLogo
-	} from '$lib/icons';
 	import { BadgePlus, ImageUp, Link, XCircle } from "lucide-svelte";
-	import type { UserLinks } from "@prisma/client";
 	import ProfileLink from "./ProfileLink.svelte";
 	import Button from "../ui/button/button.svelte";
+	import type { LinkProviders } from "$lib/types";
+	import { goto, invalidateAll} from "$app/navigation";
 
     export let user:User
-    // export let products:ProductsDataType | null
-    const products:ProductsDataType | null = null
+    export let products:ProductsDataType
     export let onUpload:Function
-    export let links:UserLinks[] | null
+    export let links:{id:string,link:string;provider:LinkProviders}[]|null
 </script>
 <div class="ProfilePage w-full flex flex-col items-start justify-start gap-4 ">
-	<div class="w-full flex flex-col md:flex-row items-center justify-center md:items-start md:justify-start gap-5 md:gap-20 px-4 ">
+	<div class="h-full w-full flex flex-col md:flex-row items-center justify-center md:items-start md:justify-start gap-5 md:gap-20 px-4 ">
 		<div class="profilePicture max-w-48  min-w-48 flex flex-col gap-2">
 			{#if user?.avatar}
 			<div class="group flex flex-col justify-center items-center min-w-full min-h-full">
-				<CldImage backgroundRemoval width={144} length={144} src={user?.avatar} class="min-w-full min-h-full relative object-fill rounded-xl"  />
+				<CldImage backgroundRemoval  width={192} length={192} src={user?.avatar} class="min-w-full min-h-full relative object-fill rounded-xl"  />
 				
 			</div>
 			{:else}
@@ -40,7 +32,14 @@
 					
 				</div>
 			{/if}
+            <!-- onSuccess={()=>{goto('/profile',{invalidateAll:true}) }}-->
 			<CldUploadButton
+        onQueuesEnd={()=>{
+            console.log("HELLO END");
+                const url = new URL('/profile?refresh=true')
+                invalidateAll()
+            goto(url,{invalidateAll:true})
+            } }
 					uploadPreset={'user_avatars'}
 					class="flex items-center justify-center py-2 px-2 gap-2 border border-zinc-400 rounded-md min-w-full"
 					{onUpload}
@@ -50,8 +49,8 @@
 			<CldUploadWidget uploadPreset="user_avatars" />
 
 		</div>
-		<div class="USER_INFO flex flex-col items-start justify-start w-full py-2 gap-4">
-			<div class="flex flex-col items-center justify-center md:items-start md:justify-start w-full">
+		<div class="USER_INFO flex flex-col items-start justify-center h-full w-full py-2 gap-4">
+			<div class="flex flex-col items-center justify-center md:items-start md:justify-center h-full w-full">
 				<h3 class="font-medium text-2xl mb-1">{user?.name ?? ''}</h3>
 				<p class="text-base mb-2">{user?.email ?? ''}</p>
 				<p class="text-sm">{user?.description ?? 'Description ....'}</p>

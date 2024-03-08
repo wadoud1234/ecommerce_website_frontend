@@ -7,7 +7,9 @@
 	import type { User } from 'lucia';
 	import type { ProductsDataType } from '$lib/data';
 	import type { LinkProviders } from '$lib/types';
-	
+	import { redirect } from '@sveltejs/kit';
+	let doRefresh:boolean;
+
 	export let data: any;
 	type Response = {
 		event:string,
@@ -54,10 +56,14 @@
 				body:JSON.stringify({avatar_url:avatar})
 			})			
 			const responseData = await response.json()
+			// ts-ignore
+			console.log({responseData});
+			const {refresh} = responseData as {refresh:boolean}
+			doRefresh = refresh 
+			// if(refresh) redirect(300,"/profile?refresh=true")
 			console.log({responseData})
 
 		}
-		console.log({data});
 		
 	}
 	let user: User;
@@ -75,7 +81,6 @@
 	}
 	
 	
-	let doRefresh:boolean;
 	$:{
 		doRefresh = $page.url.searchParams.get('refresh')=="true";
 		console.log({doRefresh});
@@ -86,4 +91,4 @@
 		}
 	})</script>
 
-<ProfilePage {user} {onUpload} {products} {links}/>
+<ProfilePage {user} {onUpload} {products} {links} redirectLink="/profile?refresh=true"/>

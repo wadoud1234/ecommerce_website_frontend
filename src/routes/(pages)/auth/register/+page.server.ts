@@ -8,7 +8,6 @@ import { zod } from "sveltekit-superforms/adapters";
 import { RegisterSchema } from "./RegisterSchema.js";
 import prisma from "$lib/server/prisma.js";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { Provider } from "$lib/server/prisma";
 export const load = async ({ locals }) => {
 	if (locals.user) {
 		throw redirect(302, "/");

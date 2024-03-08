@@ -23,10 +23,7 @@ export async function POST({ request, params }) {
 	});
 	console.log({ updatedUser });
 
-	return new Response(null, {
+	return new Response(JSON.stringify({ refresh: true }), {
 		status: 302,
-		headers: {
-			Location: "/profile?refresh=true",
-		},
 	});
 }

@@ -6,7 +6,6 @@ import { redirect } from "@sveltejs/kit";
 import { auth } from "$lib/server/auth";
 import { verifyPassword } from "$lib/helpers/password";
 import prisma from "$lib/server/prisma";
-import { generateId } from "lucia";
 import { Provider } from "$lib/types";
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user) {

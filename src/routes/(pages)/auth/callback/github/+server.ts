@@ -2,8 +2,8 @@ import { OAuth2RequestError } from "arctic";
 import { github, auth } from "$lib/server/auth";
 
 import type { RequestEvent } from "@sveltejs/kit";
-import { PrismaClient } from "@prisma/client";
-import prisma, { Provider } from "$lib/server/prisma";
+import prisma from "$lib/server/prisma";
+import { Provider } from "$lib/types";
 
 export async function GET(event: RequestEvent): Promise<Response> {
 	const code = event.url.searchParams.get("code");
