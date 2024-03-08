@@ -21,15 +21,12 @@ export const load = async ({ locals }) => {
 export const actions = {
 	default: async (event) => {
 		const form = await superValidate(event, zod(RegisterSchema));
-		console.log({ form });
 		if (!form.valid) {
 			return setMessage(form, "Invalid credentials", { status: 400 });
 		}
 		const { name, email, password, confirm_password } = form.data;
-		console.log({ name, email, password, confirm_password });
 
 		const existingUser = await prisma.user.findUnique({ where: { email } });
-		console.log({ existingUser });
 
 		if (existingUser) {
 			return setMessage(
@@ -55,15 +52,21 @@ export const actions = {
 						avatarChangedAt: new Date(),
 					},
 				});
-				console.log({ newUser });
 			} catch (err: any) {
 				if (err instanceof PrismaClientKnownRequestError) {
-					return setMessage(form, "Invalid credentials", { status: 400 });
+					return setMessage(
+						form,
+						"Invalid credentials , Internal Error PRISMA_CLIENt_KNOWN_REQUEST_ERROR",
+						{
+							status: 400,
+						},
+					);
 				}
 				const { message, name, code, meta } = err;
-				console.log({ message, name, code, meta });
 
-				return setMessage(form, "Invalid credentials", { status: 400 });
+				return setMessage(form, "Invalid credentials  , Internal Error OTHER", {
+					status: 400,
+				});
 			}
 
 			redirect(301, "/auth/login");

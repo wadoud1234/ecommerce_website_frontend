@@ -1,10 +1,8 @@
 import { z } from "zod";
-import type { RequestHandler } from "./$types";
 import prisma from "$lib/server/prisma";
 
-export async function POST({ request, params }) {
-	console.log({ request, params });
-	const { userId } = params;
+export async function POST({ request, locals }) {
+	const userId = locals?.user?.id;
 	const requestData = await request.json();
 	const { avatar_url } = requestData;
 	let parsingResult: any;
@@ -15,13 +13,12 @@ export async function POST({ request, params }) {
 		});
 		parsingResult = schema.parse({ userId, avatar_url });
 	} catch (e) {
-		console.log(e);
+		console.error(e);
 	}
 	const updatedUser = await prisma.user.update({
 		where: { id: parsingResult.userId },
 		data: { avatar: parsingResult.avatar_url, avatarChangedAt: new Date() },
 	});
-	console.log({ updatedUser });
 
 	return new Response(JSON.stringify({ refresh: true }), {
 		status: 302,

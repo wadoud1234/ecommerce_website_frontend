@@ -1,4 +1,4 @@
-export const load = async ({ locals, fetch }) => {
+export const load = async ({ locals, parent }) => {
 	return {
 		user: locals.user,
 	};

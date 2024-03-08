@@ -16,7 +16,7 @@
 		validators: zodClient(loginSchema)
 	});
 
-	const { form: formData, enhance, errors, allErrors, message } = form;
+	const { form: formData, enhance, message } = form;
 
 	const errorClasses = 'dark:text-red-500';
 	const labelClasses = 'dark:data-[fs-error]:text-red-500';

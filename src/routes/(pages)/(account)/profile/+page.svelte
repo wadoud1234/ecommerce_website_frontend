@@ -41,28 +41,19 @@
 		}
 	}	
 	let onUpload = async (res:Response)=>{
-		console.log({res});
 		const publicId = res.info.thumbnail_url;
 		const parseResult = z.string().safeParse(publicId)
-		console.log({parseResult});
 		
 		if(parseResult.success){
 			const avatar = parseResult.data
-			const response = await fetch(`/api/profile/${user.id}`, {
+			const response = await fetch(`/api/profile`, {
 				headers:{
 					"Content-Type":"application/json"
 				},
 				method:"POST",
 				body:JSON.stringify({avatar_url:avatar})
 			})			
-			const responseData = await response.json()
-			// ts-ignore
-			console.log({responseData});
-			const {refresh} = responseData as {refresh:boolean}
-			doRefresh = refresh 
-			// if(refresh) redirect(300,"/profile?refresh=true")
-			console.log({responseData})
-
+			window.location.reload()
 		}
 		
 	}
@@ -83,12 +74,7 @@
 	
 	$:{
 		doRefresh = $page.url.searchParams.get('refresh')=="true";
-		console.log({doRefresh});
 	}
-	onMount(()=>{
-		if(doRefresh){
-			goto("/profile");
-		}
-	})</script>
+	</script>
 
-<ProfilePage {user} {onUpload} {products} {links} redirectLink="/profile?refresh=true"/>
+<ProfilePage {user} {onUpload} products={products||[]} {links} />

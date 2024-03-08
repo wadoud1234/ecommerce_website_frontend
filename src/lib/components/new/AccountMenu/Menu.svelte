@@ -18,7 +18,7 @@
 	<!-- <Avatar/> -->
 	{#if user && user.name}
 		{#if user?.avatar && user.avatar.length > 0}
-			<button on:click={() => toggle()}>
+			<button on:click={() => toggle()} class="max-w-10 w-10 max-h-10 h-10">
 				<CldImage src={user?.avatar} alt={slug} class="max-w-[40px] max-h-[40px]flex items-center justfify-center rounded-full mt-1.5" />
 			</button>
 		{:else}

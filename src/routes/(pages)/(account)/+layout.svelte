@@ -1,7 +1,11 @@
-<script>
+<script lang="ts">
 	import LinkAddress from '$lib/components/new/LinkAddress.svelte';
 	import NewContainer from '$lib/components/new/NewContainer.svelte';
-	export let user = { name: 'Kh Wadoud' };
+	import type { User } from 'lucia';
+	import type { LayoutServerData } from './$types';
+	export let data:LayoutServerData;
+	let user:User
+	$:user = data.user
 </script>
 
 <div class=" min-w-screen min-h-full h-full flex flex-col items-start justify-start py-12">

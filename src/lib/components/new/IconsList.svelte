@@ -9,8 +9,6 @@
 </script>
 
 <div class="hidden md:flex flex-row items-center justify-between gap-4 pr-2">
-	<!-- <button type="button"><a href="/account/favourites"><Heart size="24" /></a></button>
-	<button type="button"><a href="/cart"><ShoppingCart size="24" /></a></button> -->
 	<NewSearchBar />
 	<ThemeToggleButton />
 	<AccountMenu {user} />

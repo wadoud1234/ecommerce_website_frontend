@@ -13,7 +13,6 @@
 	let doRefresh:boolean;
 	$:{
 		doRefresh = $page.url.searchParams.get('refresh')=="true";
-		console.log({doRefresh});
 	}
 	onMount(()=>{
 		if(doRefresh){

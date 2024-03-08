@@ -31,7 +31,6 @@ export const actions = {
 		if (!existingUser || !existingUser.password) {
 			return setMessage(form, "Invalid credentials , No USER", { status: 400 });
 		}
-		console.log({ existingUser });
 
 		const provider = existingUser.provider;
 		if (provider !== Provider.EMAIL) {
@@ -46,8 +45,6 @@ export const actions = {
 		if (!validPassword) {
 			return setMessage(form, "Invalid Credentials", { status: 400 });
 		}
-		console.log("validPassword", validPassword);
-
 		const session = await auth.createSession(existingUser?.id, {});
 		const sessionCookie = auth.createSessionCookie(session.id);
 		event.cookies.set(sessionCookie.name, sessionCookie.value, {

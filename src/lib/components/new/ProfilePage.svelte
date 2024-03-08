@@ -9,37 +9,32 @@
 	import Button from "../ui/button/button.svelte";
 	import type { LinkProviders } from "$lib/types";
 	import { goto, invalidateAll} from "$app/navigation";
-
+	import DescriptionForm from "./DescriptionForm.svelte";
     export let user:User
     export let products:ProductsDataType
     export let onUpload:Function
     export let links:{id:string,link:string;provider:LinkProviders}[]|null
 </script>
+
 <div class="ProfilePage w-full flex flex-col items-start justify-start gap-4 ">
 	<div class="h-full w-full flex flex-col md:flex-row items-center justify-center md:items-start md:justify-start gap-5 md:gap-20 px-4 ">
 		<div class="profilePicture max-w-48  min-w-48 flex flex-col gap-2">
 			{#if user?.avatar}
-			<div class="group flex flex-col justify-center items-center min-w-full min-h-full">
+			<div class="flex w-48 max-w-48 h-48 max-h-48 flex-col justify-center items-center min-w-full min-h-full">
 				<CldImage backgroundRemoval  width={192} length={192} src={user?.avatar} class="min-w-full min-h-full relative object-fill rounded-xl"  />
 				
 			</div>
 			{:else}
 				<div
-					class="group flex flex-col items-center justify-center min-w-48 max-w-48 max-h-48 min-h-48 dark:bg-zinc-800 bg-zinc-200 rounded-full"
+					class=" flex flex-col items-center justify-center min-w-48 max-w-48 max-h-48 min-h-48 dark:bg-zinc-800 bg-zinc-200 rounded-full"
 				>
 					<!-- TODO -->
-					<span class="group-hover:hidden text-2xl">{user?.name?.slice(0, 2).toUpperCase()}</span>
+					<span class="text-2xl">{user?.name?.slice(0, 2).toUpperCase()}</span>
 					
 				</div>
 			{/if}
             <!-- onSuccess={()=>{goto('/profile',{invalidateAll:true}) }}-->
 			<CldUploadButton
-        onQueuesEnd={()=>{
-            console.log("HELLO END");
-                const url = new URL('/profile?refresh=true')
-                invalidateAll()
-            goto(url,{invalidateAll:true})
-            } }
 					uploadPreset={'user_avatars'}
 					class="flex items-center justify-center py-2 px-2 gap-2 border border-zinc-400 rounded-md min-w-full"
 					{onUpload}
@@ -53,7 +48,7 @@
 			<div class="flex flex-col items-center justify-center md:items-start md:justify-center h-full w-full">
 				<h3 class="font-medium text-2xl mb-1">{user?.name ?? ''}</h3>
 				<p class="text-base mb-2">{user?.email ?? ''}</p>
-				<p class="text-sm">{user?.description ?? 'Description ....'}</p>
+				<DescriptionForm description={user.description ?? ""}/>
 			</div>
             {#if links && links?.length >0}
 			<div class="flex flex-col md:flex-row w-full flex-wrap gap-2 md:gap-5 items-center">
@@ -68,6 +63,8 @@
                 </Button>
                 </div>
 			</div>
+			{:else}
+				<p class="w-full text-center lg:text-start">No Links Provided</p>
             {/if}
 		</div>
 	</div>

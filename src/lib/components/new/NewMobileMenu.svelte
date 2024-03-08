@@ -14,7 +14,7 @@
 <button
 	type="button"
 	on:click={toggle}
-	class="block md:hidden rounded-sm border-0 bg-gray-200 dark:bg-inherit dark:text-inherit dark:border-1 dark:border-zinc-800 p-2"
+	class=" rounded-sm border-0 bg-gray-200 dark:bg-inherit dark:text-inherit dark:border-1 dark:border-zinc-800 p-2"
 >
 	<Menu />
 </button>
