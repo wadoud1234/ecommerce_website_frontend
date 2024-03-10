@@ -10,8 +10,10 @@
 	import '@fontsource/poppins/700.css';
 	import '@fontsource/poppins/800.css';
 	import { ModeWatcher } from 'mode-watcher';
+	import { Toaster } from "svelte-french-toast"
 </script>
 
 <ModeWatcher defaultMode="dark" />
 
 <slot />
+<Toaster/>

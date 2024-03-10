@@ -28,6 +28,7 @@ model User {
 
   sessions Session[]
   links    UserLinks[]
+  products Product[]
 }
 
 model Session {
@@ -39,11 +40,19 @@ model Session {
 
 model Product {
   id          String         @id @unique @default(uuid())
-  name        String         @unique @db.VarChar(100)
+  name        String         @unique @db.VarChar(255)
+  slug        String         @unique @db.VarChar(255)
   price       Float          @db.Real
   description String         @default("") @db.Text
   likes       Int            @default(0) @db.SmallInt
+  rating      Float          @default(0) @db.Real
+  quantity    Int            @default(0) @db.SmallInt
+  sold        Int            @default(0) @db.SmallInt
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
   images      ProductImage[]
+  User        User           @relation(fields: [userId], references: [id])
+  userId      String
 }
 
 enum Provider {
@@ -52,17 +61,18 @@ enum Provider {
 }
 
 model UserLinks {
-  id       String   @id @unique @default(uuid())
-  link     String   @db.Text
-  provider Provider
-  User     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId   String   @unique
+  id        String   @id @unique @default(uuid())
+  link      String   @db.Text
+  provider  Provider
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String   @unique
+  createdAt DateTime @default(now())
 }
 
 model ProductImage {
   id        String  @id @unique @default(uuid())
   link      String  @db.Text
-  productId String  @unique
+  productId String
   Product   Product @relation(fields: [productId], references: [id])
 }
 

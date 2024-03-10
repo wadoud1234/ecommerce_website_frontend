@@ -18,19 +18,11 @@
 	<!-- <Avatar/> -->
 	{#if user && user.name}
 		{#if user?.avatar && user.avatar.length > 0}
-			<button on:click={() => toggle()} class="max-w-10 w-10 max-h-10 h-10">
+			<button on:click={()=>toggle()} class="max-w-10 w-10 max-h-10 h-10">
 				<CldImage src={user?.avatar} alt={slug} class="max-w-[40px] max-h-[40px]flex items-center justfify-center rounded-full mt-1.5" />
 			</button>
 		{:else}
-			<!-- <button on:click={()=>toggle()}>
-				<p
-					role="img"
-					class="w-[32px] h-[32px] rounded-full bg-zinc-600 text-center flex justify-center items-center text-lg"
-				>
-					{slug}
-				</p>
-			</button> -->
-			<button on:click={() => toggle()}>
+			<button on:click={()=>toggle()}>
 				<Avatar.Root>
 					<Avatar.Fallback class="cursor-pointer">{slug}</Avatar.Fallback>
 				</Avatar.Root>
@@ -46,10 +38,10 @@
 			<h3 class="py-2 pl-4 underline-offset-4 underline text-lg font-medium">
 				{user.name.split(' ')[0]}
 			</h3>
-			<Item link="/profile" title="Profile" Icon={UserRound} size={22} />
-			<Item link="/cart" title="Cart" size={22} Icon={ShoppingCart} />
-			<Item link="/account/orders" title="Orders" size={22} Icon={History} />
-			<Item link="/account/settings" title="Settings" size={22} Icon={Settings} />
+			<Item link="/profile" title="Profile" Icon={UserRound} size={22} onClick={toggle}/>
+			<Item link="/cart" title="Cart" size={22} Icon={ShoppingCart}  onClick={toggle}/>
+			<Item link="/account/orders" title="Orders" size={22} Icon={History}  onClick={toggle}/>
+			<Item link="/account/settings" title="Settings" size={22} Icon={Settings}  onClick={toggle}/>
 			<LogoutForm
 				formClasses="dark:hover:bg-white/5 hover:bg-black/5"
 				buttonClasses="flex flex-row gap-4 pl-4 text-lg poppins-medium pr-20 py-2 border-b-md"

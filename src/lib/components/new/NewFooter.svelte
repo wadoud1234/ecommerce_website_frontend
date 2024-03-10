@@ -11,8 +11,7 @@
 >
 	<NewContainer>
 		<div class="flex flex-row items-center justify-center w-full py-10">
-			<div
-				class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 w-full gap-6 text-base items-start"
+			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 w-full gap-6 text-base items-start"
 			>
 				<!-- DIV 1 -->
 				<div class="flex col-span-1 lg:col-span-2 flex-col gap-2 w-fit sm:mx-0">

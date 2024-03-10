@@ -1,13 +1,13 @@
-import { fail, redirect } from "@sveltejs/kit";
+import { redirect } from "@sveltejs/kit";
 import type { Actions } from "./$types.js";
-import { auth } from "$lib/server/auth.js";
-import { hashPassword, verifyPassword } from "$lib/helpers/password.js";
-import { PrismaClient, type User } from "@prisma/client";
+import { hashPassword } from "$lib/helpers/password.js";
+import type { User } from "@prisma/client";
 import { setMessage, superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
 import { RegisterSchema } from "./RegisterSchema.js";
 import prisma from "$lib/server/prisma.js";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+
 export const load = async ({ locals }) => {
 	if (locals.user) {
 		throw redirect(302, "/");

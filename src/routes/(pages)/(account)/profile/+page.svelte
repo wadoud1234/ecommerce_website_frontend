@@ -2,45 +2,16 @@
 	import { z } from 'zod';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
-	import { onMount } from 'svelte';
 	import ProfilePage from '$lib/components/new/ProfilePage.svelte';
 	import type { User } from 'lucia';
 	import type { ProductsDataType } from '$lib/data';
-	import type { LinkProviders } from '$lib/types';
-	import { redirect } from '@sveltejs/kit';
+	import type { LinkProviders, onUploadImageResponse } from '$lib/types';
 	let doRefresh:boolean;
+	import toast from "svelte-french-toast"
 
 	export let data: any;
-	type Response = {
-		event:string,
-		info:{
-			access_mode: string,
-			asset_id:string,
-			batchId:string,
-			bytes:number,
-			createdAt:string,
-			etag:string,
-			folder:string,
-			format:string,
-			height:number,
-			id:string
-			original_name:string,			
-			path:string,
-			placeholder:boolean,
-			public_id:string,
-			resource_type:string,
-			secure_url:string,
-			signature:string
-			tags:string[],
-			type:string,
-			thumbnail_url:string,
-			url:string,
-			version:number,
-			version_id:string,
-			width:number
-		}
-	}	
-	let onUpload = async (res:Response)=>{
+	
+	let onUpload = async (res:onUploadImageResponse)=>{
 		const publicId = res.info.thumbnail_url;
 		const parseResult = z.string().safeParse(publicId)
 		
@@ -53,7 +24,8 @@
 				method:"POST",
 				body:JSON.stringify({avatar_url:avatar})
 			})			
-			window.location.reload()
+			toast.success("Avatar updated")
+			goto("/profile",{invalidateAll:true,replaceState:true})
 		}
 		
 	}

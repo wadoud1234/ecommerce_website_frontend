@@ -8,7 +8,6 @@
 	import ProfileLink from "./ProfileLink.svelte";
 	import Button from "../ui/button/button.svelte";
 	import type { LinkProviders } from "$lib/types";
-	import { goto, invalidateAll} from "$app/navigation";
 	import DescriptionForm from "./DescriptionForm.svelte";
     export let user:User
     export let products:ProductsDataType
@@ -16,8 +15,9 @@
     export let links:{id:string,link:string;provider:LinkProviders}[]|null
 </script>
 
-<div class="ProfilePage w-full flex flex-col items-start justify-start gap-4 ">
-	<div class="h-full w-full flex flex-col md:flex-row items-center justify-center md:items-start md:justify-start gap-5 md:gap-20 px-4 ">
+<div class="ProfilePage w-full flex flex-col items-start justify-start gap-10 ">
+	<!-- USER DETAILS SECTION -->
+	<section class="h-full w-full flex flex-col md:flex-row items-center justify-center md:items-start md:justify-start gap-5 md:gap-20 ">
 		<div class="profilePicture max-w-48  min-w-48 flex flex-col gap-2">
 			{#if user?.avatar}
 			<div class="flex w-48 max-w-48 h-48 max-h-48 flex-col justify-center items-center min-w-full min-h-full">
@@ -36,7 +36,7 @@
             <!-- onSuccess={()=>{goto('/profile',{invalidateAll:true}) }}-->
 			<CldUploadButton
 					uploadPreset={'user_avatars'}
-					class="flex items-center justify-center py-2 px-2 gap-2 border border-zinc-400 rounded-md min-w-full"
+					class="flex items-center justify-center py-2 px-2 gap-2 border border-zinc-400 rounded-md min-w-full dark:hover:bg-zinc-800 bg-zinc-200 dark:bg-inherit hover:bg-zinc-300"
 					{onUpload}
 				>
 					<ImageUp /> Change 
@@ -67,12 +67,20 @@
 				<p class="w-full text-center lg:text-start">No Links Provided</p>
             {/if}
 		</div>
-	</div>
-	<div class="flex flex-col w-full items-center justify-center md:justify-start md:items-start gap-4">
-		<h1 class="text-2xl font-medium">My Products :</h1>
-        {#if products && products?.length>0}
+	</section>
+	<!-- MY PRODUCTS SECTION -->
+	<section class="flex flex-col w-full items-center justify-center md:justify-start md:items-start">
+		<h3
+			class="flex flex-row gap-2 text-sm items-center justify-start text-red-600 dark:text-red-500 font-semibold h-8 mb-4"
+		>
+	        <span class="min-w-4 h-full bg-red-600 dark:bg-red-500 rounded-md text-transparent">
+		        {'.'}
+            </span>
+			My Products
+		</h3>
+    	{#if products && products?.length>0}
 		    <ProductCarousel {products} />
-        {:else}
+    	{:else}
             <div class="w-full text-center py-4 flex flex-col gap-2 items-center">
                 <p class="text-red-700 flex items-center justify-center w-full gap-2 text-lg">
                     <XCircle/>Oops !
@@ -84,8 +92,8 @@
                 </Button>
                 {/if}
             </div>
-        {/if}
+    	{/if}
 
-	</div>
+	</section>
 	
 </div>

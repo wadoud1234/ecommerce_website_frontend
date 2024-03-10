@@ -2,20 +2,6 @@
 	import type { User } from 'lucia';
 	import LinkListItem from './LinkListItem.svelte';
 	export let user: User | null;
-	const listItems: { title: string; link: string }[] = [
-		{
-			title: 'Home',
-			link: '/'
-		},
-		{
-			title: 'Contact',
-			link: '/contact'
-		},
-		{
-			title: 'About',
-			link: '/about'
-		}
-	];
 </script>
 
 <div class="hidden md:flex flex-row items-center flex-1 justify-center">
