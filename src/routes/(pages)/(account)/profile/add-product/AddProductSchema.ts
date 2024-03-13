@@ -14,15 +14,7 @@ const AddProductSchema = z.object({
 				"Product name must contain only letters, numbers, spaces, underscores, and dashes",
 		}),
 
-	description: z
-		.string()
-		.min(8, {
-			message: "Product description must be at least 8 characters",
-		})
-		.max(255, {
-			message: "Product description must be less than 500 characters",
-		}),
-
+	description: z.string(),
 	price: z
 		.number()
 		.positive({

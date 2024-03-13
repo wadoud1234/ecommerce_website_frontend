@@ -13,7 +13,7 @@
 	}
 </script>
 
-<Button on:click={toggle} class="bg-inherit text-inherit border border-zinc-700 dark:hover:bg-zinc-600" size="icon">
+<Button on:click={toggle} class="bg-inherit text-inherit border border-zinc-400 dark:border-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700" size="icon">
 	<Sun
 		class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
 	/>

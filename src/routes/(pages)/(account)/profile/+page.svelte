@@ -5,11 +5,13 @@
 	import ProfilePage from '$lib/components/new/ProfilePage.svelte';
 	import type { User } from 'lucia';
 	import type { ProductsDataType } from '$lib/data';
-	import type { LinkProviders, onUploadImageResponse } from '$lib/types';
+	import type { LinkProviders, Product, onUploadImageResponse } from '$lib/types';
 	let doRefresh:boolean;
 	import toast from "svelte-french-toast"
 
-	export let data: any;
+	export let data:any;
+	$:console.log({profileProducts:data?.products});
+	
 	
 	let onUpload = async (res:onUploadImageResponse)=>{
 		const publicId = res.info.thumbnail_url;
@@ -30,7 +32,7 @@
 		
 	}
 	let user: User;
-	let products:ProductsDataType|null;
+	let products: Product[];
 	let links:{
 		id:string,
 		link:string,
@@ -49,4 +51,4 @@
 	}
 	</script>
 
-<ProfilePage {user} {onUpload} products={products||[]} {links} />
+<ProfilePage {user} {onUpload} {products} {links} />

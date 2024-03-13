@@ -8,40 +8,45 @@
 	import { HeartIcon, SendHorizonal } from "lucide-svelte";
 	import Label from "../ui/label/label.svelte";
 	import Input from "../ui/input/input.svelte";
-	import ProductCarousel from "./ProductCarousel.svelte";
 
     export let productImages:string[] = ["","","","",""]
     let cursor:number=0
     export let product:Product = new ProductInit().get()
 </script>
 
-<div class="flex flex-col md:flex-row items-start justify-start w-full min-w-full lg:max-h-[400px] gap-2 sm:gap-4 md:gap-8 lg:gap-20  lg:h-[400px] ">
+<div class="flex flex-col md:flex-row items-start justify-start w-full min-w-full lg:max-h-[500px] gap-2 sm:gap-4 md:gap-8 lg:gap-20 lg:h-[500px] ">
     <!-- OTHERS THAN MD -->
-    <div class="flex md:hidden lg:flex flex-row items-start w-full h-[400px] md:h-full md:max-h-full justify-between gap-2 sm:gap-4 md:gap-8 lg:gap-8">
-        <div class="flex flex-col items-start justify-start min-h-full gap-4 ">
+    <div class="flex md:hidden lg:flex flex-row items-start w-full h-[500px] justify-between gap-2 sm:gap-4 lg:gap-8">
+        <div class="flex flex-col items-start justify-center min-h-full gap-4 ">
             {#each [...productImages?.filter((_,i)=>i!=cursor)] as image}
-                <button class="bg-zinc-700 max-w-[100px] min-w-[88px] w-full max-h-[88px] min-h-[88px] rounded-lg object-contain object-center" on:click={()=>{
-                    cursor=productImages?.indexOf(image)
-                }}>
-                    <CldImage src={image} alt="product" class="hover:scale-110 transition-all duration-200 w-[88px] h-[88px] p-2" />
+                <button class="bg-zinc-700 max-w-[100px] min-w-[88px] w-full max-h-[88px] min-h-[88px] rounded-lg object-contain object-center" 
+                    on:click={()=>{
+                        cursor=productImages?.indexOf(image)
+                    }}
+                >
+                    <CldImage src={image} alt="product-image" class="rounded-lg hover:scale-110 transition-all duration-200 w-[88px] h-[88px] p-2" />
                 </button>
             {/each}
         </div>
-        <div class="flex-1 h-full w-full lg:w-auto flex flex-col justify-center items-center  p-4 min-h-full bg-zinc-600 rounded-lg">
-            <CldImage src={productImages?.[cursor]} alt="profile" class="max-w-[200px] sm:max-w-[300px] md:max-w-[260px] lg:max-w-[290px] lg:w-[300px] h-auto object-center object-contain hover:scale-110 md:hover:scale-125 duration-200 transition-all"/>
+        <div class="flex-1 h-full w-full lg:w-auto flex flex-col justify-center items-center  p-4 min-h-full bg-zinc-400 rounded-xl">
+            <CldImage src={productImages?.[cursor]} alt="main-product-image" class=" rounded-md max-w-[200px] sm:max-w-[300px] md:max-w-[260px] lg:max-w-[290px] lg:w-[300px] h-auto object-center object-contain hover:scale-110 md:hover:scale-125 duration-200 transition-all"/>
         </div>
     </div>
     <!-- MD ONLY -->
     <div class="hidden md:flex lg:hidden h-full min-h-full max-h-full w-full flex-col justify-between gap-1">
-        <div class="flex-1 w-full md:max-w-full lg:min-w-[290px] flex flex-col justify-center items-center bg-zinc-600 p-4 min-h-full rounded-lg">
-            <CldImage src={productImages?.[cursor]} alt="profile" class="md:h-[350px] md:max-w-[250px] lg:max-w-[290px] lg:w-[300px] h-auto object-center object-contain md:hover:scale:110 lg:hover:scale-125 duration-200 transition-all"/>
+        <div class="flex-1 w-full md:max-w-full lg:min-w-[290px] flex flex-col justify-center items-center bg-zinc-400 p-4 min-h-full rounded-xl">
+            <CldImage src={productImages?.[cursor]} alt="main-product-image" class=" rounded-md md:h-[350px] md:max-w-[250px] lg:max-w-[290px] lg:w-[300px] h-auto object-center object-contain md:hover:scale:110 lg:hover:scale-125 duration-200 transition-all"/>
         </div>
         <div class="flex lg:hidden flex-row items-center justify-center h-full gap-4">
             {#each [...productImages?.filter((_,i)=>i!=cursor)] as image}
                 <button class="bg-zinc-700 min-w-[60px] min-h-[60px] rounded-lg" on:click={()=>{
                     cursor=productImages?.indexOf(image)
                 }}>
-                    <CldImage src={image} alt="product" class="hover:scale-110 transition-all duration-200 w-[60px] h-[60px] p-2" />
+                    <CldImage 
+                        src={image} 
+                        alt="product-image" 
+                        class=" rounded-md hover:scale-110 transition-all duration-200 w-[60px] h-[60px] p-2" 
+                    />
                 </button>
             {/each}
         </div>

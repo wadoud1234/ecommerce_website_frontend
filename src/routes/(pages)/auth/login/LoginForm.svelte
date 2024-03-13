@@ -16,13 +16,13 @@
 		validators: zodClient(loginSchema)
 	});
 
-	const { form: formData, enhance, message } = form;
+	const { form: formData, message } = form;
 
 	const errorClasses = 'dark:text-red-500';
 	const labelClasses = 'dark:data-[fs-error]:text-red-500';
 </script>
 
-<AuthForm {enhance} {message} header="Login" description="Enter your details below to login">
+<AuthForm {message} header="Login" description="Enter your details below to login">
 	<div slot="fields" class="flex flex-col w-full gap-2">
 		<Form.Field {form} name="email" class="w-full">
 			<Form.Control let:attrs>

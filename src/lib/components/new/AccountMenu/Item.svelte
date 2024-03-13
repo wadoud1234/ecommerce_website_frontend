@@ -12,6 +12,7 @@
 <Button
 	on:click={onClick}
 	href={link}
+	data-sveltekit-preload-data="hover"
 	class="hover:bg-black/5 bg-inherit text-inherit text-lg font-medium dark:hover:bg-white/5 w-full flex flex-row items-center justify-start gap-4 pl-4 pr-20 py-2"
 >
 	<svelte:component this={Icon} {size} />

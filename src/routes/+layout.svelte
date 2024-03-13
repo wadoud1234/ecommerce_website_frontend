@@ -1,6 +1,7 @@
 <script lang="ts">
+	import ImageDialog from '$lib/components/new/ImageDialog.svelte';
 	import './../app.css';
-
+	import imageModalStore from "$lib/stores/ImageModalStore"
 	import '@fontsource/poppins/100.css';
 	import '@fontsource/poppins/200.css';
 	import '@fontsource/poppins/300.css';
@@ -14,6 +15,8 @@
 </script>
 
 <ModeWatcher defaultMode="dark" />
-
+{#if $imageModalStore && $imageModalStore.show && $imageModalStore.src && $imageModalStore.alt}
+	<ImageDialog src={$imageModalStore?.src || ""} alt={$imageModalStore?.alt || ""}/>
+{/if}
 <slot />
 <Toaster/>

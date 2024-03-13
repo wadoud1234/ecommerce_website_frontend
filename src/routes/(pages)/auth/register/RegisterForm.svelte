@@ -16,12 +16,12 @@
 		scrollToError: 'smooth'
 	});
 
-	const { form: formData, enhance, message } = form;
+	const { form: formData, message } = form;
 	const errorClasses = 'dark:text-red-500';
 	const labelClasses = 'dark:data-[fs-error]:text-red-500';
 </script>
 
-<AuthForm {enhance} {message} header="Register" description="Enter your details below to register">
+<AuthForm  {message} header="Register" description="Enter your details below to register">
 	<div slot="fields" class="flex flex-col w-full gap-2">
 		<Form.Field {form} name="name" class="w-full">
 			<Form.Control let:attrs>

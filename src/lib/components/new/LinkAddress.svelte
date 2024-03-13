@@ -21,7 +21,7 @@
 			class="text-sm poppins-regular underline underline-offset-4">{firstLetterUpperCase(slug)}</a
 		>
 		{#if i < slugs.length - 1}<span class="text-[12px] mt-1">/</span>{/if}
-		{#if productName}/<span>{productName}</span>{/if}
+		{#if productName}/<span class="text-sm poppins-regular">{productName}</span>{/if}
 	{/each}
 	<!-- <ChevronRight size="16" /> -->
 </div>

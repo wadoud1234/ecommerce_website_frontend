@@ -2,7 +2,7 @@
 	import NavItem from '$lib/components/new/NavItem.svelte';
 	import NewContainer from '$lib/components/new/NewContainer.svelte';
 	import Separator from '$lib/components/new/Separator.svelte';
-	import { products, categories } from '$lib/data';
+	import { categories } from '$lib/data';
 	import HeroSection from '$lib/components/new/HeroSection.svelte';
 	import CategoryCarousel from '$lib/components/new/CategoryCarousel.svelte';
 	import ProductCarousel from '$lib/components/new/ProductCarousel.svelte';
@@ -10,6 +10,9 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import type { PageData } from './$types';
+	import type { Product } from '$lib/types';
+	export let data:PageData
 	let doRefresh:boolean;
 	$:{
 		doRefresh = $page.url.searchParams.get('refresh')=="true";
@@ -19,6 +22,8 @@
 			goto("/");
 		}
 	})
+	let products:Product[]
+	$:products = data.products
 </script>
 
 <svelte:head>
@@ -67,13 +72,6 @@
 				<div class="flex flex-col gap-6">
 					<p class="text-2xl poppins-medium">Browse By Categories</p>
 					<CategoryCarousel {categories} />
-					<!-- <div class="flex flex-row w-full overflow-hidden justify-between">
-						<NewCategoryCard details={{ name: 'Phones', picture: MobileIcon }} />
-						<NewCategoryCard details={{ name: 'Computers', picture: ComputerIcon }} />
-						<NewCategoryCard details={{ name: 'Smartwatches', picture: SmartwatchIcon }} />
-						<NewCategoryCard details={{ name: 'Camera', picture: CameraIcon }} />
-						<NewCategoryCard details={{ name: 'Headphone', picture: HeadphoneIcon }} />
-					</div> -->
 				</div>
 			</div>
 			<Separator />

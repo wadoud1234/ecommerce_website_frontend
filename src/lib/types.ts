@@ -21,10 +21,13 @@ export type Product = {
 	name: string;
 	price: number;
 	likes: number;
+	slug: string;
 	description: string;
 	rating: number;
 	quantity: number;
 	sold: number;
+	picture?: string;
+	discount?: number;
 };
 export class ProductInit {
 	id: string;

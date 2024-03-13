@@ -5,25 +5,26 @@ import { setMessage, superValidate } from "sveltekit-superforms";
 import { redirect } from "@sveltejs/kit";
 import prisma from "$lib/server/prisma";
 import slugify from "slugify";
-export const load = async (event) => {
-	const result = await superValidate(zod(AddProductSchema));
+export const load: PageServerLoad = async () => {
+	console.log("LOAD");
+
 	return {
-		form: result,
+		form: await superValidate(zod(AddProductSchema)),
 	};
 };
 
 export const actions = {
 	default: async (event) => {
+		console.log("ACTION");
+
 		if (!event.locals.user || !event.locals.user.id) {
 			return redirect(300, "/auth/login");
 		}
 		const form = await superValidate(event, zod(AddProductSchema));
-		console.log({ form });
 
 		if (!form.valid) {
-			console.log(form.errors);
-
-			return setMessage(form, "Invalid credentials", { status: 400 });
+			console.log({ errors: form.errors });
+			return setMessage(form, "Bad Inputs", { status: 400 });
 		}
 		const { name, description, price, quantity, images } = form.data;
 		const userId = event.locals.user.id;
@@ -37,15 +38,14 @@ export const actions = {
 				userId,
 			},
 		});
-		console.log({ product });
+		const savedImages = images[0].split(",").map((image) => ({
+			link: image,
+			productId: product.id,
+		}));
 
 		const productImages = await prisma.productImage.createMany({
-			data: images.map((image) => ({
-				link: image,
-				productId: product.id,
-			})),
+			data: savedImages,
 		});
-		console.log({ productImages });
 
 		return redirect(302, `/products/${product.slug}`);
 	},

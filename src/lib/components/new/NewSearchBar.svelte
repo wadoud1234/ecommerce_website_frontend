@@ -12,7 +12,6 @@
 	<label for="search-keywords" hidden>Search</label>
 	<input
 		type="text"
-		id="search-keywords"
 		name="search-keywords"
 		bind:value
 		placeholder="Search ..."

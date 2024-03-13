@@ -44,10 +44,10 @@ model Product {
   slug        String         @unique @db.VarChar(255)
   price       Float          @db.Real
   description String         @default("") @db.Text
-  likes       Int            @default(0) @db.SmallInt
+  likes       Int            @default(0)
   rating      Float          @default(0) @db.Real
-  quantity    Int            @default(0) @db.SmallInt
-  sold        Int            @default(0) @db.SmallInt
+  quantity    Int            @default(0)
+  sold        Int            @default(0)
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
   images      ProductImage[]

@@ -11,6 +11,8 @@ export const load: LayoutServerLoad = async ({ parent, params }) => {
 		include: { images: true },
 	});
 
+	console.log({ productSlug, product });
+
 	const imagesLinks = product?.images.map((image) => image.link) || [];
 
 	// console.log({ productId, product });

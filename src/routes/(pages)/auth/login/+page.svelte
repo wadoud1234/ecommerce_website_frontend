@@ -28,8 +28,4 @@
 	* {
 		@apply transition-all duration-100;
 	}
-	/* 
-	input {
-		@apply border  border-black/60 p-2 outline-none  text-black min-w-full;
-	} */
 </style>

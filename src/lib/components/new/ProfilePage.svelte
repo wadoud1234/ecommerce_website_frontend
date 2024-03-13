@@ -2,16 +2,16 @@
 
 	import { CldImage, CldUploadButton, CldUploadWidget } from "svelte-cloudinary";
 	import ProductCarousel from "./ProductCarousel.svelte";
-	import  type{ ProductsDataType } from "$lib/data";
-    import type {User} from "lucia"
+    import type { User } from "lucia"
 	import { BadgePlus, ImageUp, Link, XCircle } from "lucide-svelte";
 	import ProfileLink from "./ProfileLink.svelte";
 	import Button from "../ui/button/button.svelte";
-	import type { LinkProviders } from "$lib/types";
+	import type { LinkProviders, Product } from "$lib/types";
 	import DescriptionForm from "./DescriptionForm.svelte";
+
     export let user:User
-    export let products:ProductsDataType
-    export let onUpload:Function
+    export let products: Product[]
+	export let onUpload:Function
     export let links:{id:string,link:string;provider:LinkProviders}[]|null
 </script>
 
@@ -87,7 +87,7 @@
                 </p>
                 <p class="text-center ">No Products Found</p>
                 {#if user}
-                <Button size="lg"  class="w-fit gap-2">
+                <Button size="lg" href="/profile/add-product" class="w-fit gap-2">
                     <BadgePlus/> Add Product 
                 </Button>
                 {/if}

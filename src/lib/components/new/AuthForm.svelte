@@ -1,9 +1,7 @@
 <script lang="ts">
-	import { dev } from '$app/environment';
 	import type { Writable } from 'svelte/store';
-	import SuperDebug from 'sveltekit-superforms';
 
-	export let enhance: any;
+	export let enhance: any={};
 	export let message: Writable<unknown>;
 	export let header: string;
 	export let description: string;

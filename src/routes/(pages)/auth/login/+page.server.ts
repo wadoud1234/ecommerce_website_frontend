@@ -25,9 +25,12 @@ export const actions = {
 		if (!form.valid) {
 			return setMessage(form, "Invalid credentials", { status: 400 });
 		}
+		console.log({ form });
+
 		const { email, password } = form.data;
-		prisma.$connect();
 		const existingUser = await prisma.user.findUnique({ where: { email } });
+		console.log({ existingUser });
+
 		if (!existingUser || !existingUser.password) {
 			return setMessage(form, "Invalid credentials , No USER", { status: 400 });
 		}
@@ -42,6 +45,8 @@ export const actions = {
 		}
 
 		const validPassword = await verifyPassword(existingUser.password, password);
+		console.log({ validPassword });
+
 		if (!validPassword) {
 			return setMessage(form, "Invalid Credentials", { status: 400 });
 		}
@@ -63,7 +68,6 @@ export const actions = {
 			avatar,
 			emailVerified,
 		};
-		prisma.$disconnect();
 		throw redirect(301, "/home?refresh=true");
 	},
 } satisfies Actions;
