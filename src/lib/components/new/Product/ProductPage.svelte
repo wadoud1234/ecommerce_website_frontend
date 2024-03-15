@@ -1,16 +1,23 @@
 <script lang="ts">
 	import Button from "$lib/components/ui/button/button.svelte";
-	import type { ProductsDataType } from "$lib/data";
 	import { ProductInit, type Product } from "$lib/types";
+	import LinkAddress from "../LinkAddress.svelte";
 	import ProductCarousel from "../ProductCarousel.svelte";
-	import ShowProductImages from "../ShowProductImages.svelte";
-
-    export let product:Product=new ProductInit().get();
-    export let productImages:string[] = ["","","","","",""]
-    export let products:ProductsDataType=[]
+    import ShowProductDetails from "../ShowProductDetails.svelte";
+    export let product:Product;
+    export let productImages:string[];
+    export let products:Product[]
 </script>
 
-<ShowProductImages {product} {productImages}/>
+<div class="w-full h-full flex flex-wrap flex-row md:flex-nowrap justify-between items-center">
+    <LinkAddress productName={product.name}/>
+    {#if user && user.name}
+    <p class="text-sm w-full text-right">
+        Welcome! <span class="text-red-600 dark:text-red-500 poppins-regular font-medium">{user.name}</span>
+    </p>
+    {/if}
+</div>
+<ShowProductDetails {product} {productImages}/>
 <div class="w-full h-full flex flex-col items-start justify-start">
     <h3
 	    class="flex flex-row gap-2 text-sm items-center justify-start text-red-600 dark:text-red-500 font-semibold h-8 mb-4"

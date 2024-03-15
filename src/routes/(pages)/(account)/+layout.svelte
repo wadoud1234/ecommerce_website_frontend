@@ -11,7 +11,7 @@
 <div class=" min-w-screen min-h-full h-full flex flex-col items-start justify-start py-12">
 	<NewContainer>
 		<div class="h-full w-full flex flex-col justify-start items-start gap-10 dark:bg-inherit">
-			<div class="w-full flex flex-col md:flex-row justify-between items-center">
+			<div class="w-full flex flex-row justify-between items-center">
 				<LinkAddress productName={null}/>
 				<p class="text-sm">
 					Welcome! <span class="text-red-600 dark:text-red-500 poppins-regular font-medium">{user.name}</span>

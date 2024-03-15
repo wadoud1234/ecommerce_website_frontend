@@ -24,17 +24,14 @@ export const load = async ({ locals }) => {
 export const actions = {
 	default: async (event) => {
 		const form = await superValidate(event, zod(RegisterSchema));
-		console.log({ form });
 
 		if (!form.valid) {
 			return setMessage(form, "Invalid credentials", { status: 400 });
 		}
 
 		const { name, email, password, confirm_password } = form.data;
-		console.log({ name, email, password, confirm_password });
 
 		const existingUser = await prisma.user.findUnique({ where: { email } });
-		console.log({ existingUser });
 
 		if (existingUser) {
 			return setMessage(
@@ -58,7 +55,6 @@ export const actions = {
 				avatarChangedAt: new Date(),
 			},
 		});
-		console.log({ newUser });
 
 		return redirect(301, "/auth/login");
 	},

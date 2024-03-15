@@ -2,12 +2,10 @@ import { zod } from "sveltekit-superforms/adapters";
 import type { Actions, PageServerLoad } from "./$types";
 import AddProductSchema from "./AddProductSchema";
 import { setMessage, superValidate } from "sveltekit-superforms";
-import { redirect } from "@sveltejs/kit";
+import { fail, redirect } from "@sveltejs/kit";
 import prisma from "$lib/server/prisma";
-import slugify from "slugify";
+import { generateProductSearchText, generateSlug } from "$lib/helpers/strings";
 export const load: PageServerLoad = async () => {
-	console.log("LOAD");
-
 	return {
 		form: await superValidate(zod(AddProductSchema)),
 	};
@@ -15,23 +13,26 @@ export const load: PageServerLoad = async () => {
 
 export const actions = {
 	default: async (event) => {
-		console.log("ACTION");
-
 		if (!event.locals.user || !event.locals.user.id) {
 			return redirect(300, "/auth/login");
 		}
 		const form = await superValidate(event, zod(AddProductSchema));
-
 		if (!form.valid) {
-			console.log({ errors: form.errors });
 			return setMessage(form, "Bad Inputs", { status: 400 });
 		}
 		const { name, description, price, quantity, images } = form.data;
 		const userId = event.locals.user.id;
+		const category = await prisma.category.findUnique({
+			where: { slug: generateSlug(form.data.category) },
+		});
+		if (!category || !category.name)
+			return fail(400, { message: "Category not found" });
 		const product = await prisma.product.create({
 			data: {
+				categoryId: category.id,
 				name,
-				slug: slugify(name, { lower: true }),
+				slug: generateSlug(name),
+				searchText: generateProductSearchText(name, description || ""),
 				description,
 				price,
 				quantity,
@@ -43,7 +44,7 @@ export const actions = {
 			productId: product.id,
 		}));
 
-		const productImages = await prisma.productImage.createMany({
+		await prisma.productImage.createMany({
 			data: savedImages,
 		});
 

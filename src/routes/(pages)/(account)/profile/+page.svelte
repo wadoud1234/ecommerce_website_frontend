@@ -1,18 +1,14 @@
 <script lang="ts">
 	import { z } from 'zod';
 	import { page } from '$app/stores';
-	import { goto } from '$app/navigation';
+	import {  invalidateAll, replaceState } from '$app/navigation';
 	import ProfilePage from '$lib/components/new/ProfilePage.svelte';
 	import type { User } from 'lucia';
-	import type { ProductsDataType } from '$lib/data';
 	import type { LinkProviders, Product, onUploadImageResponse } from '$lib/types';
-	let doRefresh:boolean;
 	import toast from "svelte-french-toast"
-
 	export let data:any;
-	$:console.log({profileProducts:data?.products});
 	
-	
+	const url = $page.url
 	let onUpload = async (res:onUploadImageResponse)=>{
 		const publicId = res.info.thumbnail_url;
 		const parseResult = z.string().safeParse(publicId)
@@ -25,12 +21,16 @@
 				},
 				method:"POST",
 				body:JSON.stringify({avatar_url:avatar})
-			})			
+			})	
+					
+			await invalidateAll() 
+			replaceState(url,{refresh:true})
 			toast.success("Avatar updated")
-			goto("/profile",{invalidateAll:true,replaceState:true})
+		}else{
+			toast.error("Something went wrong")
 		}
-		
 	}
+	
 	let user: User;
 	let products: Product[];
 	let links:{
@@ -44,11 +44,7 @@
 		products = data.products
 		links=data.links
 	}
-	
-	
-	$:{
-		doRefresh = $page.url.searchParams.get('refresh')=="true";
-	}
+
 	</script>
 
-<ProfilePage {user} {onUpload} {products} {links} />
+<ProfilePage actualUser={user} visitedUser={user} {onUpload} {products} {links} isAdmin />

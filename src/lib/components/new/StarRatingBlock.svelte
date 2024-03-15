@@ -28,4 +28,4 @@
 	};
 </script>
 
-<StarRating {config} />
+<StarRating {config} class="w-full"/>

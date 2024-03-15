@@ -1,54 +1,65 @@
 <script lang="ts">
-
 	import { CldImage, CldUploadButton, CldUploadWidget } from "svelte-cloudinary";
 	import ProductCarousel from "./ProductCarousel.svelte";
     import type { User } from "lucia"
 	import { BadgePlus, ImageUp, Link, XCircle } from "lucide-svelte";
 	import ProfileLink from "./ProfileLink.svelte";
 	import Button from "../ui/button/button.svelte";
-	import type { LinkProviders, Product } from "$lib/types";
+	import type { Product, UserLink, onUploadImageResponse } from "$lib/types";
 	import DescriptionForm from "./DescriptionForm.svelte";
+	import { page } from "$app/stores";
+	import { openImageModal } from "$lib/stores/ImageModalStore";
 
-    export let user:User
+    export let actualUser:User | null
+	export let visitedUser:User
     export let products: Product[]
-	export let onUpload:Function
-    export let links:{id:string,link:string;provider:LinkProviders}[]|null
+	export let onUpload:(results:onUploadImageResponse)=>void
+    export let links:UserLink[]|null
+	export let isAdmin:boolean=false
+	
+	let pathname:string;
+	$:pathname=$page.url.pathname
 </script>
 
-<div class="ProfilePage w-full flex flex-col items-start justify-start gap-10 ">
+<div class="ProfilePage w-full flex flex-col items-center justify-center md:items-start md:justify-start gap-10 ">
 	<!-- USER DETAILS SECTION -->
-	<section class="h-full w-full flex flex-col md:flex-row items-center justify-center md:items-start md:justify-start gap-5 md:gap-20 ">
+	<section class="h-full w-full flex flex-col md:flex-row items-center justify-center md:items-start md:justify-start gap-10 md:gap-20 ">
 		<div class="profilePicture max-w-48  min-w-48 flex flex-col gap-2">
-			{#if user?.avatar}
-			<div class="flex w-48 max-w-48 h-48 max-h-48 flex-col justify-center items-center min-w-full min-h-full">
-				<CldImage backgroundRemoval  width={192} length={192} src={user?.avatar} class="min-w-full min-h-full relative object-fill rounded-xl"  />
-				
+			{#if visitedUser?.avatar}
+			<div class="flex w-48 max-w-48 h-48 max-h-48 flex-col justify-center items-center min-w-full min-h-full rounded-xl">
+				<CldImage
+					backgroundRemoval  
+					width={192} 
+					length={192} 
+					src={visitedUser?.avatar} 
+					class="min-w-full min-h-full relative object-fill rounded-xl cursor-pointer" 
+					on:click={openImageModal(visitedUser?.avatar,visitedUser.name)}
+				/>
 			</div>
 			{:else}
 				<div
 					class=" flex flex-col items-center justify-center min-w-48 max-w-48 max-h-48 min-h-48 dark:bg-zinc-800 bg-zinc-200 rounded-full"
 				>
 					<!-- TODO -->
-					<span class="text-2xl">{user?.name?.slice(0, 2).toUpperCase()}</span>
-					
+					<span class="text-2xl">{visitedUser?.name?.slice(0, 2).toUpperCase()}</span>
 				</div>
 			{/if}
-            <!-- onSuccess={()=>{goto('/profile',{invalidateAll:true}) }}-->
-			<CldUploadButton
-					uploadPreset={'user_avatars'}
-					class="flex items-center justify-center py-2 px-2 gap-2 border border-zinc-400 rounded-md min-w-full dark:hover:bg-zinc-800 bg-zinc-200 dark:bg-inherit hover:bg-zinc-300"
-					{onUpload}
-				>
-					<ImageUp /> Change 
-				</CldUploadButton>
-			<CldUploadWidget uploadPreset="user_avatars" />
-
+			{#if isAdmin}
+				<CldUploadButton
+						uploadPreset={'user_avatars'}
+						class="flex items-center justify-center py-2 px-2 gap-2 border border-zinc-400 rounded-md min-w-full dark:hover:bg-zinc-800 bg-zinc-200 dark:bg-inherit hover:bg-zinc-300"
+						onUpload={onUpload}
+					>
+						<ImageUp /> {visitedUser?.avatar ? 'Change' : 'Upload'} 
+					</CldUploadButton>
+				<CldUploadWidget uploadPreset="user_avatars" />
+			{/if}
 		</div>
-		<div class="USER_INFO flex flex-col items-start justify-center h-full w-full py-2 gap-4">
-			<div class="flex flex-col items-center justify-center md:items-start md:justify-center h-full w-full">
-				<h3 class="font-medium text-2xl mb-1">{user?.name ?? ''}</h3>
-				<p class="text-base mb-2">{user?.email ?? ''}</p>
-				<DescriptionForm description={user.description ?? ""}/>
+		<div class="USER_INFO flex flex-col items-center justify-center md:items-start md:justify-start h-full w-full py-2 gap-4">
+			<div class="flex flex-col items-center justify-center md:items-start md:justify-start h-full w-full">
+				<h3 class="font-medium text-2xl mb-1">{visitedUser?.name ?? ''}</h3>
+				<p class="text-base mb-2">{visitedUser?.email ?? ''}</p>
+				<DescriptionForm description={visitedUser?.description ?? ""} {isAdmin}/>
 			</div>
             {#if links && links?.length >0}
 			<div class="flex flex-col md:flex-row w-full flex-wrap gap-2 md:gap-5 items-center">
@@ -70,8 +81,7 @@
 	</section>
 	<!-- MY PRODUCTS SECTION -->
 	<section class="flex flex-col w-full items-center justify-center md:justify-start md:items-start">
-		<h3
-			class="flex flex-row gap-2 text-sm items-center justify-start text-red-600 dark:text-red-500 font-semibold h-8 mb-4"
+		<h3 class="flex flex-row gap-2 text-sm items-center justify-start text-red-600 dark:text-red-500 font-semibold h-8 mb-4"
 		>
 	        <span class="min-w-4 h-full bg-red-600 dark:bg-red-500 rounded-md text-transparent">
 		        {'.'}
@@ -86,7 +96,7 @@
                     <XCircle/>Oops !
                 </p>
                 <p class="text-center ">No Products Found</p>
-                {#if user}
+                {#if visitedUser.id===actualUser?.id && pathname ==='/profile'}
                 <Button size="lg" href="/profile/add-product" class="w-fit gap-2">
                     <BadgePlus/> Add Product 
                 </Button>

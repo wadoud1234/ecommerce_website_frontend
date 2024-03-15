@@ -1,3 +1,5 @@
+import { generateSlug } from "./helpers/strings";
+
 export enum Provider {
 	GITHUB = "GITHUB",
 	EMAIL = "EMAIL",
@@ -82,3 +84,58 @@ export type onUploadImageResponse = {
 		width: number;
 	};
 };
+export type UserLink = {
+	id: string;
+	link: string;
+	provider: LinkProviders;
+};
+
+export enum Categories {
+	Electronics = "Electronics",
+	Computers = "Computers",
+	Phones = "Phones",
+	Tablets = "Tablets",
+	Headphones = "Headphones",
+	Camera = "Camera",
+	Gaming = "Gaming",
+}
+export const listOfCategories = [
+	"electronics",
+	"computers",
+	"phones",
+	"tablets",
+	"headphones",
+	"camera",
+	"gaming",
+	"test",
+];
+export const CategoriesData = [
+	{
+		name: Categories.Electronics,
+		slug: generateSlug(Categories.Electronics),
+	},
+	{
+		name: Categories.Computers,
+		slug: generateSlug(Categories.Computers),
+	},
+	{
+		name: Categories.Phones,
+		slug: generateSlug(Categories.Phones),
+	},
+	{
+		name: Categories.Tablets,
+		slug: generateSlug(Categories.Tablets),
+	},
+	{
+		name: Categories.Headphones,
+		slug: generateSlug(Categories.Headphones),
+	},
+	{
+		name: Categories.Camera,
+		slug: generateSlug(Categories.Camera),
+	},
+	{
+		name: Categories.Gaming,
+		slug: generateSlug(Categories.Gaming),
+	},
+];

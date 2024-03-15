@@ -1,3 +1,4 @@
+import { Categories, CategoriesData, listOfCategories } from "$lib/types";
 import { z } from "zod";
 
 const AddProductSchema = z.object({
@@ -32,6 +33,9 @@ const AddProductSchema = z.object({
 			message: "Product quantity must be a positive number",
 		}),
 	images: z.array(z.string().startsWith("ecommerce_products")),
+	category: z.nativeEnum(Categories, {
+		invalid_type_error: "Invalid category",
+	}),
 });
 
 export default AddProductSchema;

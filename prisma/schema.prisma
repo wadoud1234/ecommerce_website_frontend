@@ -43,6 +43,7 @@ model Product {
   name        String         @unique @db.VarChar(255)
   slug        String         @unique @db.VarChar(255)
   price       Float          @db.Real
+  searchText  String
   description String         @default("") @db.Text
   likes       Int            @default(0)
   rating      Float          @default(0) @db.Real
@@ -51,8 +52,12 @@ model Product {
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
   images      ProductImage[]
-  User        User           @relation(fields: [userId], references: [id])
-  userId      String
+
+  User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  Category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId String
 }
 
 enum Provider {
@@ -70,10 +75,18 @@ model UserLinks {
 }
 
 model ProductImage {
-  id        String  @id @unique @default(uuid())
-  link      String  @db.Text
+  id   String @id @unique @default(uuid())
+  link String @db.Text
+
   productId String
-  Product   Product @relation(fields: [productId], references: [id])
+  Product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model Category {
+  id       String    @id @unique @default(uuid())
+  name     String    @unique
+  slug     String    @unique
+  products Product[]
 }
 
 enum LinkProviders {

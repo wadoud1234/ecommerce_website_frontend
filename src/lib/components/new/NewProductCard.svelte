@@ -20,30 +20,32 @@
 		const value = name.slice(0, 20);
 		return name.length > 20 ? value + '..' : value;
 	};
-	console.log({details});
 	
 </script>
 
-<div class="flex flex-col gap-1 lg:max-w-56 overflow-x-hidden">
-	<div class="relative h-56 bg-gray-200 dark:bg-zinc-900 flex items-center justify-center">
+<div class="flex flex-col gap-1 h-fit lg:max-w-56 overflow-x-hidden border border-zinc-400 rounded-xl">
+	<div class="relative h-56 bg-gray-200 dark:bg-zinc-900 flex items-center justify-center rounded-t-xl">
 		<!-- <enhanced:img src="./path/to/your/image.jpg" alt="An alt text" /> -->
-		<Button on:click={() => openImageModal(details.picture,details.name)} class="w-fit h-fit bg-inherit hover:bg-inherit">
+		<Button 
+			on:click={() => openImageModal(details.picture,details.name)} 
+			class="w-fit h-fit bg-inherit hover:bg-inherit rounded-t-xl"
+		>
 			<CldImage
 			src={details.picture}
 			alt="product"
-			class="w-[80%] h-[80%] p-4 hover:scale-110 transition-all duration-200 object-contain object-center rounded-md"
+			class="w-[80%] h-44 sm:p-4 hover:scale-110 transition-all duration-200 object-contain object-center rounded-md"
 			loading="lazy"
 			/>
 		</Button>
 		<button
 			type="button"
-			class="absolute top-3 right-3 rounded-full bg-white dark:bg-zinc-400 p-1.5 w-9 h-9 hover:scale-110 transition-all duration-200"
+			class="absolute top-3 right-3 rounded-full bg-white dark:bg-zinc-600 p-1.5 w-9 h-9 hover:scale-110 transition-all duration-200"
 		>
 			<Heart class="hover:scale-110" />
 		</button>
 	</div>
 
-	<div class="flex flex-col gap-1.5 p-2 overflow-x-hidden w-full">
+	<div class="flex flex-col gap-1.5 p-2 overflow-x-hidden w-full rounded-b-xl">
 		<a
 			href={`/products/${details.slug}`}
 			data-sveltekit-preload-data="hover"

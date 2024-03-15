@@ -7,23 +7,18 @@
 	import CategoryCarousel from '$lib/components/new/CategoryCarousel.svelte';
 	import ProductCarousel from '$lib/components/new/ProductCarousel.svelte';
 	import { ChevronRight } from 'lucide-svelte';
-	import { page } from '$app/stores';
-	import { onMount } from 'svelte';
-	import { goto } from '$app/navigation';
 	import type { PageData } from './$types';
 	import type { Product } from '$lib/types';
+	import { page } from '$app/stores';
 	export let data:PageData
-	let doRefresh:boolean;
-	$:{
-		doRefresh = $page.url.searchParams.get('refresh')=="true";
-	}
-	onMount(()=>{
-		if(doRefresh){
-			goto("/");
-		}
-	})
 	let products:Product[]
-	$:products = data.products
+	let categoryProducts:Product[]|null
+	let categoryName:string
+	$:{
+		products = data.products
+		categoryProducts = data.categoryProducts
+		categoryName=$page.url.searchParams?.get?.("category")||""
+	}
 </script>
 
 <svelte:head>
@@ -71,10 +66,17 @@
 				</h3>
 				<div class="flex flex-col gap-6">
 					<p class="text-2xl poppins-medium">Browse By Categories</p>
-					<CategoryCarousel {categories} />
+					<CategoryCarousel {categories}/>
+					{#if data.categoryProducts && data.categoryProducts.length>0}
+						<ProductCarousel products={data.categoryProducts} classNames="my-4"/>
+					{:else if categoryName && categoryName.length>0}
+						<p class="text-xl poppins-medium h-[330px] w-full flex flex-col items-center justify-center">No Products Found For Selected Category</p>
+					{/if}
 				</div>
 			</div>
+			
 			<Separator />
+
 			<!-- Best Selling Products -->
 			<div>
 				<h3

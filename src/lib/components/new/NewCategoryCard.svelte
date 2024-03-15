@@ -2,33 +2,30 @@
 	import type { ComponentType } from 'svelte';
 	import type { Icon as IconType } from 'lucide-svelte';
 	import { page } from '$app/stores';
+	import { generateSlug } from '$lib/helpers/strings';
+	import Button from '../ui/button/button.svelte';
+	import { twMerge } from 'tailwind-merge';
 	export let name: string;
 	export let Icon: ComponentType<IconType>;
 	let pathname: string;
 	let queries: URLSearchParams;
+	
+	let link: string;
+	export let active: boolean;
+	export let onClick : ()=>void
 	$: {
 		pathname = $page.url.pathname;
 		queries = $page.url.searchParams;
-	}
-	let link: string;
-	let active: boolean;
-
-	$: {
-		link = pathname + `?category=${name.toLowerCase()}`;
-		active = queries?.get('category') === name.toLowerCase();
+		link = pathname + `?category=${generateSlug(name)}`;
 	}
 </script>
 
-<a
+<Button
 	href={link}
+	on:click={onClick}
 	data-sveltekit-noscroll
-	class={`CategoryCard w-40 h-36 rounded-sm border border-zinc-400 dark:border-zinc-600 flex-1 flex flex-col gap-4 items-center justify-center ${active ? 'bg-red-600 bg-opacity-80 text-white' : ''}`}
+	class={twMerge('bg-inherit hover:bg-inherit text-inherit CategoryCard w-40 h-36 rounded-sm border border-zinc-400 dark:border-zinc-600 flex-1 flex flex-col gap-4 items-center justify-center',active && 'bg-red-600 bg-opacity-80 text-white')}
 >
-	<!-- <img
-		src={active ? details.picture[0] : details.picture[1]}
-		alt="category"
-		class={`w-12 h-12 object-cover ${active ? 'fill-white text-white stroke-white' : ' fill-black stroke-black text-black'}`}
-	/> -->
 	<svelte:component this={Icon} size={36} />
 	<p class="poppins-medium">{name}</p>
-</a>
+</Button>

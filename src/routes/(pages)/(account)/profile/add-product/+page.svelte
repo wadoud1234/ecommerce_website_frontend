@@ -6,6 +6,11 @@
 	import { zodClient } from "sveltekit-superforms/adapters";
 	import AddProductSchema from "./AddProductSchema";
 	import Textarea from "$lib/components/ui/textarea/textarea.svelte";
+    import {CldUploadButton , CldUploadWidget , CldImage} from "svelte-cloudinary"
+	import { CategoriesData, type onUploadImageResponse } from "$lib/types";
+	import { ImageUp } from "lucide-svelte";
+    import * as Select from "$lib/components/ui/select";
+
     export let data: SuperValidated<Infer<typeof AddProductSchema>>;
 
     const form = superForm(data, {
@@ -30,14 +35,18 @@
             $formData.quantity = +target.value 
         }
     }
-    import {CldUploadButton , CldUploadWidget , CldImage} from "svelte-cloudinary"
-	import type { onUploadImageResponse } from "$lib/types";
-	import { ImageUp } from "lucide-svelte";
+    
     const errorClasses = 'dark:text-red-500';
 	const labelClasses = 'dark:data-[fs-error]:text-red-500';
-    const onUpload = (e:onUploadImageResponse)=>{
-        productImages[productImages.length<0?0:productImages.length] = e.info.public_id 
+    const onUpload = (results:onUploadImageResponse)=>{
+        productImages[productImages.length<0?0:productImages.length] = results.info.public_id 
     }
+    $: selectedCategory = $formData.category
+    ? {
+        label: $formData.category,
+        value: $formData.category
+      }
+    : undefined;
 </script>
 <div class="h-full min-h-full max-h-full min-w-full max-w-full w-full flex flex-col items-start justify-start gap-4">
     <h1 class="text-3xl font-medium ">Add Product</h1>
@@ -110,6 +119,28 @@
                     <!-- <Form.Description>This is your public display name.</Form.Description> -->
                     <Form.FieldErrors class={errorClasses}/>
                 </Form.Field>
+                <Form.Field {form} name="category" class="w-full">
+                    <Form.Control let:attrs>
+                        <Form.Label class={labelClasses}>Category</Form.Label>
+                        <Select.Root
+                            selected={selectedCategory}
+                            onSelectedChange={(v) => {
+                              v && ($formData.category = v.value);
+                            }}
+                            >
+                            <Select.Trigger {...attrs} class="bg-inherit hover:bg-zinc-800 border-zinc-800">
+                              <Select.Value placeholder="Select a verified email to display" />
+                            </Select.Trigger>
+                            <Select.Content class="bg-inherit border-zinc-800 peer-hover:bg-zinc-800">
+                                {#each CategoriesData as {name}}
+                                  <Select.Item value={name} label={name} class="group-hover:bg-zinc-900 bg-inherit"/>
+                                {/each}
+                            </Select.Content>
+                          </Select.Root>
+                          <input hidden bind:value={$formData.category} name={attrs.name} />
+                    </Form.Control>
+                    <Form.FieldErrors class={errorClasses}/>
+                </Form.Field>            
             </div>
             
             <label for="images" hidden>Images</label>
@@ -162,7 +193,8 @@
     .imageContainer{
         @apply w-[150px] rounded-lg h-[150px] max-w-[150px] max-h-[150px] min-w-[150px] min-h-[150px];
     }
-    .imageDisplay{
+    
+    /*.imageDisplay{
         @apply rounded-lg w-[150px] h-[150px] max-w-[150px] max-h-[150px] min-w-[150px] min-h-[150px] object-center object-cover;
-    }
+    }*/
 </style>

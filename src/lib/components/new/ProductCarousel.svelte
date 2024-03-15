@@ -3,12 +3,12 @@
 	import type { Product } from '$lib/types';
 	import NewProductCard from './NewProductCard.svelte';
 	export let products: Product[];
-
+	export let classNames:string=""
 	export let itemsClassName =
-		'w-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 2xl:basis-1/6';
+		'basis-[1] sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 2xl:basis-1/6';
 </script>
 
-<Carousel.Root id="carousel" class="w-full" opts={{ align: 'start' }} orientation="horizontal">
+<Carousel.Root id="carousel" class="w-full h-fit {classNames}" opts={{ align: 'start' }} orientation="horizontal">
 	<Carousel.Content class="transition-none duration-0 w-full">
 		{#each [...products.slice(0, 12)] as { name, price, picture, discount, rating,slug, sold }}
 			<Carousel.Item class={itemsClassName}>
