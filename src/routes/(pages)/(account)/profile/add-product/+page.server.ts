@@ -17,16 +17,28 @@ export const actions = {
 			return redirect(300, "/auth/login");
 		}
 		const form = await superValidate(event, zod(AddProductSchema));
+		console.log({ form });
+
 		if (!form.valid) {
 			return setMessage(form, "Bad Inputs", { status: 400 });
 		}
 		const { name, description, price, quantity, images } = form.data;
+		console.log({ formData: form.data });
+
 		const userId = event.locals.user.id;
-		const category = await prisma.category.findUnique({
+		let category = await prisma.category.findUnique({
 			where: { slug: generateSlug(form.data.category) },
 		});
-		if (!category || !category.name)
-			return fail(400, { message: "Category not found" });
+		console.log({ category });
+
+		if (!category || !category.name) {
+			category = await prisma.category.create({
+				data: {
+					name: form.data.category,
+					slug: generateSlug(form.data.category),
+				},
+			});
+		}
 		const product = await prisma.product.create({
 			data: {
 				categoryId: category.id,
@@ -39,14 +51,18 @@ export const actions = {
 				userId,
 			},
 		});
+		console.log({ product });
+
 		const savedImages = images[0].split(",").map((image) => ({
 			link: image,
 			productId: product.id,
 		}));
+		console.log({ savedImages });
 
-		await prisma.productImage.createMany({
+		const something = await prisma.productImage.createMany({
 			data: savedImages,
 		});
+		console.log({ something });
 
 		return redirect(302, `/products/${product.slug}`);
 	},

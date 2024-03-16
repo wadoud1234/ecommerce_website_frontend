@@ -17,7 +17,7 @@ export async function POST({ request, locals }) {
 	}
 	const updatedUser = await prisma.user.update({
 		where: { id: parsingResult.userId },
-		data: { avatar: parsingResult.avatar_url, avatarChangedAt: new Date() },
+		data: { avatar: parsingResult.avatar_url },
 	});
 
 	return new Response(JSON.stringify({ refresh: true }), {

@@ -10,6 +10,10 @@
 	import { CategoriesData, type onUploadImageResponse } from "$lib/types";
 	import { ImageUp } from "lucide-svelte";
     import * as Select from "$lib/components/ui/select";
+	import AddProductImage from "$lib/components/new/Product/AddProductImage.svelte";
+	import toast from "svelte-french-toast";
+	import { invalidateAll, replaceState } from "$app/navigation";
+	import { page } from "$app/stores";
 
     export let data: SuperValidated<Infer<typeof AddProductSchema>>;
 
@@ -41,13 +45,15 @@
     const onUpload = (results:onUploadImageResponse)=>{
         productImages[productImages.length<0?0:productImages.length] = results.info.public_id 
     }
-    $: selectedCategory = $formData.category
-    ? {
+    $: selectedCategory = $formData.category ? {
         label: $formData.category,
         value: $formData.category
-      }
-    : undefined;
+    }: undefined;
 </script>
+
+<svelte:head>
+    <title>Add Product</title>
+</svelte:head>
 <div class="h-full min-h-full max-h-full min-w-full max-w-full w-full flex flex-col items-start justify-start gap-4">
     <h1 class="text-3xl font-medium ">Add Product</h1>
 
@@ -148,8 +154,8 @@
             <Button type="submit">Add</Button>
         </div>
         <!-- RIGHT -->
-        <div class="mt-4 md:max-w-[50%] w-fit" >
-            {#if productImages && productImages.length===4}
+        <div class="mt-4 md:m-0 md:max-w-[50%] w-full flex items-start justify-center" >
+            <!-- {#if productImages && productImages.length===4}
                 <div class="flex w-full min-w-full flex-wrap gap-4 max-w-full items-center justify-center">
                     <div class="imageContainer">
                         <CldImage class="imageDisplay" src={productImages[0]}/>
@@ -184,17 +190,41 @@
                     </Button>
                     <CldUploadWidget uploadPreset='ecommerce_products' />
                 </div>
-            {/if}
+            {/if} -->
+            <div class="grid grid-cols-2 gap-y-4 gap-x-10 w-fit">
+                <AddProductImage 
+                uploadPreset="ecommerce_products" 
+                header="Picture 1" 
+                bind:value={productImages[0]}
+            />
+            <AddProductImage 
+                uploadPreset="ecommerce_products" 
+                header="Picture 2" 
+                bind:value={productImages[1]}
+            />
+            <AddProductImage 
+                uploadPreset="ecommerce_products" 
+                header="Picture 3" 
+                bind:value={productImages[2]}
+            />
+            <AddProductImage 
+                uploadPreset="ecommerce_products" 
+                header="Picture 4" 
+                bind:value={productImages[3]}
+            />
+            </div>
+            
         </div>
     </form>
+    <!-- <AddProductImage uploadPreset="ecommerce_products" header="Picture 1"/> -->
 </div>
 
 <style>
-    .imageContainer{
+    /* .imageContainer{
         @apply w-[150px] rounded-lg h-[150px] max-w-[150px] max-h-[150px] min-w-[150px] min-h-[150px];
-    }
+    } */
     
-    /*.imageDisplay{
+    /* .imageDisplay{
         @apply rounded-lg w-[150px] h-[150px] max-w-[150px] max-h-[150px] min-w-[150px] min-h-[150px] object-center object-cover;
-    }*/
+    } */
 </style>

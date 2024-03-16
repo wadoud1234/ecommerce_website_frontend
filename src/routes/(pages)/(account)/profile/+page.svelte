@@ -46,5 +46,5 @@
 	}
 
 	</script>
-
+<svelte:head><title>Profile</title></svelte:head>
 <ProfilePage actualUser={user} visitedUser={user} {onUpload} {products} {links} isAdmin />

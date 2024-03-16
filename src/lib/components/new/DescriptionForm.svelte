@@ -8,7 +8,7 @@
     export let isAdmin:boolean=false
     export let description:string
     let editedData = description
-
+    export let userName:string
     let status:"EDIT"|"READ"="READ"
     const toggle=()=>{
         editedData=description
@@ -24,7 +24,7 @@
                 "Content-Type":"application/json"
             },
             method:"POST",
-            body:JSON.stringify({description:editedData})            
+            body:JSON.stringify({description:editedData,userName})            
         })
         loading=false
         toast.success("Description updated")

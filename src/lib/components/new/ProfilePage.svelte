@@ -38,7 +38,7 @@
 			</div>
 			{:else}
 				<div
-					class=" flex flex-col items-center justify-center min-w-48 max-w-48 max-h-48 min-h-48 dark:bg-zinc-800 bg-zinc-200 rounded-full"
+					class=" flex flex-col items-center justify-center min-w-48 max-w-48 max-h-48 min-h-48 dark:bg-zinc-800 bg-zinc-200 rounded-full mb-2"
 				>
 					<!-- TODO -->
 					<span class="text-2xl">{visitedUser?.name?.slice(0, 2).toUpperCase()}</span>
@@ -48,7 +48,7 @@
 				<CldUploadButton
 						uploadPreset={'user_avatars'}
 						class="flex items-center justify-center py-2 px-2 gap-2 border border-zinc-400 rounded-md min-w-full dark:hover:bg-zinc-800 bg-zinc-200 dark:bg-inherit hover:bg-zinc-300"
-						onUpload={onUpload}
+						{onUpload}
 					>
 						<ImageUp /> {visitedUser?.avatar ? 'Change' : 'Upload'} 
 					</CldUploadButton>
@@ -59,7 +59,7 @@
 			<div class="flex flex-col items-center justify-center md:items-start md:justify-start h-full w-full">
 				<h3 class="font-medium text-2xl mb-1">{visitedUser?.name ?? ''}</h3>
 				<p class="text-base mb-2">{visitedUser?.email ?? ''}</p>
-				<DescriptionForm description={visitedUser?.description ?? ""} {isAdmin}/>
+				<DescriptionForm description={visitedUser?.description ?? ""} userName={visitedUser.name} {isAdmin}/>
 			</div>
             {#if links && links?.length >0}
 			<div class="flex flex-col md:flex-row w-full flex-wrap gap-2 md:gap-5 items-center">
@@ -81,25 +81,38 @@
 	</section>
 	<!-- MY PRODUCTS SECTION -->
 	<section class="flex flex-col w-full items-center justify-center md:justify-start md:items-start">
-		<h3 class="flex flex-row gap-2 text-sm items-center justify-start text-red-600 dark:text-red-500 font-semibold h-8 mb-4"
-		>
-	        <span class="min-w-4 h-full bg-red-600 dark:bg-red-500 rounded-md text-transparent">
-		        {'.'}
-            </span>
-			My Products
-		</h3>
+		<div class="w-full flex flex-row items-center justify-between">
+			<h3 class="flex flex-row gap-2 text-sm items-center justify-start text-red-600 dark:text-red-500 font-semibold h-8 mb-4"
+			>
+	        	<span class="min-w-4 h-full bg-red-600 dark:bg-red-500 rounded-md text-transparent">
+		        	{'.'}
+            	</span>
+				My Products
+			</h3>
+			<Button 
+				size="default" 
+				href="/profile/add-product" 
+				class="flex items-center justify-center py-2 px-2 border border-zinc-400 rounded-md min-w-fit dark:hover:bg-zinc-800 bg-zinc-200 dark:bg-inherit text-inherit hover:bg-zinc-300 w-fit gap-2"
+			>
+				<BadgePlus/> Add Product 
+			</Button>
+		</div>
     	{#if products && products?.length>0}
 		    <ProductCarousel {products} />
     	{:else}
             <div class="w-full text-center py-4 flex flex-col gap-2 items-center">
-                <p class="text-red-700 flex items-center justify-center w-full gap-2 text-lg">
+                <p class="text-red-700 dark:text-red-500 flex items-center justify-center w-full gap-2 text-lg">
                     <XCircle/>Oops !
                 </p>
                 <p class="text-center ">No Products Found</p>
                 {#if visitedUser.id===actualUser?.id && pathname ==='/profile'}
-                <Button size="lg" href="/profile/add-product" class="w-fit gap-2">
-                    <BadgePlus/> Add Product 
-                </Button>
+                <Button 
+					size="default" 
+					href="/profile/add-product" 
+					class="flex items-center justify-center py-2 px-2 border border-zinc-400 rounded-md min-w-fit dark:hover:bg-zinc-800 bg-zinc-200 dark:bg-inherit text-inherit hover:bg-zinc-300 w-fit gap-2"
+				>
+					<BadgePlus/> Add Product 
+				</Button>
                 {/if}
             </div>
     	{/if}

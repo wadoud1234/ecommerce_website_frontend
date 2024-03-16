@@ -23,7 +23,7 @@
 	<NewContainer>
 		<div class="flex flex-row items-center justify-between w-full pb-2.5 pt-5 gap-4 h-full">
 			<NewLogo />
-			<LinksList {user} />
+			<LinksList  />
 			<div class="flex md:hidden">
 				<NewSearchBar/>
 			</div>

@@ -10,6 +10,10 @@ import {
 	PrismaClientKnownRequestError,
 	PrismaClientUnknownRequestError,
 } from "@prisma/client/runtime/library";
+import {
+	generateProductSearchText,
+	generateSlug,
+} from "$lib/helpers/strings.js";
 
 export const load = async ({ locals }) => {
 	if (locals.user) {
@@ -51,10 +55,13 @@ export const actions = {
 			data: {
 				name,
 				email,
+				emailVerified: false,
+				slug: generateSlug(name),
+				searchText: generateProductSearchText(name, ""),
 				password: hashedPassword,
-				avatarChangedAt: new Date(),
 			},
 		});
+		console.log(newUser);
 
 		return redirect(301, "/auth/login");
 	},

@@ -8,7 +8,7 @@ export const load: PageServerLoad = async ({ parent }) => {
 	if (!user) {
 		throw redirect(302, "/auth/login");
 	}
-	const userLinks = await prisma.userLinks.findMany({
+	const userLinks = await prisma.userLink.findMany({
 		where: {
 			userId: user.id,
 		},

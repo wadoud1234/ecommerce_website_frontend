@@ -10,6 +10,9 @@
 	$:{({user} = data)}
 </script>
 
+<svelte:head>
+	<title>Products</title>
+</svelte:head>
 <div class=" min-w-screen min-h-full h-full flex flex-col items-start justify-start py-12">
 	<NewContainer>
 		<slot/>

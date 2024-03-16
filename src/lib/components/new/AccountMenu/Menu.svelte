@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { User } from 'lucia';
 	import Item from './Item.svelte';
-	import { BadgePlus, History, Settings, ShoppingCart, UserRound } from 'lucide-svelte';
+	import { BadgePlus, History, LogIn, Settings, ShoppingCart, UserRound } from 'lucide-svelte';
 	import LogoutForm from '../LogoutForm.svelte';
 	import * as Avatar from '$lib/components/ui/avatar';
 	import { CldImage } from 'svelte-cloudinary';
@@ -29,12 +29,15 @@
 			</button>
 		{/if}
 	{:else}
-		<a href="/auth/login"> <UserRound size="22" /> </a>
+		<button on:click={()=>toggle()}>
+			<UserRound size="22" />
+		</button>
 	{/if}
-	{#if user && user.name}
-		<div
-			class={`text-inherit AccountMenu rounded-lg w-fit border-black/40 border-[0.5px] bg-white dark:bg-zinc-900 z-50 shadow-black/10 dark:shadow-white/10 shadow-md absolute top-[64px] -right-2 ${showMenu ? 'flex flex-col' : 'hidden'}`}
-		>
+	
+	<div
+		class={`text-inherit AccountMenu rounded-lg w-fit border-black/40 border-[0.5px] bg-white dark:bg-zinc-900 z-50 shadow-black/10 dark:shadow-white/10 shadow-md absolute top-[64px] -right-2 ${showMenu ? 'flex flex-col' : 'hidden'}`}
+	>
+		{#if user && user.name}
 			<h3 class="py-2 pl-4 underline-offset-4 underline text-lg font-medium">
 				{user.name.split(' ')[0]}
 			</h3>
@@ -76,6 +79,24 @@
 				formClasses="dark:hover:bg-white/5 hover:bg-black/5"
 				buttonClasses="flex flex-row gap-4 pl-4 text-lg poppins-medium pr-20 py-2 border-b-md"
 			/>
-		</div>
-	{/if}
+		{:else}
+			<h3 class="py-2 pl-4 underline-offset-4 underline text-lg font-medium">
+					No Account
+			</h3>
+			<Item 
+				link="/auth/login" 
+				title="Login" 
+				Icon={LogIn} 
+				size={22} 
+				onClick={toggle}
+			/>
+			<Item 
+				link="/auth/register" 
+				title="Register" 
+				size={22} 
+				Icon={BadgePlus}  
+				onClick={toggle}
+			/>
+		{/if}
+	</div>
 </div>

@@ -13,7 +13,7 @@
 		<div class="h-full w-full flex flex-col justify-start items-start gap-10 dark:bg-inherit">
 			<div class="w-full flex flex-row justify-between items-center">
 				<LinkAddress productName={null}/>
-				<p class="text-sm">
+				<p class="text-sm w-fit flex flex-row items-center justify-end gap-1">
 					Welcome! <span class="text-red-600 dark:text-red-500 poppins-regular font-medium">{user.name}</span>
 				</p>
 			</div>

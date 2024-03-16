@@ -9,6 +9,7 @@
 	import Label from "../ui/label/label.svelte";
 	import Input from "../ui/input/input.svelte";
 	import type { User } from "lucia";
+	import { generateSlug } from "$lib/helpers/strings";
 
     export let productImages:string[]
     let cursor:number=0
@@ -73,15 +74,25 @@
             <p class="text-xl ">{'$'+product?.price}</p>
             <p class="my-2 text-sm w-full max-w-full">{product?.description}</p>
             <Separator classNames="w-full" padding="py-2 lg:py-3"/>
-            <div class="w-full flex flex-row items-center justify-between">
-                <a href={`/users/${seller.name}`}>
-                    {seller?.name}
-                </a>
-                <p>{productCategory}</p>
+            <div class="w-full flex flex-col items-start justify-start gap-0">
+                <Button 
+                    href={`/users/${seller.name}`} 
+                    class="bg-inherit hover:bg-inherit text-inherit p-0 gap-2 h-fit"
+                >
+                    <span class="text-base font-medium">Seller :</span>{seller?.name}
+                </Button>
+                <Button 
+                    href={`/products?category=${generateSlug(productCategory)}`} 
+                    class="bg-inherit hover:bg-inherit text-inherit p-0 gap-2 h-fit mb-1"
+                >
+                    <span class="text-base font-medium">Category :</span>{productCategory}
+                </Button>
             </div>
-            <h2 class="font-medium text-sm -mb-2">Quantity
+            <h2 class="font-medium text-base -mb-2">Quantity
                 {#if product?.quantity>0}
-                <span class="text-zinc-600  dark:text-zinc-500 poppins-medium">({product?.quantity} left)</span>
+                <span class="text-zinc-600  dark:text-zinc-500 poppins-medium">
+                    ({product?.quantity} left)
+                </span>
                 {/if}
             </h2>
             <dir class="flex flex-row items-center md:justify-center lg:justify-between w-full gap-2 md:gap-4 pl-0">

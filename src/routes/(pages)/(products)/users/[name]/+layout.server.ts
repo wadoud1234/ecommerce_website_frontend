@@ -16,7 +16,7 @@ export const load: LayoutServerLoad = async ({ params, parent }) => {
 		return redirect(302, "/profile");
 	}
 
-	const userLinks = await prisma.userLinks.findMany({
+	const userLinks = await prisma.userLink.findMany({
 		where: {
 			userId: visitedUser.id,
 		},

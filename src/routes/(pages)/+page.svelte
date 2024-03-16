@@ -93,10 +93,16 @@
 						<button
 							type="button"
 							class="text-white bg-red-600 bg-opacity-80 rounded-sm py-3 px-7 poppins-medium"
-							>View All</button
+							>
+								<a class="w-full h-full" href="/products">View All</a>
+							</button
 						>
 					</div>
-					<ProductCarousel {products} />
+					{#if products && products?.length>0}
+						<ProductCarousel {products} />
+					{:else}
+						<p class="text-xl poppins-medium h-[100px] w-full flex flex-col items-center justify-center">No Products Found</p>
+					{/if}
 				</div>
 			</div>
 			<Separator />
@@ -113,13 +119,17 @@
 					<div class="flex flex-row items-center justify-between">
 						<p class="text-2xl poppins-medium">Explore Our Products</p>
 					</div>
-					<ProductCarousel {products} />
-					<div class="flex flex-row justify-center items-center w-full">
+					{#if products && products?.length>0}
+						<ProductCarousel {products} />
+					{:else}
+						<p class="text-xl poppins-medium h-[100px] w-full flex flex-col items-center justify-center">No Products Found</p>
+					{/if}
+					<div class="flex flex-row justify-center items-center w-full mt-6">
 						<button
 							type="button"
 							class="text-white bg-red-600 bg-opacity-80 rounded-sm py-3 px-7 poppins-medium"
 						>
-							View All Products
+							<a class="w-full h-full" href="/products">View All Products</a>
 						</button>
 					</div>
 				</div>

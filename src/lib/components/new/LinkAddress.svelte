@@ -14,7 +14,7 @@
 	}
 </script>
 
-<div class="flex  w-full flex-row flex-wrap items-center gap-1">
+<div class="flex w-full flex-col flex-start md:flex-row flex-nowrap md:items-center gap-1">
 	{#each slugs as slug, i}
 		<a
 			href={`/${slugs.filter((_, k) => k <= i).join('/')}`}
@@ -22,6 +22,10 @@
 		>
 		{#if (i < slugs.length - 1) && !productName}<span class="text-[12px] mt-1">/</span>{/if}
 	{/each}
-	{#if productName}<span class="text-sm poppins-regular w-full">/ {productName}</span>{/if}
+	{#if productName}
+		<!-- <div class="w-full flex flex-row items-center flex-wrap"> -->
+			<span class="text-sm poppins-regular w-full">/ {productName}</span>
+		<!-- </div> -->
+	{/if}
 	<!-- <ChevronRight size="16" /> -->
 </div>

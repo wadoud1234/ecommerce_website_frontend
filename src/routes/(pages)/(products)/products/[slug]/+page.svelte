@@ -25,10 +25,10 @@
     
 </script>
 <div class="min-w-screen min-h-full h-fir flex flex-col items-start justify-start gap-8">
-    <div class="w-full h-full flex flex-wrap flex-row md:flex-nowrap justify-between items-center ">
+    <div class="w-full h-full flex flex-wrap flex-row md:flex-nowrap justify-between items-center gap-2">
         <LinkAddress productName={product.name}/>
         {#if user && user.name}
-        <p class="text-sm w-full text-right">
+        <p class="text-sm w-fit justify-items-end flex flex-row items-center gap-1">
             Welcome! <span class="text-red-600 dark:text-red-500 poppins-regular font-medium">{user.name}</span>
         </p>
         {/if}

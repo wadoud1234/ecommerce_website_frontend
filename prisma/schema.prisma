@@ -10,25 +10,29 @@ datasource db {
 
 model User {
   id            String  @id @unique @default(uuid())
+  slug          String  @unique
+  searchText    String
   name          String  @unique @db.VarChar(100)
   email         String  @unique @db.VarChar(100)
   emailVerified Boolean @default(false) @db.Boolean
 
-  password        String?  @db.VarChar(100)
-  avatar          String?
-  avatarChangedAt DateTime @default(now())
-  description     String   @default("") @db.Text
-  isAdmin         Boolean  @default(false) @db.Boolean
+  password    String?
+  avatar      String?
+  description String  @default("") @db.Text
+  isAdmin     Boolean @default(false) @db.Boolean
 
-  provider  String @default("EMAIL")
-  github_id String @default("")
+  provider  Provider @default(EMAIL)
+  github_id String   @default("")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   sessions Session[]
-  links    UserLinks[]
+  links    UserLink[]
   products Product[]
+
+  cart   Cart?
+  orders Order[]
 }
 
 model Session {
@@ -53,11 +57,15 @@ model Product {
   updatedAt   DateTime       @updatedAt
   images      ProductImage[]
 
-  User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
-  Category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId String
+
+  carts CartItem[]
+
+  OrderItem OrderItem[]
 }
 
 enum Provider {
@@ -65,7 +73,7 @@ enum Provider {
   EMAIL
 }
 
-model UserLinks {
+model UserLink {
   id        String   @id @unique @default(uuid())
   link      String   @db.Text
   provider  Provider
@@ -100,4 +108,46 @@ enum LinkProviders {
   TWITTER
   GITHUB
   PERSONAL
+}
+
+model Cart {
+  id     String @id @unique @default(uuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  CartItems CartItem[]
+}
+
+model CartItem {
+  id String @id @unique @default(uuid())
+
+  addedAt DateTime @default(now())
+
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity  Int
+
+  cartId String
+  cart   Cart   @relation(fields: [cartId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, cartId])
+}
+
+model OrderItem {
+  id        String   @id @unique @default(uuid())
+  products  Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String
+  createdAt DateTime @default(now())
+
+  orders  Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId String
+}
+
+model Order {
+  id String @id @unique @default(uuid())
+
+  OrderItem OrderItem[]
+
+  User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
 }

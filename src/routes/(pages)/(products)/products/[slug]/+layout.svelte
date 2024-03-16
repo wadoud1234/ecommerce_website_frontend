@@ -11,7 +11,7 @@
 	$:product = data.product
 	
 </script>
-
+<svelte:head><title>{product?.name}</title></svelte:head>
 <!-- <div class=" min-w-screen min-h-full h-full flex flex-col items-start justify-start py-12">
 	<NewContainer>
 		<div class="h-full w-full flex flex-col justify-start items-start gap-10 dark:bg-inherit">

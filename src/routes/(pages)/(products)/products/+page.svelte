@@ -160,6 +160,8 @@
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-y-6 gap-x-3 w-full min-w-full max-w-full h-full min-h-full max-h-full">
                     {#each products as product}
                         <NewProductCard details={{...product,picture:product.picture||""}}/>
+                        <NewProductCard details={{...product,picture:product.picture||""}}/><NewProductCard details={{...product,picture:product.picture||""}}/><NewProductCard details={{...product,picture:product.picture||""}}/><NewProductCard details={{...product,picture:product.picture||""}}/><NewProductCard details={{...product,picture:product.picture||""}}/><NewProductCard details={{...product,picture:product.picture||""}}/><NewProductCard details={{...product,picture:product.picture||""}}/>
+                        <NewProductCard details={{...product,picture:product.picture||""}}/>
                     {/each}
                 </div>
             {:else}
