@@ -5,13 +5,13 @@ import { github } from "$lib/server/auth";
 import type { RequestEvent } from "@sveltejs/kit";
 import { dev } from "$app/environment";
 
-export async function GET(event: RequestEvent): Promise<Response> {
+export async function GET({ cookies }: RequestEvent): Promise<Response> {
 	const state = generateState();
 	const url = await github.createAuthorizationURL(state, {
 		scopes: ["user:email"],
 	});
 
-	event.cookies.set("github_oauth_state", state, {
+	cookies.set("github_oauth_state", state, {
 		path: "/",
 		secure: !dev,
 		httpOnly: true,

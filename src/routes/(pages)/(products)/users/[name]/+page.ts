@@ -1,8 +1,9 @@
-import { redirect,error } from "@sveltejs/kit";
+import { redirect, error } from "@sveltejs/kit";
 import type { PageLoad } from "./$types";
 
 export const load: PageLoad = async ({ parent }) => {
-	const { visitedUser, products, userLinks, actualUser } = await parent();
+	const { visitedUser, productsPromise, userLinksPromise, actualUser } =
+		await parent();
 	if (!visitedUser) {
 		error(404, "NO USER FOUND");
 	}
@@ -10,7 +11,7 @@ export const load: PageLoad = async ({ parent }) => {
 	return {
 		visitedUser,
 		user: actualUser,
-		products,
-		userLinks,
+		productsPromise,
+		userLinksPromise,
 	};
 };

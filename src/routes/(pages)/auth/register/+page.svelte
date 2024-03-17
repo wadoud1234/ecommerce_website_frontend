@@ -1,5 +1,5 @@
 <script lang="ts">
-	import AuthPicture from '$lib/wadoud/auth_picture.avif?enhanced';
+	import { AuthPicture } from '$lib/icons';
 	import type { PageData } from './$types';
 	export let data: PageData;
 	import RegisterForm from './RegisterForm.svelte';
@@ -8,16 +8,16 @@
 <svelte:head>
 	<title>Register</title>
 </svelte:head>
-<div class="RegisterPage flex flex-row py-10 items-center justify-center h-full min-h-full min-w-96s">
-	<div class="sm:flex-1 hidden lg:flex min-h-full h-full">
+<div class="flex flex-row items-center justify-center h-full min-h-full py-10 RegisterPage min-w-96s">
+	<div class="hidden h-full min-h-full sm:flex-1 lg:flex">
 		<enhanced:img
 			alt="auth"
 			src={AuthPicture}
-			class="w-full h-full min-h-full dark:opacity-70"
+			class="w-full h-full min-h-full dark:opacity-50"
 		/>
 	</div>
 	<div
-		class="flex flex-col items-center justify-center gap-5 w-full max-w-fit lg:flex-1 px-5 sm:max-w-full"
+		class="flex flex-col items-center justify-center w-full gap-5 px-5 max-w-fit lg:flex-1 sm:max-w-full"
 	>
 		<RegisterForm data={data.form} />
 	</div>

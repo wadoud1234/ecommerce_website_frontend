@@ -1,9 +1,10 @@
 import prisma from "$lib/server/prisma";
 import { error, redirect } from "@sveltejs/kit";
 import type { LayoutServerLoad } from "./$types";
+import { getUserFromLocals } from "$lib/server/auth";
 
-export const load: LayoutServerLoad = async ({ params, parent }) => {
-	const { user: actualUser } = await parent();
+export const load: LayoutServerLoad = async ({ locals, params }) => {
+	const actualUser = getUserFromLocals(locals);
 	const visitedUser = await prisma.user.findUnique({
 		where: { name: params.name },
 	});
@@ -16,18 +17,17 @@ export const load: LayoutServerLoad = async ({ params, parent }) => {
 		return redirect(302, "/profile");
 	}
 
-	const userLinks = await prisma.userLink.findMany({
-		where: {
-			userId: visitedUser.id,
-		},
-	});
-	const userProducts = await prisma.product.findMany({
+	const userLinksPromise = prisma.userLink.findMany({
 		where: { userId: visitedUser.id },
-		include: { images: true },
+		select: { provider: true, link: true },
 	});
-	const products = userProducts.map((product) => ({
-		...product,
-		picture: product.images[0].link,
-	}));
-	return { actualUser, visitedUser, userLinks, products };
+	const productsPromise = prisma.product.findMany({
+		where: { userId: visitedUser.id },
+	});
+	return {
+		actualUser,
+		visitedUser,
+		userLinksPromise,
+		productsPromise,
+	};
 };

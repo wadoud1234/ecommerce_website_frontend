@@ -1,3 +1,12 @@
+@import '@fontsource/poppins/100.css';
+@import '@fontsource/poppins/200.css';
+@import '@fontsource/poppins/300.css';
+@import '@fontsource/poppins/400.css';
+@import '@fontsource/poppins/500.css';
+@import '@fontsource/poppins/600.css';
+@import '@fontsource/poppins/700.css';
+@import '@fontsource/poppins/800.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -66,6 +75,12 @@
 
     --ring: hsl(212.7, 26.8%, 83.9);
   }
+
+  @font-face {
+    font-family: 'Poppins';
+    src: local('Poppins'),
+      url('/static/fonts/poppins/Poppins-Black.ttf') format('ttf');
+  }
 }
 
 * {
@@ -79,7 +94,7 @@
   }
 
   body {
-    @apply min-h-screen size-full dark:text-white/70 bg-white dark:bg-zinc-950 text-foreground;
+    @apply min-h-screen bg-white size-full dark:text-white/70 dark:bg-zinc-950 text-foreground;
   }
 }
 

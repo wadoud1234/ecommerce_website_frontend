@@ -3,17 +3,17 @@ import type { RequestHandler } from "./$types";
 import { auth } from "$lib/server/auth";
 import prisma from "$lib/server/prisma";
 
-export const GET: RequestHandler = async (event) => {
-	if (!event.locals.session) fail(401);
-	const session = event.locals.session;
+export const GET: RequestHandler = async ({ cookies, locals }) => {
+	if (!locals.session) fail(401);
+	const session = locals.session;
 	if (session) {
 		auth.invalidateSession(session.id);
 		const sessionCookie = auth.createBlankSessionCookie();
-		event.cookies.set(sessionCookie.name, sessionCookie.value, {
+		cookies.set(sessionCookie.name, sessionCookie.value, {
 			path: ".",
 			...sessionCookie.attributes,
 		});
-		throw redirect(302, "/auth/login");
+		return redirect(302, "/auth/login");
 	}
-	throw redirect(302, "/auth/login");
+	return redirect(302, "/auth/login");
 };

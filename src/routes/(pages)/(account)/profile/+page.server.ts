@@ -1,29 +1,20 @@
 import { redirect } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 import prisma from "$lib/server/prisma";
+import { getUserFromLocalsOrRedirect } from "$lib/server/auth";
 
-export const load: PageServerLoad = async ({ parent }) => {
-	const { user } = await parent();
+export const load: PageServerLoad = async ({ locals }) => {
+	const user = getUserFromLocalsOrRedirect(locals);
 
-	if (!user) {
-		throw redirect(302, "/auth/login");
-	}
-	const userLinks = await prisma.userLink.findMany({
-		where: {
-			userId: user.id,
-		},
-	});
-	const userProducts = await prisma.product.findMany({
+	const userLinksPromise = prisma.userLink.findMany({
 		where: { userId: user.id },
-		include: { images: true },
 	});
-	const products = userProducts.map((product) => ({
-		...product,
-		picture: product.images[0].link,
-	}));
+	const productsPromise = prisma.product.findMany({
+		where: { userId: user.id },
+	});
 	return {
 		user,
-		products,
-		links: userLinks,
+		productsPromise,
+		userLinksPromise,
 	};
 };

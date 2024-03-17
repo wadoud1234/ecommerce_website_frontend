@@ -1,9 +1,8 @@
 import prisma from "$lib/server/prisma";
 import { error, redirect } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
-import type { User } from "@prisma/client";
 export const load: PageServerLoad = async ({ parent }) => {
-	const { user, product: productFromParent } = await parent();
+	const { user, product: productFromParent, images } = await parent();
 
 	if (!productFromParent) return redirect(304, "/");
 	const seller = await prisma.user.findUnique({
@@ -25,36 +24,24 @@ export const load: PageServerLoad = async ({ parent }) => {
 	});
 
 	if (!productCategory || !productCategory.name) error(404, "Bad Category");
-	const relatedProducts = await prisma.product.findMany({
+	const relatedProductsPromise = prisma.product.findMany({
 		where: {
 			userId: productFromParent.userId,
 			id: { not: productFromParent.id },
 		},
-		include: { images: true },
 	});
 
-	const AllProducts = await prisma.product.findMany({
+	const productsPromise = prisma.product.findMany({
 		where: { id: { not: productFromParent.id } },
-		include: { images: true },
 	});
 
-	const showProducts = [
-		...AllProducts.map((product) => ({
-			...product,
-			picture: product?.images?.[0]?.link,
-		})),
-	];
-
-	const { images, ...product } = productFromParent;
+	// const { images, ...product } = productFromParent;
 	return {
 		user,
-		product: { ...product, picture: images[0].link },
-		images: images.map((image) => image.link),
-		products: showProducts,
-		relatedProducts: relatedProducts.map((product) => ({
-			...product,
-			picture: product?.images?.[0]?.link,
-		})),
+		product: productFromParent,
+		images,
+		productsPromise,
+		relatedProductsPromise,
 		seller,
 		productCategory: productCategory.name,
 	};

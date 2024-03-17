@@ -4,11 +4,13 @@ import { github, auth } from "$lib/server/auth";
 import type { RequestEvent } from "@sveltejs/kit";
 import prisma from "$lib/server/prisma";
 import { Provider } from "$lib/types";
+import slugify from "slugify";
+import { generateProductSearchText, generateSlug } from "$lib/helpers/strings";
 
-export async function GET(event: RequestEvent): Promise<Response> {
-	const code = event.url.searchParams.get("code");
-	const state = event.url.searchParams.get("state");
-	const storedState = event.cookies.get("github_oauth_state") ?? null;
+export async function GET({ url, cookies }: RequestEvent): Promise<Response> {
+	const code = url.searchParams.get("code");
+	const state = url.searchParams.get("state");
+	const storedState = cookies.get("github_oauth_state") ?? null;
 
 	if (!code || !state || !storedState || state !== storedState) {
 		return new Response(null, {
@@ -34,7 +36,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 		if (existingUser) {
 			const session = await auth.createSession(existingUser.id, {});
 			const sessionCookie = auth.createSessionCookie(session.id);
-			event.cookies.set(sessionCookie.name, sessionCookie.value, {
+			cookies.set(sessionCookie.name, sessionCookie.value, {
 				path: ".",
 				...sessionCookie.attributes,
 			});
@@ -57,6 +59,8 @@ export async function GET(event: RequestEvent): Promise<Response> {
 						provider: Provider.GITHUB,
 						github_id: `${githubUser.id}`,
 						name: githubUser.login,
+						slug: generateSlug(githubUser.name),
+						searchText: generateProductSearchText(githubUser.name, ""),
 						email: primary.email,
 						isAdmin: false,
 						avatar: avatar_url,
@@ -64,7 +68,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 				});
 				const session = await auth.createSession(newUser.id, {});
 				const sessionCookie = auth.createSessionCookie(session.id);
-				event.cookies.set(sessionCookie.name, sessionCookie.value, {
+				cookies.set(sessionCookie.name, sessionCookie.value, {
 					path: ".",
 					...sessionCookie.attributes,
 				});

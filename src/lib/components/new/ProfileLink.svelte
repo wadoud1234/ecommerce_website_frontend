@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { FacebookLogo, GithubLogo, GoogleLogo, InstagramLogo, ProfilePicture, TwitterLogo } from "$lib/icons";
+	import { FacebookLogo, GithubLogo, GoogleLogo, InstagramLogo, TwitterLogo } from "$lib/icons";
 	import { LinkProviders as LP } from "$lib/types";
         
     export let link:string;
-    export let provider : LP
+    export let provider : LP | string
     let Icon:any
     switch (provider){
         case LP.GOOGLE:
@@ -22,18 +22,9 @@
             Icon = TwitterLogo
             break
         default:
-            Icon=ProfilePicture
+            Icon=""
             break
         }
-        // case LP.APPLE:
-        //     Icon = AppleLogo
-        //     break
-        // case LP.GOOGLE:
-        //     Icon = GoogleLogo
-        //     break
-        // case LP.GOOGLE:
-        //     Icon = GoogleLogo
-        //     break
             
             
 </script>

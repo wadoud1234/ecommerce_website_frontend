@@ -10,14 +10,14 @@
 <svelte:head>
 	<title>{visitedUser.name}</title>
 </svelte:head>
-<div class=" min-w-screen min-h-full h-full flex flex-col items-start justify-start py-12">
+<div class="flex flex-col items-start justify-start h-full min-h-full py-12 min-w-screen">
 	<NewContainer>
-		<div class="h-full w-full flex flex-col justify-start items-start gap-10 dark:bg-inherit">
-			<div class="w-full h-full flex flex-wrap flex-row md:flex-nowrap justify-between items-center">
+		<div class="flex flex-col items-start justify-start w-full h-full gap-10 dark:bg-inherit">
+			<div class="flex flex-row flex-wrap items-center justify-between w-full h-full md:flex-nowrap">
 				<LinkAddress productName={visitedUser.name}/>
-				{#if user && user.name}
-				<p class="text-sm w-full text-right">
-					Welcome! <span class="text-red-600 dark:text-red-500 poppins-regular font-medium">{user.name}</span>
+				{#if user && user?.name}
+				<p class="w-full text-sm text-right">
+					Welcome! <span class="font-medium text-red-600 dark:text-red-500 poppins-regular">{user?.name}</span>
 				</p>
 				{/if}
 			</div>

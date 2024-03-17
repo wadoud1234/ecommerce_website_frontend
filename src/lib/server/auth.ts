@@ -5,7 +5,7 @@ import prisma from "$lib/server/prisma";
 import { GitHub } from "arctic";
 import type { User } from "@prisma/client";
 import { redirect } from "@sveltejs/kit";
-
+import { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } from "$env/static/private";
 const adapter = new PrismaAdapter(prisma.session, prisma.user);
 export const auth = new Lucia(adapter, {
 	sessionCookie: {
@@ -27,8 +27,8 @@ export const auth = new Lucia(adapter, {
 });
 
 export const github = new GitHub(
-	process.env.GITHUB_CLIENT_ID as string,
-	process.env.GITHUB_CLIENT_SECRET as string,
+	GITHUB_CLIENT_ID as string,
+	GITHUB_CLIENT_SECRET as string,
 );
 export type Auth = typeof auth;
 declare module "lucia" {
@@ -46,6 +46,19 @@ export function ensureAdmin(locals: App.Locals) {
 	if (!locals?.user?.isAdmin) {
 		redirect(303, "/");
 	}
+}
+export function getUserFromLocals(locals: App.Locals) {
+	const user = locals.user;
+	return user;
+}
+
+export function getUserFromLocalsOrRedirect(locals: App.Locals) {
+	const user = getUserFromLocals(locals);
+
+	if (!user || !user.id) {
+		redirect(303, "/auth/login");
+	}
+	return user;
 }
 // import { DrizzleMySQLAdapter } from "@lucia-auth/adapter-drizzle";
 

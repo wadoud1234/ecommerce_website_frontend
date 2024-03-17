@@ -1,6 +1,6 @@
 <script lang="ts">
 	import LinkAddress from "$lib/components/new/LinkAddress.svelte";
-	import { listOfCategories, type Product } from "$lib/types";
+	import { fromProductType2ProductToShow, listOfCategories } from "$lib/types";
 	import type { User } from "lucia";
 	import { page } from "$app/stores";
 	import { goto } from "$app/navigation";
@@ -16,11 +16,10 @@
     const priceFilterList = ["0-100","100-300","300-600","600-1000","over 1000"]
     let selectedRating:number = $page.url.searchParams.get("rating") ? Number($page.url.searchParams.get("rating")) : 1;
     let showRatingFilter = false
-    export let data:PageData
-    let products:(Product&{images:{id:string,link:string,productId:string}[]})[]
-    $:{({products}=data)}
     
-    const handleFilter = ()=>{
+    export let data:PageData
+        
+    const handleFilter = () =>{
         const url = new URL($page.url)
         if (selectedCategory && selectedCategory!=="all") url.searchParams.set("category",selectedCategory)
         else if (selectedCategory === "all") url.searchParams.delete("category")
@@ -33,24 +32,26 @@
 
         goto(url,{replaceState:true})
     }
-    let showCategoryFilter = false,showPriceFilter = false    
+    
+    let showCategoryFilter = false
+    let showPriceFilter = false    
 </script>
-<div class="min-w-screen min-h-full h-full w-full flex flex-col items-start justify-start gap-8">
-    <div class="w-full min-w-full h-full flex flex-wrap flex-row md:flex-nowrap justify-between items-center ">
+<div class="flex flex-col items-start justify-start w-full h-full min-h-full gap-8 min-w-screen">
+    <div class="flex flex-row flex-wrap items-center justify-between w-full h-full min-w-full md:flex-nowrap ">
         <LinkAddress/>
         {#if user && user?.name}
-        <p class="text-sm w-full text-right">
-            Welcome! <span class="text-red-600 dark:text-red-500 poppins-regular font-medium">{user?.name}</span>
+        <p class="w-full text-sm text-right">
+            Welcome! <span class="font-medium text-red-600 dark:text-red-500 poppins-regular">{user?.name}</span>
         </p>
         {/if}
     </div>
-    <main class="mainSection min-h-full max-w-full w-full h-full flex flex-row items-start justify-start gap-6">
+    <main class="flex flex-row items-start justify-start w-full h-full max-w-full min-h-full gap-6 mainSection">
         <div class="filters-nav h-full w-[120px] md:w-[200px]  max-h-full flex flex-col gap-4">
             <Button class="w-full" on:click={handleFilter}>Filter</Button>
             
             <!-- Category Filter -->
-            <div class="filtersList flex flex-col gap-3">                
-                <button on:click={()=>{showCategoryFilter=!showCategoryFilter}} class="text-lg flex flex-row items-center justify-between">
+            <div class="flex flex-col gap-3 filtersList">                
+                <button on:click={()=>{showCategoryFilter=!showCategoryFilter}} class="flex flex-row items-center justify-between text-lg">
                     Categories <ChevronDown/>
                 </button>
                 {#if showCategoryFilter}
@@ -81,12 +82,12 @@
             </div>
 
             <!-- Price Filter -->
-            <div class="filtersList flex flex-col gap-2">
-                <button on:click={()=>{showPriceFilter=!showPriceFilter}} class="text-lg flex flex-row items-center justify-between">
+            <div class="flex flex-col gap-2 filtersList">
+                <button on:click={()=>{showPriceFilter=!showPriceFilter}} class="flex flex-row items-center justify-between text-lg">
                     Price <ChevronDown/>
                 </button>
                 {#if showPriceFilter}
-                <div class="flex flex-col gap-1 w-full ">
+                <div class="flex flex-col w-full gap-1 ">
                     {#each ["all",...priceFilterList] as priceFilter}
                         <button 
                             class="flex flex-row items-center justify-start gap-4" 
@@ -120,12 +121,12 @@
             </div>
 
             <!-- Rating Filter -->
-            <div class="filtersList flex flex-col gap-2">
-                <button on:click={()=>{showRatingFilter=!showRatingFilter}} class="text-lg flex flex-row items-center justify-between">
+            <div class="flex flex-col gap-2 filtersList">
+                <button on:click={()=>{showRatingFilter=!showRatingFilter}} class="flex flex-row items-center justify-between text-lg">
                     Rating <ChevronDown/>
                 </button>
                 {#if showRatingFilter}
-                <div class="flex flex-col gap-1 w-full">
+                <div class="flex flex-col w-full gap-1">
                     {#each [5,4,3,2,1] as ratingFilter}
                         <button 
                             class="flex flex-row items-center justify-start gap-4" 
@@ -155,20 +156,22 @@
                 {/if}
             </div>
         </div>
-        <div class="flex-1 items-stretch justify-between  min-h-full h-full w-full max-w-full border border-zinc-800 border-y-0 border-r-0 pl-6 ">
-            {#if products && products.length>0}
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-y-6 gap-x-3 w-full min-w-full max-w-full h-full min-h-full max-h-full">
-                    {#each products as product}
-                        <NewProductCard details={{...product,picture:product.picture||""}}/>
-                        <NewProductCard details={{...product,picture:product.picture||""}}/><NewProductCard details={{...product,picture:product.picture||""}}/><NewProductCard details={{...product,picture:product.picture||""}}/><NewProductCard details={{...product,picture:product.picture||""}}/><NewProductCard details={{...product,picture:product.picture||""}}/><NewProductCard details={{...product,picture:product.picture||""}}/><NewProductCard details={{...product,picture:product.picture||""}}/>
-                        <NewProductCard details={{...product,picture:product.picture||""}}/>
-                    {/each}
-                </div>
-            {:else}
-                <p class="flex-1 justify-center text-xl flex flex-row items-center">
-                    No Products Found
-                </p>
-            {/if}
+        <div class="items-stretch justify-between flex-1 w-full h-full max-w-full min-h-full pl-6 border border-r-0 border-zinc-800 border-y-0 ">
+            {#await data.products}
+                <p>Loading...</p>
+            {:then products}
+                {#if products && products.length>0}
+                    <div class="grid w-full h-full max-w-full max-h-full min-w-full min-h-full md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-y-6 gap-x-3">
+                        {#each products as product}
+                            <NewProductCard productToShow={fromProductType2ProductToShow(product)}/>
+                        {/each}
+                    </div>
+                {:else}
+                    <p class="flex flex-row items-center justify-center flex-1 text-xl">
+                        No Products Found
+                    </p>
+                {/if}
+            {/await}
         </div>
     </main>
 </div>

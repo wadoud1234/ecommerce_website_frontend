@@ -1,24 +1,19 @@
 import { redirect } from "@sveltejs/kit";
 import type { Actions } from "./$types.js";
 import { hashPassword } from "$lib/helpers/password.js";
-import type { User } from "@prisma/client";
 import { setMessage, superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
 import { RegisterSchema } from "./RegisterSchema.js";
 import prisma from "$lib/server/prisma.js";
 import {
-	PrismaClientKnownRequestError,
-	PrismaClientUnknownRequestError,
-} from "@prisma/client/runtime/library";
-import {
 	generateProductSearchText,
 	generateSlug,
 } from "$lib/helpers/strings.js";
+import { getUserFromLocals } from "$lib/server/auth.js";
 
 export const load = async ({ locals }) => {
-	if (locals.user) {
-		redirect(302, "/");
-	}
+	const user = getUserFromLocals(locals);
+	if (user?.id) return redirect(302, "/");
 	const result = await superValidate(zod(RegisterSchema));
 	return {
 		form: result,
@@ -61,8 +56,6 @@ export const actions = {
 				password: hashedPassword,
 			},
 		});
-		console.log(newUser);
-
 		return redirect(301, "/auth/login");
 	},
 } satisfies Actions;

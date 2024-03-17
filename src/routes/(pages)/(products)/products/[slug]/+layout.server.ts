@@ -1,17 +1,28 @@
-import type { User } from "lucia";
 import type { LayoutServerLoad } from "./$types";
 import prisma from "$lib/server/prisma";
 import { redirect } from "@sveltejs/kit";
+import { getUserFromLocals } from "$lib/server/auth";
 
-export const load: LayoutServerLoad = async ({ parent, params }) => {
-	const { user } = (await parent()) as { user: User | null };
+export const load: LayoutServerLoad = async ({ locals, params }) => {
+	const user = getUserFromLocals(locals);
 	const productSlug = params.slug;
+
 	const product = await prisma.product.findUnique({
 		where: { slug: productSlug },
-		include: { images: true },
 	});
 
-	const imagesLinks = product?.images.map((image) => image.link) || [];
+	if (!product || !product?.slug) {
+		return redirect(300, "/google");
+	}
+	const secondaryImages = await prisma.productImage.findMany({
+		where: { productId: product.id },
+		select: { link: true },
+	});
 
-	return { user, product, images: imagesLinks };
+	const images = [
+		product?.mainImage,
+		...secondaryImages.map((image) => image.link),
+	];
+
+	return { user, product, images };
 };

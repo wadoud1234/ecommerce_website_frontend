@@ -5,6 +5,7 @@ import { setMessage, superValidate } from "sveltekit-superforms";
 import { fail, redirect } from "@sveltejs/kit";
 import prisma from "$lib/server/prisma";
 import { generateProductSearchText, generateSlug } from "$lib/helpers/strings";
+import { getUserFromLocalsOrRedirect } from "$lib/server/auth";
 export const load: PageServerLoad = async () => {
 	return {
 		form: await superValidate(zod(AddProductSchema)),
@@ -13,23 +14,18 @@ export const load: PageServerLoad = async () => {
 
 export const actions = {
 	default: async (event) => {
-		if (!event.locals.user || !event.locals.user.id) {
-			return redirect(300, "/auth/login");
-		}
+		const user = getUserFromLocalsOrRedirect(event.locals);
 		const form = await superValidate(event, zod(AddProductSchema));
-		console.log({ form });
 
 		if (!form.valid) {
 			return setMessage(form, "Bad Inputs", { status: 400 });
 		}
 		const { name, description, price, quantity, images } = form.data;
-		console.log({ formData: form.data });
 
-		const userId = event.locals.user.id;
+		const userId = user.id;
 		let category = await prisma.category.findUnique({
 			where: { slug: generateSlug(form.data.category) },
 		});
-		console.log({ category });
 
 		if (!category || !category.name) {
 			category = await prisma.category.create({
@@ -39,6 +35,8 @@ export const actions = {
 				},
 			});
 		}
+		const uploadedImages = images[0].split(",");
+
 		const product = await prisma.product.create({
 			data: {
 				categoryId: category.id,
@@ -49,20 +47,18 @@ export const actions = {
 				price,
 				quantity,
 				userId,
+				mainImage: uploadedImages[0],
 			},
 		});
-		console.log({ product });
 
-		const savedImages = images[0].split(",").map((image) => ({
+		const savedImages = uploadedImages.slice(1, 4).map((image) => ({
 			link: image,
 			productId: product.id,
 		}));
-		console.log({ savedImages });
 
 		const something = await prisma.productImage.createMany({
 			data: savedImages,
 		});
-		console.log({ something });
 
 		return redirect(302, `/products/${product.slug}`);
 	},

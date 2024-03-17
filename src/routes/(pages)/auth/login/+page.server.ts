@@ -3,21 +3,24 @@ import { setMessage, superValidate } from "sveltekit-superforms";
 import { loginSchema } from "./LoginSchema";
 import { zod } from "sveltekit-superforms/adapters";
 import { redirect } from "@sveltejs/kit";
-import { auth } from "$lib/server/auth";
+import {
+	auth,
+	getUserFromLocals,
+	getUserFromLocalsOrRedirect,
+} from "$lib/server/auth";
 import { verifyPassword } from "$lib/helpers/password";
 import prisma from "$lib/server/prisma";
 import { Provider } from "$lib/types";
+import { invalidate, invalidateAll, replaceState } from "$app/navigation";
 export const load: PageServerLoad = async ({ locals }) => {
-	if (locals.user) {
-		throw redirect(302, "/");
-	}
+	const user = getUserFromLocals(locals);
+	if (user?.id) throw redirect(300, "/");
 	const result = await superValidate(zod(loginSchema));
 
 	return {
 		form: result,
 	};
 };
-export const prerender = false;
 export const actions = {
 	default: async (event) => {
 		const form = await superValidate(event, zod(loginSchema));
@@ -65,6 +68,6 @@ export const actions = {
 			avatar,
 			emailVerified,
 		};
-		throw redirect(301, "/home?refresh=true");
+		return redirect(301, "/");
 	},
 } satisfies Actions;

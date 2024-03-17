@@ -43,19 +43,21 @@ model Session {
 }
 
 model Product {
-  id          String         @id @unique @default(uuid())
-  name        String         @unique @db.VarChar(255)
-  slug        String         @unique @db.VarChar(255)
-  price       Float          @db.Real
+  id          String   @id @unique @default(uuid())
+  name        String   @unique @db.VarChar(255)
+  slug        String   @unique @db.VarChar(255)
+  price       Float
   searchText  String
-  description String         @default("") @db.Text
-  likes       Int            @default(0)
-  rating      Float          @default(0) @db.Real
-  quantity    Int            @default(0)
-  sold        Int            @default(0)
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
-  images      ProductImage[]
+  description String   @default("") @db.Text
+  likes       Int      @default(0)
+  rating      Float    @default(0) @db.Real
+  quantity    Int      @default(0)
+  sold        Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  mainImage       String
+  secondaryImages ProductImage[]
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String

@@ -1,20 +1,17 @@
 <script lang="ts">
 	import LinkAddress from '$lib/components/new/LinkAddress.svelte';
 	import NewContainer from '$lib/components/new/NewContainer.svelte';
-	import type { User } from 'lucia';
 	import type { LayoutServerData } from './$types';
 	export let data:LayoutServerData;
-	let user:User
-	$:user = data?.user
 </script>
 
-<div class=" min-w-screen min-h-full h-full flex flex-col items-start justify-start py-12">
+<div class="flex flex-col items-start justify-start h-full min-h-full py-12 min-w-screen">
 	<NewContainer>
-		<div class="h-full w-full flex flex-col justify-start items-start gap-10 dark:bg-inherit">
-			<div class="w-full flex flex-row justify-between items-center">
+		<div class="flex flex-col items-start justify-start w-full h-full gap-10 dark:bg-inherit">
+			<div class="flex flex-row items-center justify-between w-full">
 				<LinkAddress productName={null}/>
-				<p class="text-sm w-fit flex flex-row items-center justify-end gap-1">
-					Welcome! <span class="text-red-600 dark:text-red-500 poppins-regular font-medium">{user.name}</span>
+				<p class="flex flex-row items-center justify-end gap-1 text-sm w-fit">
+					Welcome! <span class="font-medium text-red-600 dark:text-red-500 poppins-regular">{data?.user?.name}</span>
 				</p>
 			</div>
 			<slot />

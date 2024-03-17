@@ -1,5 +1,7 @@
-export const load = async ({ locals, parent }) => {
+import { getUserFromLocals } from "$lib/server/auth.js";
+
+export const load = async ({ locals }) => {
 	return {
-		user: locals.user,
+		user: getUserFromLocals(locals),
 	};
 };

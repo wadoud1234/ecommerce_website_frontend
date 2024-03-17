@@ -28,8 +28,21 @@ export type Product = {
 	rating: number;
 	quantity: number;
 	sold: number;
-	picture?: string;
+	mainImage: string;
 	discount?: number;
+};
+
+export type ProductWithSecondaryImages = Product & {
+	secondaryImages: string[];
+};
+export type ProductToShow = {
+	name: string;
+	price: number;
+	mainImage: string;
+	discount?: number;
+	rating: number;
+	sold: number;
+	slug: string;
 };
 export class ProductInit {
 	id: string;
@@ -85,9 +98,8 @@ export type onUploadImageResponse = {
 	};
 };
 export type UserLink = {
-	id: string;
 	link: string;
-	provider: LinkProviders;
+	provider: string | LinkProviders;
 };
 
 export enum Categories {
@@ -139,3 +151,15 @@ export const CategoriesData = [
 		slug: generateSlug(Categories.Gaming),
 	},
 ];
+
+export function fromProductType2ProductToShow(product: Product): ProductToShow {
+	return {
+		name: product.name,
+		price: product.price,
+		mainImage: product.mainImage,
+		discount: product.discount,
+		rating: product.rating,
+		sold: product.sold,
+		slug: product.slug,
+	};
+}

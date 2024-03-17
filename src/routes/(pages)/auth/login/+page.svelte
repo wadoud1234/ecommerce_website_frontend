@@ -1,7 +1,7 @@
 <script lang="ts">
-	import AuthPicture from '$lib/wadoud/auth_picture.avif?enhanced';
 	import LoginForm from './LoginForm.svelte';
 	import type { PageData } from './$types';
+	import { AuthPicture } from '$lib/icons';
 	export let data: PageData;
 </script>
 
@@ -9,17 +9,17 @@
 	<title>Login</title>
 </svelte:head>
 <div
-	class="LoginPage flex flex-row py-10 gap-10 items-center justify-center h-full min-h-full min-w-96s"
+	class="flex flex-row items-center justify-center h-full min-h-full gap-10 py-10 LoginPage min-w-96s"
 >
-	<div class="sm:flex-1 hidden lg:flex min-h-full h-full">
+	<div class="hidden h-full min-h-full sm:flex-1 lg:flex">
 		<enhanced:img
 			src={AuthPicture}
 			alt="auth"
-			class="w-full h-full min-h-full dark:opacity-70"
+			class="w-full h-full min-h-full dark:opacity-50"
 			loading="lazy"
 		/>
 	</div>
-	<div class="flex flex-col items-center justify-center gap-5 w-full lg:flex-1 max-w-full">
+	<div class="flex flex-col items-center justify-center w-full max-w-full gap-5 lg:flex-1">
 		<LoginForm data={data?.form} />
 	</div>
 </div>
