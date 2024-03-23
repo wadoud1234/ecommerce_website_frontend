@@ -23,15 +23,15 @@
 	<NewContainer>
 		<div class="flex flex-row items-center justify-between w-full pb-2.5 pt-5 gap-4 h-full">
 			<NewLogo />
-			<LinksList  />
+			<LinksList />
 			<div class="flex md:hidden">
-				<NewSearchBar/>
+				<NewSearchBar />
 			</div>
 			<div class="flex md:hidden gap-4">
 				<ThemeToggleButton />
 				<NewMobileMenu {user} />
-		</div>
-		<IconsList {user} />
+			</div>
+			<IconsList {user} />
 		</div>
 	</NewContainer>
 </div>

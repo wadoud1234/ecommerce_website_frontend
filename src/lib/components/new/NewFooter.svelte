@@ -11,12 +11,13 @@
 >
 	<NewContainer>
 		<div class="flex flex-row items-center justify-center w-full py-10">
-			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 w-full gap-6 text-base items-start"
+			<div
+				class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 w-full gap-6 text-base items-start"
 			>
 				<!-- DIV 1 -->
 				<div class="flex col-span-1 lg:col-span-2 flex-col gap-2 w-fit sm:mx-0">
 					<h3 class="text-2xl font-semibold header">Exclusive</h3>
-					<p class="text-base element">Subscribe to get informed about new products</p>
+					<p class="text-base">Subscribe to get informed about new products</p>
 					<p>And Get Huge Discounts</p>
 					<form
 						action=""
@@ -30,7 +31,9 @@
 							placeholder="Your Email"
 							class="bg-inherit w-full max-w-[340px] p-2 px-4 placeholder:text-sm"
 						/>
-						<button type="submit" class="p-2 bg-gray-800"><SendHorizontal /></button>
+						<button aria-label="Subscribe" type="submit" class="p-2 bg-gray-800"
+							><SendHorizontal /></button
+						>
 					</form>
 				</div>
 

@@ -7,23 +7,25 @@
 
 <svelte:head>
 	<title>Register</title>
+	<meta name="description" content="Create new account" />
 </svelte:head>
-<div class="flex flex-row items-center justify-center h-full min-h-full py-10 RegisterPage min-w-96s">
+<!-- <div
+	class="flex flex-row items-center justify-center h-full min-h-full py-10 RegisterPage min-w-96s"
+>
 	<div class="hidden h-full min-h-full sm:flex-1 lg:flex">
-		<enhanced:img
+		<img
 			alt="auth"
 			src={AuthPicture}
 			class="w-full h-full min-h-full dark:opacity-50"
+			loading="lazy"
 		/>
 	</div>
-	<div
-		class="flex flex-col items-center justify-center w-full gap-5 px-5 max-w-fit lg:flex-1 sm:max-w-full"
-	>
-		<RegisterForm data={data.form} />
-	</div>
-</div>
+	<div class="flex flex-col items-center justify-center w-full gap-5 max-w-full lg:flex-1"> -->
+<RegisterForm data={data.form} />
+<!-- </div>
+</div> -->
 
-<style>
+<!-- <style>
 	* {
 		@apply transition-all duration-100;
 	}
@@ -31,4 +33,4 @@
 	/* input {
 		@apply border  border-black/60 p-2 outline-none focus:border-2  text-black w-full;
 	} */
-</style>
+</style> -->

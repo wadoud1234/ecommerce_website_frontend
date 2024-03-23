@@ -22,17 +22,17 @@
     }
 </script>
 
-<div class="flex flex-row items-center justify-between w-fit gap-2 lg:gap-4 border dark:text-zinc-400 border-zinc-400 rounded-md ">
-    <Button 
-        class="action-button bg-white dark:bg-zinc-800 border border-y-0 border-l-0 border-zinc-400 text-black dark:text-zinc-400 hover:text-white hover:bg-red-600 rounded-none rounded-l-md focus:ring-2 ring-black" size="icon"
+<div class="flex flex-row items-center justify-between w-fit gap-2 lg:gap-4 border dark:text-zinc-400 border-zinc-300 rounded-md ">
+    <Button  aria-label="Decrease quantity"
+        class="action-button bg-white dark:bg-zinc-800 border border-y-0 border-l-0 border-zinc-300 text-black dark:text-zinc-400 hover:text-white hover:bg-red-600 rounded-none rounded-l-md focus:ring-2 ring-black" size="icon"
         on:click={decrease}    
     >
         <Minus/>
     </Button>
     <p class="text-xl text-black dark:text-zinc-400 font-medium px-1">{selected}</p>
     
-    <Button
-        class="action-button bg-white dark:bg-zinc-800 border border-y-0 border-r-0  border-zinc-400 text-black dark:text-zinc-400 hover:text-white hover:bg-red-600 rounded-none rounded-r-md focus:ring-2 ring-black" 
+    <Button  aria-label="Increase quantity"
+        class="action-button bg-white dark:bg-zinc-800 border border-y-0 border-r-0  border-zinc-300 text-black dark:text-zinc-400 hover:text-white hover:bg-red-600 rounded-none rounded-r-md focus:ring-2 ring-black" 
         size="icon"
         on:click={increase}
     >

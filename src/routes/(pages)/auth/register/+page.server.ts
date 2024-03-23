@@ -4,16 +4,19 @@ import { hashPassword } from "$lib/helpers/password.js";
 import { setMessage, superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
 import { RegisterSchema } from "./RegisterSchema.js";
-import prisma from "$lib/server/prisma.js";
 import {
 	generateProductSearchText,
 	generateSlug,
 } from "$lib/helpers/strings.js";
 import { getUserFromLocals } from "$lib/server/auth.js";
+import db from "$lib/server/db/index.js";
+import { user } from "$lib/server/db/schema.js";
+import { eq } from "drizzle-orm";
 
 export const load = async ({ locals }) => {
 	const user = getUserFromLocals(locals);
 	if (user?.id) return redirect(302, "/");
+
 	const result = await superValidate(zod(RegisterSchema));
 	return {
 		form: result,
@@ -29,8 +32,18 @@ export const actions = {
 		}
 
 		const { name, email, password, confirm_password } = form.data;
+		console.log({ name, email, password, confirm_password });
 
-		const existingUser = await prisma.user.findUnique({ where: { email } });
+		// const existingUser = await prisma.user.findUnique({ where: { email } });
+		const existingUser = await db.query.user.findFirst({
+			where: eq(user.email, email),
+			columns: { name: true },
+		});
+		// .select()
+		// .from(user)
+		// .where(eq(user.email, email))
+		// .limit(1)
+		// .then((data) => data[0]);
 
 		if (existingUser) {
 			return setMessage(
@@ -46,16 +59,31 @@ export const actions = {
 			});
 		}
 		const hashedPassword = await hashPassword(password);
-		const newUser = await prisma.user.create({
-			data: {
+		// const newUser = await prisma.user.create({
+		// 	data: {
+		// 		name,
+		// 		email,
+		// 		emailVerified: false,
+		// 		slug: generateSlug(name),
+		// 		searchText: generateProductSearchText(name, ""),
+		// 		password: hashedPassword,
+		// 	},
+		// });
+
+		const newUser = await db
+			.insert(user)
+			.values({
 				name,
-				email,
-				emailVerified: false,
-				slug: generateSlug(name),
-				searchText: generateProductSearchText(name, ""),
 				password: hashedPassword,
-			},
-		});
+				email,
+				searchText: generateProductSearchText(name, ""),
+				slug: generateSlug(name),
+				provider: "email",
+				providerId: "",
+			})
+			.returning();
+		console.log(newUser[0]);
+
 		return redirect(301, "/auth/login");
 	},
 } satisfies Actions;

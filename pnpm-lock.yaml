@@ -11,9 +11,6 @@ dependencies:
   '@cloudinary/url-gen':
     specifier: ^1.19.0
     version: 1.19.0
-  '@libsql/client':
-    specifier: ^0.5.3
-    version: 0.5.3
   '@lucia-auth/adapter-drizzle':
     specifier: ^1.0.2
     version: 1.0.2(lucia@3.0.1)
@@ -28,10 +25,13 @@ dependencies:
     version: 2.2.2
   '@prisma/adapter-libsql':
     specifier: ^5.10.2
-    version: 5.10.2(@libsql/client@0.5.3)
+    version: 5.10.2(@libsql/client@0.4.3)
   '@prisma/client':
     specifier: ^5.11.0
     version: 5.11.0(prisma@5.11.0)
+  '@types/dropzone':
+    specifier: ^5.7.8
+    version: 5.7.8
   '@types/pg':
     specifier: ^8.11.2
     version: 8.11.2
@@ -53,6 +53,9 @@ dependencies:
   bits-ui:
     specifier: ^0.18.2
     version: 0.18.2(svelte@4.2.11)
+  cloudinary:
+    specifier: ^2.0.3
+    version: 2.0.3
   clsx:
     specifier: ^2.1.0
     version: 2.1.0
@@ -61,7 +64,10 @@ dependencies:
     version: 16.4.5
   drizzle-orm:
     specifier: ^0.29.5
-    version: 0.29.5(@libsql/client@0.5.3)(@neondatabase/serverless@0.9.0)(@types/pg@8.11.2)(mysql2@3.9.2)(pg@8.11.3)(react@18.2.0)
+    version: 0.29.5(@libsql/client@0.4.3)(@neondatabase/serverless@0.9.0)(@types/pg@8.11.2)(mysql2@3.9.2)(pg@8.11.3)(postgres@3.4.3)(react@18.2.0)
+  dropzone:
+    specifier: 6.0.0-beta.2
+    version: 6.0.0-beta.2
   embla-carousel-svelte:
     specifier: ^8.0.0
     version: 8.0.0(svelte@4.2.11)
@@ -71,6 +77,9 @@ dependencies:
   formsnap:
     specifier: ^0.5.1
     version: 0.5.1(svelte@4.2.11)(sveltekit-superforms@2.6.2)
+  imagekit-javascript:
+    specifier: ^3.0.0
+    version: 3.0.0
   lucide-svelte:
     specifier: ^0.338.0
     version: 0.338.0(svelte@4.2.11)
@@ -86,6 +95,9 @@ dependencies:
   pg:
     specifier: ^8.11.3
     version: 8.11.3
+  postgres:
+    specifier: ^3.4.3
+    version: 3.4.3
   query-string:
     specifier: ^9.0.0
     version: 9.0.0
@@ -397,8 +409,8 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/types': 7.24.0
-      '@jridgewell/gen-mapping': 0.3.3
-      '@jridgewell/trace-mapping': 0.3.22
+      '@jridgewell/gen-mapping': 0.3.5
+      '@jridgewell/trace-mapping': 0.3.25
       jsesc: 2.5.2
     dev: true
 
@@ -2454,35 +2466,36 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
-  /@libsql/client@0.5.3:
-    resolution: {integrity: sha512-GsOTv/Yikw8I9ZBqpxwfcDM2GDFtyZfJg7MYgWqVnNXtsqCa+tabSuRVKe34UaG2FjcOFJr9buB4vbl55geXXw==}
+  /@libsql/client@0.4.3:
+    resolution: {integrity: sha512-AUYKnSPqAsFBVWBvmtrb4dG3pQlvTKT92eztAest9wQU2iJkabH8WzHLDb3dKFWKql7/kiCqvBQUVpozDwhekQ==}
     dependencies:
-      '@libsql/core': 0.5.3
+      '@libsql/core': 0.4.3
       '@libsql/hrana-client': 0.5.6
       js-base64: 3.7.7
-      libsql: 0.3.7
+    optionalDependencies:
+      libsql: 0.2.0
     transitivePeerDependencies:
       - bufferutil
       - encoding
       - utf-8-validate
     dev: false
 
-  /@libsql/core@0.5.3:
-    resolution: {integrity: sha512-vccnRnLIeru4hacfowXDZZRxYyFWN8Z6CSs+951rH7w9JOMzwmetn5IYsXw5VcOIf0P0aLa86Uhvl1MF8jM6pA==}
+  /@libsql/core@0.4.3:
+    resolution: {integrity: sha512-r28iYBtaLBW9RRgXPFh6cGCsVI/rwRlOzSOpAu/1PVTm6EJ3t233pUf97jETVHU0vjdr1d8VvV6fKAvJkokqCw==}
     dependencies:
       js-base64: 3.7.7
     dev: false
 
-  /@libsql/darwin-arm64@0.3.7:
-    resolution: {integrity: sha512-HSJApZCSSaVZPCVp/wATq6yE/gQr91aUg6X/AFvQMBM6O2ACSG/T/ZJvCfcppdtXo8yo+BnO4hzxyXhckVKlTQ==}
+  /@libsql/darwin-arm64@0.2.0:
+    resolution: {integrity: sha512-+qyT2W/n5CFH1YZWv2mxW4Fsoo4dX9Z9M/nvbQqZ7H84J8hVegvVAsIGYzcK8xAeMEcpU5yGKB1Y9NoDY4hOSQ==}
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@libsql/darwin-x64@0.3.7:
-    resolution: {integrity: sha512-4hPLcLFHz0Nz8fVuc30aqUU4UQJsb9lR2rxmLJrXL8XN7I1wjAresTEaZNZ9pK+VxUJZnyDP7cG2AfO7HuToqA==}
+  /@libsql/darwin-x64@0.2.0:
+    resolution: {integrity: sha512-hwmO2mF1n8oDHKFrUju6Jv+n9iFtTf5JUK+xlnIE3Td0ZwGC/O1R/Z/btZTd9nD+vsvakC8SJT7/Q6YlWIkhEw==}
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
@@ -2521,40 +2534,40 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@libsql/linux-arm64-gnu@0.3.7:
-    resolution: {integrity: sha512-DNIJdKPmitqTOUJQaB7j3HcmOHRwRyUfY8C69bMyAscUs8C5bi8VW4Py3amqY/Gvrozj8axiV54aKb0WqoBaEg==}
+  /@libsql/linux-arm64-gnu@0.2.0:
+    resolution: {integrity: sha512-1w2lPXIYtnBaK5t/Ej5E8x7lPiE+jP3KATI/W4yei5Z/ONJh7jQW5PJ7sYU95vTME3hWEM1FXN6kvzcpFAte7w==}
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@libsql/linux-arm64-musl@0.3.7:
-    resolution: {integrity: sha512-xWVgsTi2+/q9ZM0HxAafvYy90S4+2thysSEtxP8emR6E8nXYkcjDihT9+roo1XS2KiqaWYXLxU2tdYu98KSu7A==}
+  /@libsql/linux-arm64-musl@0.2.0:
+    resolution: {integrity: sha512-lkblBEJ7xuNiWNjP8DDq0rqoWccszfkUS7Efh5EjJ+GDWdCBVfh08mPofIZg0fZVLWQCY3j+VZCG1qZfATBizg==}
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@libsql/linux-x64-gnu@0.3.7:
-    resolution: {integrity: sha512-rLPHb/3csTYP7FlTCdmukrXg8XxwH3HqgblGZ73qCnD8usVq3hN3CY2cRYneAh53LjY+Th1FFloX7tiLI0xBHA==}
+  /@libsql/linux-x64-gnu@0.2.0:
+    resolution: {integrity: sha512-+x/d289KeJydwOhhqSxKT+6MSQTCfLltzOpTzPccsvdt5fxg8CBi+gfvEJ4/XW23Sa+9bc7zodFP0i6MOlxX7w==}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@libsql/linux-x64-musl@0.3.7:
-    resolution: {integrity: sha512-A+wWU5Q3Or1VSWLNobznj/3cl841s586g91ps5fPyW8wbfC02P2uDodQ3omktvKxkdbbqiaEjCkrsKb5O/Z0XA==}
+  /@libsql/linux-x64-musl@0.2.0:
+    resolution: {integrity: sha512-5Xn0c5A6vKf9D1ASpgk7mef//FuY7t5Lktj/eiU4n3ryxG+6WTpqstTittJUgepVjcleLPYxIhQAYeYwTYH1IQ==}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@libsql/win32-x64-msvc@0.3.7:
-    resolution: {integrity: sha512-uSEQXzQRJddM50nQ4pm/w70UiEaheJOG+4wGKzRhT/BhkNHZr6QddXq9muhFgDnqmoXhFy3jVzWHHTekPDtmMA==}
+  /@libsql/win32-x64-msvc@0.2.0:
+    resolution: {integrity: sha512-rpK+trBIpRST15m3cMYg5aPaX7kvCIottxY7jZPINkKAaScvfbn9yulU/iZUM9YtuK96Y1ZmvwyVIK/Y5DzoMQ==}
     cpu: [x64]
     os: [win32]
     requiresBuild: true
@@ -2626,7 +2639,9 @@ packages:
 
   /@neon-rs/load@0.0.4:
     resolution: {integrity: sha512-kTPhdZyTQxB+2wpiRcFWrDcejc4JI6tkPuS7UZCG4l6Zvc5kU/gGQ/ozvHTh1XR5tS+UlfAfGuPajjzQjCiHCw==}
+    requiresBuild: true
     dev: false
+    optional: true
 
   /@neondatabase/serverless@0.9.0:
     resolution: {integrity: sha512-mmJnUAzlzvxNSZuuhI6kgJjH+JgFdBMYUWxihtq/nj0Tjt+Y5UU3W+SvRFoucnd5NObYkuLYQzk+zV5DGFKGJg==}
@@ -3264,12 +3279,12 @@ packages:
     dev: false
     optional: true
 
-  /@prisma/adapter-libsql@5.10.2(@libsql/client@0.5.3):
+  /@prisma/adapter-libsql@5.10.2(@libsql/client@0.4.3):
     resolution: {integrity: sha512-XRaSK8IhmodBK3FAvlw0blwUVlIH9sEvUvJvHtGXKoMJDG9zb5HS/NkAqPVG7/8oqUZInZmdNlUXb/RGiROiFg==}
     peerDependencies:
       '@libsql/client': ^0.3.5 || ^0.4.0
     dependencies:
-      '@libsql/client': 0.5.3
+      '@libsql/client': 0.4.3
       '@prisma/driver-adapter-utils': 5.10.2
       async-mutex: 0.4.1
     dev: false
@@ -3647,6 +3662,10 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
+  /@swc/helpers@0.2.14:
+    resolution: {integrity: sha512-wpCQMhf5p5GhNg2MmGKXzUNwxe7zRiCsmqYsamez2beP7mKPCSiu+BjZcdN95yYSzO857kr0VfQewmGpS77nqA==}
+    dev: false
+
   /@swc/helpers@0.5.6:
     resolution: {integrity: sha512-aYX01Ke9hunpoCexYAgQucEpARGQ5w/cqHFrIR+e9gdKb1QWTsVJuTJ2ozQzIAxLyRQe/m+2RqzkyOOGiMKRQA==}
     dependencies:
@@ -3663,6 +3682,12 @@ packages:
   /@types/cookie@0.6.0:
     resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
 
+  /@types/dropzone@5.7.8:
+    resolution: {integrity: sha512-+L0/KRMuB8cIiCe5AfF448nGMpY+gHiSakqsqT3plEIfgqSV+gcVs1AkngM9zZG8hi6lgMxy4iYEuGXXmqjYvg==}
+    dependencies:
+      '@types/jquery': 3.5.29
+    dev: false
+
   /@types/eslint@8.56.2:
     resolution: {integrity: sha512-uQDwm1wFHmbBbCZCqAlq6Do9LYwByNZHWzXppSnay9SuwJ+VRbjkbLABer54kcPnMSlG6Fdiy2yaFXm/z9Z5gw==}
     dependencies:
@@ -3676,6 +3701,12 @@ packages:
 
   /@types/estree@1.0.5:
     resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==}
+
+  /@types/jquery@3.5.29:
+    resolution: {integrity: sha512-oXQQC9X9MOPRrMhPHHOsXqeQDnWeCDT3PelUIg/Oy8FAbzSZtFHRjc7IpbfFVmpLtJ+UOoywpRsuO5Jxjybyeg==}
+    dependencies:
+      '@types/sizzle': 2.3.8
+    dev: false
 
   /@types/json-schema@7.0.15:
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
@@ -3721,6 +3752,10 @@ packages:
   /@types/semver@7.5.7:
     resolution: {integrity: sha512-/wdoPq1QqkSj9/QOeKkFquEuPzQbHTWAMPH/PaUMB+JuR31lXhlWXRZ52IpfDYVlDOUBvX09uBrPwxGT1hjNBg==}
     dev: true
+
+  /@types/sizzle@2.3.8:
+    resolution: {integrity: sha512-0vWLNK2D5MT9dg0iOo8GlKguPAU02QjmZitPEsXRuJXU/OGIOt9vT9Fc26wtYuavLxtO45v9PGleoL9Z0k1LHg==}
+    dev: false
 
   /@types/trusted-types@2.0.7:
     resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
@@ -4221,7 +4256,7 @@ packages:
       array-buffer-byte-length: 1.0.1
       call-bind: 1.0.7
       define-properties: 1.2.1
-      es-abstract: 1.22.5
+      es-abstract: 1.23.1
       es-errors: 1.3.0
       get-intrinsic: 1.2.4
       is-array-buffer: 3.0.4
@@ -4569,6 +4604,14 @@ packages:
     dependencies:
       cloudinary-core: 2.13.0(lodash@4.17.21)
       core-js: 3.36.0
+      lodash: 4.17.21
+      q: 1.5.1
+    dev: false
+
+  /cloudinary@2.0.3:
+    resolution: {integrity: sha512-2JPxAUuV4iHwiW4ATSOZvii6+BhhKI9+9KscgUkxJPKa6V6wOnZJHlYyovBGrrIbIgEdmGSZgqEsLfD0wWBhBg==}
+    engines: {node: '>=9'}
+    dependencies:
       lodash: 4.17.21
       q: 1.5.1
     dev: false
@@ -4981,7 +5024,7 @@ packages:
       - supports-color
     dev: true
 
-  /drizzle-orm@0.29.5(@libsql/client@0.5.3)(@neondatabase/serverless@0.9.0)(@types/pg@8.11.2)(mysql2@3.9.2)(pg@8.11.3)(react@18.2.0):
+  /drizzle-orm@0.29.5(@libsql/client@0.4.3)(@neondatabase/serverless@0.9.0)(@types/pg@8.11.2)(mysql2@3.9.2)(pg@8.11.3)(postgres@3.4.3)(react@18.2.0):
     resolution: {integrity: sha512-jS3+uyzTz4P0Y2CICx8FmRQ1eplURPaIMWDn/yq6k4ShRFj9V7vlJk67lSf2kyYPzQ60GkkNGXcJcwrxZ6QCRw==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
@@ -5052,12 +5095,20 @@ packages:
       sqlite3:
         optional: true
     dependencies:
-      '@libsql/client': 0.5.3
+      '@libsql/client': 0.4.3
       '@neondatabase/serverless': 0.9.0
       '@types/pg': 8.11.2
       mysql2: 3.9.2
       pg: 8.11.3
+      postgres: 3.4.3
       react: 18.2.0
+    dev: false
+
+  /dropzone@6.0.0-beta.2:
+    resolution: {integrity: sha512-k44yLuFFhRk53M8zP71FaaNzJYIzr99SKmpbO/oZKNslDjNXQsBTdfLs+iONd0U0L94zzlFzRnFdqbLcs7h9fQ==}
+    dependencies:
+      '@swc/helpers': 0.2.14
+      just-extend: 5.1.1
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -5129,53 +5180,6 @@ packages:
   /env-paths@3.0.0:
     resolution: {integrity: sha512-dtJUTepzMW3Lm/NPxRf3wP4642UWhjL2sQxc+ym2YMj1m/H2zDNQOlezafzkHwn6sMstjHTwG6iQQsctDW/b1A==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-    dev: true
-
-  /es-abstract@1.22.5:
-    resolution: {integrity: sha512-oW69R+4q2wG+Hc3KZePPZxOiisRIqfKBVo/HLx94QcJeWGU/8sZhCvc829rd1kS366vlJbzBfXf9yWwf0+Ko7w==}
-    engines: {node: '>= 0.4'}
-    dependencies:
-      array-buffer-byte-length: 1.0.1
-      arraybuffer.prototype.slice: 1.0.3
-      available-typed-arrays: 1.0.7
-      call-bind: 1.0.7
-      es-define-property: 1.0.0
-      es-errors: 1.3.0
-      es-set-tostringtag: 2.0.3
-      es-to-primitive: 1.2.1
-      function.prototype.name: 1.1.6
-      get-intrinsic: 1.2.4
-      get-symbol-description: 1.0.2
-      globalthis: 1.0.3
-      gopd: 1.0.1
-      has-property-descriptors: 1.0.2
-      has-proto: 1.0.3
-      has-symbols: 1.0.3
-      hasown: 2.0.1
-      internal-slot: 1.0.7
-      is-array-buffer: 3.0.4
-      is-callable: 1.2.7
-      is-negative-zero: 2.0.3
-      is-regex: 1.1.4
-      is-shared-array-buffer: 1.0.3
-      is-string: 1.0.7
-      is-typed-array: 1.1.13
-      is-weakref: 1.0.2
-      object-inspect: 1.13.1
-      object-keys: 1.1.1
-      object.assign: 4.1.5
-      regexp.prototype.flags: 1.5.2
-      safe-array-concat: 1.1.2
-      safe-regex-test: 1.0.3
-      string.prototype.trim: 1.2.9
-      string.prototype.trimend: 1.0.8
-      string.prototype.trimstart: 1.0.7
-      typed-array-buffer: 1.0.2
-      typed-array-byte-length: 1.0.1
-      typed-array-byte-offset: 1.0.2
-      typed-array-length: 1.0.5
-      unbox-primitive: 1.0.2
-      which-typed-array: 1.1.15
     dev: true
 
   /es-abstract@1.23.1:
@@ -5255,7 +5259,7 @@ packages:
     dependencies:
       get-intrinsic: 1.2.4
       has-tostringtag: 1.0.2
-      hasown: 2.0.1
+      hasown: 2.0.2
     dev: true
 
   /es-to-primitive@1.2.1:
@@ -5816,7 +5820,7 @@ packages:
     dependencies:
       call-bind: 1.0.7
       define-properties: 1.2.1
-      es-abstract: 1.22.5
+      es-abstract: 1.23.1
       functions-have-names: 1.2.3
     dev: true
 
@@ -5867,7 +5871,7 @@ packages:
       function-bind: 1.1.2
       has-proto: 1.0.3
       has-symbols: 1.0.3
-      hasown: 2.0.1
+      hasown: 2.0.2
     dev: true
 
   /get-own-enumerable-property-symbols@3.0.2:
@@ -6134,6 +6138,10 @@ packages:
     engines: {node: '>= 4'}
     dev: true
 
+  /imagekit-javascript@3.0.0:
+    resolution: {integrity: sha512-39Q54v1fwRlCYnVyalfRi9UFuUq4t+vnktWUzqjBHRguOB+wLNnAEuPbNbm0NUBJAUw5He4C1k/0vbNLOvU/4g==}
+    dev: false
+
   /imagetools-core@6.0.4:
     resolution: {integrity: sha512-N1qs5qn7u9nR3kboISkYuvJm8MohiphCfBa+wx1UOropVaFis9/mh6wuDPLHJNhl6/64C7q2Pch5NASVKAaSrg==}
     engines: {node: '>=12.0.0'}
@@ -6181,7 +6189,7 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       es-errors: 1.3.0
-      hasown: 2.0.1
+      hasown: 2.0.2
       side-channel: 1.0.6
     dev: true
 
@@ -6550,6 +6558,10 @@ packages:
     resolution: {integrity: sha512-1IynUYEc/HAwxhi3WDpIpxJbZpMCvvrrmZVqvj9EhpvbH8lls7HhdhiByjL7DkAaWlLIzpC0Xc/VPvy/UxLNjA==}
     dev: false
 
+  /just-extend@5.1.1:
+    resolution: {integrity: sha512-b+z6yF1d4EOyDgylzQo5IminlUmzSeqR1hs/bzjBNjuGras4FXq/6TrzjxfN0j+TmI0ltJzTNlqXUMCniciwKQ==}
+    dev: false
+
   /keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
     dependencies:
@@ -6585,22 +6597,24 @@ packages:
       type-check: 0.4.0
     dev: true
 
-  /libsql@0.3.7:
-    resolution: {integrity: sha512-gdRVGBr0kBk98p7Bo86mo0l1J9TapLoDOmEBLItFtT3r1fVHlzMqOehpSP3R0MWfbJb+qJcTVzb1mSGywv8eWQ==}
+  /libsql@0.2.0:
+    resolution: {integrity: sha512-ELBRqhpJx5Dap0187zKQnntZyk4EjlDHSrjIVL8t+fQ5e8IxbQTeYgZgigMjB1EvrETdkm0Y0VxBGhzPQ+t0Jg==}
     cpu: [x64, arm64]
     os: [darwin, linux, win32]
+    requiresBuild: true
     dependencies:
       '@neon-rs/load': 0.0.4
       detect-libc: 2.0.2
     optionalDependencies:
-      '@libsql/darwin-arm64': 0.3.7
-      '@libsql/darwin-x64': 0.3.7
-      '@libsql/linux-arm64-gnu': 0.3.7
-      '@libsql/linux-arm64-musl': 0.3.7
-      '@libsql/linux-x64-gnu': 0.3.7
-      '@libsql/linux-x64-musl': 0.3.7
-      '@libsql/win32-x64-msvc': 0.3.7
+      '@libsql/darwin-arm64': 0.2.0
+      '@libsql/darwin-x64': 0.2.0
+      '@libsql/linux-arm64-gnu': 0.2.0
+      '@libsql/linux-arm64-musl': 0.2.0
+      '@libsql/linux-x64-gnu': 0.2.0
+      '@libsql/linux-x64-musl': 0.2.0
+      '@libsql/win32-x64-msvc': 0.2.0
     dev: false
+    optional: true
 
   /lilconfig@2.1.0:
     resolution: {integrity: sha512-utWOt/GHzuUxnLKxB6dk81RoOeoNeHgbrXiuGk4yyF5qlRz+iIVWu56E2fqGHFrXz0QNUhLB/8nKqvRH66JKGQ==}
@@ -7540,6 +7554,11 @@ packages:
     resolution: {integrity: sha512-i/hbxIE9803Alj/6ytL7UHQxRvZkI9O4Sy+J3HGc4F4oo/2eQAjTSNJ0bfxyse3bH0nuVesCk+3IRLaMtG3H6w==}
     dev: false
 
+  /postgres@3.4.3:
+    resolution: {integrity: sha512-iHJn4+M9vbTdHSdDzNkC0crHq+1CUdFhx+YqCE+SqWxPjm+Zu63jq7yZborOBF64c8pc58O5uMudyL1FQcHacA==}
+    engines: {node: '>=12'}
+    dev: false
+
   /prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
@@ -8197,7 +8216,7 @@ packages:
     dependencies:
       call-bind: 1.0.7
       define-properties: 1.2.1
-      es-abstract: 1.22.5
+      es-abstract: 1.23.1
       get-intrinsic: 1.2.4
       has-symbols: 1.0.3
       internal-slot: 1.0.7
@@ -8229,7 +8248,7 @@ packages:
     dependencies:
       call-bind: 1.0.7
       define-properties: 1.2.1
-      es-abstract: 1.22.5
+      es-abstract: 1.23.1
     dev: true
 
   /string_decoder@1.3.0:

@@ -1,8 +1,7 @@
 import type { LayoutServerLoad } from "./$types";
-import { getUserFromLocalsOrRedirect } from "$lib/server/auth";
 
-export const load: LayoutServerLoad = async ({ locals }) => {
-	const user = getUserFromLocalsOrRedirect(locals);
+export const load: LayoutServerLoad = async ({ parent, locals }) => {
+	const { user } = await parent();
 	return {
 		user,
 	};

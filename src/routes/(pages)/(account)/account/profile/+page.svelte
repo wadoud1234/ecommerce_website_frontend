@@ -1,10 +1,9 @@
 <script lang="ts">
 	import { z } from 'zod';
 	import { page } from '$app/stores';
-	import {  goto, invalidate, invalidateAll, replaceState } from '$app/navigation';
+	import { invalidateAll, replaceState } from '$app/navigation';
 	import ProfilePage from '$lib/components/new/ProfilePage.svelte';
-	import type { User } from 'lucia';
-	import type { LinkProviders, Product, onUploadImageResponse } from '$lib/types';
+	import type { onUploadImageResponse } from '$lib/types';
 	import toast from "svelte-french-toast"
 	export let data:any;
 	

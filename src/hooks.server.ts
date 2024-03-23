@@ -1,5 +1,4 @@
 import { auth } from "$lib/server/auth";
-import AuthStore from "$lib/stores/AuthStore";
 import type { Handle } from "@sveltejs/kit";
 
 export const handle: Handle = async ({ event, resolve }) => {
@@ -7,10 +6,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 	if (!sessionId) {
 		event.locals.user = null;
 		event.locals.session = null;
-		AuthStore.set({
-			user: null,
-			session: null,
-		});
 		return resolve(event);
 	}
 
@@ -35,5 +30,5 @@ export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.user = user;
 	event.locals.session = session;
 
-	return resolve(event);
+	return resolve(event, { preload: () => true });
 };

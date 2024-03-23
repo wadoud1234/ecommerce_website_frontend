@@ -1,11 +1,10 @@
 import { OAuth2RequestError } from "arctic";
 import { github, auth } from "$lib/server/auth";
-
+import { user as userModel } from "$lib/server/db/schema";
 import type { RequestEvent } from "@sveltejs/kit";
-import prisma from "$lib/server/prisma";
-import { Provider } from "$lib/types";
-import slugify from "slugify";
 import { generateProductSearchText, generateSlug } from "$lib/helpers/strings";
+import db from "$lib/server/db";
+import { and, eq } from "drizzle-orm";
 
 export async function GET({ url, cookies }: RequestEvent): Promise<Response> {
 	const code = url.searchParams.get("code");
@@ -29,9 +28,15 @@ export async function GET({ url, cookies }: RequestEvent): Promise<Response> {
 
 		const { avatar_url } = githubUser;
 
-		const existingUser = await prisma.user.findFirst({
-			where: { github_id: `${githubUser.id}` },
+		const existingUser = await db.query.user.findFirst({
+			where: and(
+				eq(userModel.provider, "github"),
+				eq(userModel.providerId, `${githubUser.id}`),
+			),
 		});
+		// const existingUser = await prisma.user.findFirst({
+		// where: { github_id: `${githubUser.id}` },
+		// });
 
 		if (existingUser) {
 			const session = await auth.createSession(existingUser.id, {});
@@ -54,18 +59,33 @@ export async function GET({ url, cookies }: RequestEvent): Promise<Response> {
 			);
 
 			if (primary) {
-				const newUser = await prisma.user.create({
-					data: {
-						provider: Provider.GITHUB,
-						github_id: `${githubUser.id}`,
+				const newUser = await db
+					.insert(userModel)
+					.values({
+						provider: "github",
+						providerId: `${githubUser.id}`,
 						name: githubUser.login,
 						slug: generateSlug(githubUser.name),
 						searchText: generateProductSearchText(githubUser.name, ""),
 						email: primary.email,
 						isAdmin: false,
 						avatar: avatar_url,
-					},
-				});
+						password: "",
+					})
+					.returning({ id: userModel.id })
+					.then((data) => data?.[0]);
+				// const newUser = await prisma.user.create({
+				// 	data: {
+				// 		provider: Provider.GITHUB,
+				// 		github_id: `${githubUser.id}`,
+				// 		name: githubUser.login,
+				// 		slug: generateSlug(githubUser.name),
+				// 		searchText: generateProductSearchText(githubUser.name, ""),
+				// 		email: primary.email,
+				// 		isAdmin: false,
+				// 		avatar: avatar_url,
+				// 	},
+				// });
 				const session = await auth.createSession(newUser.id, {});
 				const sessionCookie = auth.createSessionCookie(session.id);
 				cookies.set(sessionCookie.name, sessionCookie.value, {

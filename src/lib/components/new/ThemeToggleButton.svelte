@@ -2,18 +2,22 @@
 	import { Button } from '$lib/components/ui/button';
 	import Sun from 'lucide-svelte/icons/sun';
 	import Moon from 'lucide-svelte/icons/moon';
-	import toast from "svelte-french-toast"
-	import { toggleMode ,mode} from 'mode-watcher';
-	const toggle = ()=>{
-		toast(`Mode changed to ${$mode==="dark"?"light":"dark"}`,{
-			icon:$mode==="dark"?"☀️":"🌙",
-		})
-		toggleMode()
-		
-	}
+	import toast from 'svelte-french-toast';
+	import { toggleMode, mode } from 'mode-watcher';
+	const toggle = () => {
+		toast(`Mode changed to ${$mode === 'dark' ? 'light' : 'dark'}`, {
+			icon: $mode === 'dark' ? '☀️' : '🌙'
+		});
+		toggleMode();
+	};
 </script>
 
-<Button on:click={toggle} class="bg-inherit text-inherit border border-zinc-400 dark:border-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700" size="icon">
+<Button
+	on:click={toggle}
+	aria-label="Toggle theme"
+	class="bg-inherit text-inherit border border-zinc-300 dark:border-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700"
+	size="icon"
+>
 	<Sun
 		class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
 	/>

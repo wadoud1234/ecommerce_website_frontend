@@ -21,10 +21,11 @@
 </script>
 
 <Button
+	aria-label={`category ${name}`}
 	href={link}
 	on:click={onClick}
 	data-sveltekit-noscroll
-	class={twMerge('bg-inherit hover:bg-inherit text-inherit CategoryCard w-40 h-36 rounded-sm border border-zinc-400 dark:border-zinc-600 flex-1 flex flex-col gap-4 items-center justify-center',active && 'bg-red-600 bg-opacity-80 text-white')}
+	class={twMerge('bg-inherit hover:bg-inherit text-inherit CategoryCard w-40 h-36 rounded-sm border border-zinc-300 dark:border-zinc-600 flex-1 flex flex-col gap-4 items-center justify-center',active && 'bg-red-600 bg-opacity-80 text-white')}
 >
 	<svelte:component this={Icon} size={36} />
 	<p class="poppins-medium">{name}</p>

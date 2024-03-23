@@ -5,10 +5,8 @@
 	export let link: string;
 	let active: boolean = false;
 	let pathname: string;
-	$: {
-		pathname = $page.url.pathname;
-		active = pathname === link;
-	}
+	pathname = $page.url.pathname;
+	active = pathname === link;
 </script>
 
 <li>

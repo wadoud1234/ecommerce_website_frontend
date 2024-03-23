@@ -12,9 +12,10 @@
 </script>
 
 <button
+	aria-label="Menu"
 	type="button"
 	on:click={toggle}
-	class=" rounded-sm border-0 bg-gray-200 dark:bg-inherit dark:text-inherit dark:border-1 dark:border-zinc-800 p-2"
+	class="p-2 bg-gray-200 border-0 rounded-sm  dark:bg-inherit dark:text-inherit dark:border-1 dark:border-zinc-800"
 >
 	<Menu />
 </button>
@@ -25,7 +26,7 @@
 	<MobileMenuItem text="About" link="/about" />
 	<MobileMenuItem text="Contact" link="/contact" />
 	{#if user && user.id}
-		<MobileMenuItem text="Profile" link="/profile" />
+		<MobileMenuItem text="Profile" link="/account/profile" />
 		<LogoutForm
 			hasIcon={false}
 			buttonClasses="w-full items-center justify-center py-2 poppins-regular text-lg hover:text-black/80 dark:border-b-zinc-900 border-t-0 border-x-0 border border-b-gray-300"

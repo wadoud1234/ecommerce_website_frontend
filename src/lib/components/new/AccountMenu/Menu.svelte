@@ -18,38 +18,38 @@
 	<!-- <Avatar/> -->
 	{#if user && user.name}
 		{#if user?.avatar && user.avatar.length > 0}
-			<button on:click={()=>toggle()} class="w-10 h-10 max-w-10 max-h-10">
-				<CldImage src={user?.avatar} alt={slug} class="max-w-[40px] max-h-[40px]flex items-center justfify-center rounded-full" />
+			<button aria-label="Account Menu" on:click={()=>toggle()} class="w-10 h-10 max-w-10 max-h-10">
+				<CldImage loading="lazy" src={user?.avatar} alt={slug} class="max-w-[40px] max-h-[40px]flex items-center justfify-center rounded-full" />
 			</button>
 		{:else}
-			<button on:click={()=>toggle()}>
+			<button aria-label="Account Menu" on:click={()=>toggle()}>
 				<Avatar.Root>
 					<Avatar.Fallback class="cursor-pointer">{slug}</Avatar.Fallback>
 				</Avatar.Root>
 			</button>
 		{/if}
 	{:else}
-		<button on:click={()=>toggle()} class="h-full">
+		<button aria-label="Account Menu" on:click={()=>toggle()} class="h-full">
 			<UserRound size={22} />
 		</button>
 	{/if}
 	
 	<div
-		class={`text-inherit AccountMenu rounded-lg w-fit border-black/40 border-[0.5px] bg-white dark:bg-zinc-900 z-50 shadow-black/10 dark:shadow-white/10 shadow-md absolute top-[52px] -right-2 ${showMenu ? 'flex flex-col' : 'hidden'}`}
+		class={`text-inherit AccountMenu rounded-lg w-fit border-zinc-300 dark:border-zinc-800 border-[0.5px] bg-white dark:bg-zinc-900 z-50 shadow-black/10 dark:shadow-white/10 shadow-md absolute top-[52px] -right-2 ${showMenu ? 'flex flex-col' : 'hidden'}`}
 	>
 		{#if user && user.name}
 			<h3 class="py-2 pl-4 text-lg font-medium underline underline-offset-4">
 				{user.name.split(' ')[0]}
 			</h3>
 			<Item 
-				link="/profile" 
+				link="/account" 
 				title="Profile" 
 				Icon={UserRound} 
 				size={22} 
 				onClick={toggle}
 			/>
 			<Item 
-				link="/profile/add-product" 
+				link="/account/add-product" 
 				title="Add Product" 
 				size={22} 
 				Icon={BadgePlus}  

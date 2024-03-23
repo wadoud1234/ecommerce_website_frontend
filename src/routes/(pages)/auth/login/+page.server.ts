@@ -1,20 +1,19 @@
-import type { Actions, PageServerLoad } from "./$types";
+import type { Actions } from "./$types";
 import { setMessage, superValidate } from "sveltekit-superforms";
 import { loginSchema } from "./LoginSchema";
 import { zod } from "sveltekit-superforms/adapters";
 import { redirect } from "@sveltejs/kit";
-import {
-	auth,
-	getUserFromLocals,
-	getUserFromLocalsOrRedirect,
-} from "$lib/server/auth";
+import { auth, getUserFromLocals } from "$lib/server/auth";
 import { verifyPassword } from "$lib/helpers/password";
-import prisma from "$lib/server/prisma";
 import { Provider } from "$lib/types";
-import { invalidate, invalidateAll, replaceState } from "$app/navigation";
-export const load: PageServerLoad = async ({ locals }) => {
+import db from "$lib/server/db";
+import { providers, user } from "$lib/server/db/schema";
+import { eq } from "drizzle-orm";
+import { TURSO_AUTH_TOKEN } from "$env/static/private";
+export const load = async ({ locals }) => {
 	const user = getUserFromLocals(locals);
-	if (user?.id) throw redirect(300, "/");
+	if (user?.id) return redirect(302, "/account/profile");
+
 	const result = await superValidate(zod(loginSchema));
 
 	return {
@@ -23,6 +22,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 };
 export const actions = {
 	default: async (event) => {
+		console.time("Start Handling");
 		const form = await superValidate(event, zod(loginSchema));
 
 		if (!form.valid) {
@@ -30,14 +30,46 @@ export const actions = {
 		}
 
 		const { email, password } = form.data;
-		const existingUser = await prisma.user.findUnique({ where: { email } });
+		console.log({ email, password });
 
+		// const existingUser = await prisma.user.findUnique({ where: { email } });
+		console.time("Start fetching data from db");
+		// const existingUser = await db.query.users.findFirst({
+		// where: eq(users.email, email),
+		// columns: {
+		// id: true,
+		// name: true,
+		// email: true,
+		// provider: true,
+		// password: true,
+		// avatar: true,
+		// description: true,
+		// isAdmin: true,
+		// emailVerified: true,
+		// },
+		// });
+		const existingUser = await db.query.user.findFirst({
+			where: eq(user.email, email),
+			columns: {
+				id: true,
+				name: true,
+				email: true,
+				provider: true,
+				providerId: true,
+				password: true,
+				avatar: true,
+				description: true,
+				isAdmin: true,
+				emailVerified: true,
+			},
+		});
+		console.timeEnd("Start fetching data from db");
+		console.log({ existingUser });
 		if (!existingUser || !existingUser.password) {
 			return setMessage(form, "Invalid credentials , No USER", { status: 400 });
 		}
 
-		const provider = existingUser.provider;
-		if (provider !== Provider.EMAIL) {
+		if (existingUser?.provider !== "email") {
 			return setMessage(
 				form,
 				"Invalid credentials , try with other providers",
@@ -63,11 +95,13 @@ export const actions = {
 			id,
 			name,
 			email,
-			description,
-			isAdmin,
-			avatar,
-			emailVerified,
+			description: description || "",
+			isAdmin: !!isAdmin,
+			avatar: avatar || "",
+			emailVerified: emailVerified || false,
 		};
-		return redirect(301, "/");
+
+		console.timeEnd("Start Handling");
+		return redirect(301, "/account/profile");
 	},
 } satisfies Actions;

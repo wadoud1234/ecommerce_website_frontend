@@ -19,17 +19,17 @@
 <div class="flex flex-col items-center justify-start gap-2 w-fit">
     {#if header && header?.length>0}<p class="font-medium">{header}</p>{/if}
     {#if value}
-        <button class="rounded-lg imageDisplay" on:click={()=>openImageModal(value,"product-image")}>
-            <CldImage class="rounded-lg imageDisplay" alt="test" src={value}/>
+        <button type="button" aria-label="product image" class="rounded-lg imageDisplay" on:click={()=>openImageModal(value,"product-image")}>
+            <CldImage loading="lazy" class="rounded-lg imageDisplay" alt="test" src={value}/>
         </button>
     {:else}
         <div class="imageDisplay dark:bg-zinc-600 bg-zinc-400"></div>
     {/if}
-    <Button 
+    <Button aria-label="upload image" 
         size="default" 
-        class="flex items-center justify-center w-full gap-2 px-2 py-2 border rounded-md border-zinc-400 min-w-fit dark:hover:bg-zinc-800 bg-zinc-200 dark:bg-inherit text-inherit hover:bg-zinc-300"
+        class="flex items-center justify-center w-full gap-2 px-2 py-2 border rounded-md border-zinc-300 dark:border-zinc-800 min-w-fit dark:hover:bg-zinc-800 bg-inherit text-inherit hover:bg-zinc-200"
     >
-        <CldUploadButton {onUpload} {uploadPreset} class="flex flex-row items-center justify-center w-full h-full gap-2">
+        <CldUploadButton aria-label="upload image" {onUpload} {uploadPreset} class="flex flex-row items-center justify-center w-full h-full gap-2">
             <ImageUp/> {value?'Change':'Upload'}
         </CldUploadButton>
         <input type="hidden" class="hidden" bind:value={value}>

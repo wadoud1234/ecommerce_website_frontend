@@ -163,3 +163,23 @@ export function fromProductType2ProductToShow(product: Product): ProductToShow {
 		slug: product.slug,
 	};
 }
+
+export type CartItemProduct = {
+	id: string;
+	name: string;
+	mainImage: string;
+	price: number;
+	quantity: number;
+};
+
+export function fromProductType2CartItemProduct(
+	product: Product,
+): CartItemProduct {
+	return {
+		id: product.id,
+		name: product.name,
+		mainImage: product.mainImage,
+		price: product.price,
+		quantity: 1,
+	};
+}

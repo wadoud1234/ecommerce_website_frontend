@@ -1,6 +1,8 @@
 import { z } from "zod";
-import prisma from "$lib/server/prisma";
 import { getUserFromLocals } from "$lib/server/auth.js";
+import db from "$lib/server/db/index.js";
+import { eq } from "drizzle-orm";
+import { user as userModel } from "$lib/server/db/schema.js";
 
 export async function POST({ request, locals }) {
 	const user = getUserFromLocals(locals);
@@ -22,16 +24,22 @@ export async function POST({ request, locals }) {
 			status: 400,
 		});
 	}
-	const lastUser = await prisma.user.findUnique({
-		where: { id: parsingResult.data.userId },
-		select: { avatar: true },
-	});
-	const updatedUser = await prisma.user.update({
-		where: { id: parsingResult.data.userId },
-		data: { avatar: parsingResult.data.avatar_url },
-	});
+	// const lastUser = await db.query.user.findFirst({
+	// where: eq(userModel.id, parsingResult.data.userId),
+	// columns: { avatar: true },
+	// });
 
-	return new Response(null, {
+	await db
+		.update(userModel)
+		.set({
+			avatar: parsingResult.data.avatar_url,
+		})
+		.where(eq(userModel.id, parsingResult.data.userId));
+
+	return new Response("Updated", {
 		status: 302,
+		headers: {
+			location: "/account/profile",
+		},
 	});
 }

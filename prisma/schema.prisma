@@ -85,9 +85,8 @@ model UserLink {
 }
 
 model ProductImage {
-  id   String @id @unique @default(uuid())
-  link String @db.Text
-
+  id        String  @id @unique @default(uuid())
+  link      String  @db.Text
   productId String
   Product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 }

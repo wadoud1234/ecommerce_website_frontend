@@ -8,7 +8,7 @@
 </script>
 
 <form action="/auth/logout" method="GET" class={` ${formClasses}`}>
-	<button type="submit" class={`flex flex-row items-center ${buttonClasses}`}>
+	<button aria-label="Logout" type="submit" class={`flex flex-row items-center ${buttonClasses}`}>
 		{#if hasIcon}
 			<LogOut />
 		{/if}

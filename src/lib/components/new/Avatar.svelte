@@ -6,8 +6,8 @@
 </script>
 
 {#if user && user.name}
-	{#if user.avatar.length > 0}
-		<img src={user.avatar} alt={slug} class="rounded-full mt-1 bg-green-700" width="30" />
+	{#if user?.avatar.length > 0}
+		<img src={user.avatar} alt={slug} class="mt-1 bg-green-700 rounded-full" width="30" loading="lazy" />
 	{:else}
 		<div
 			role="img"

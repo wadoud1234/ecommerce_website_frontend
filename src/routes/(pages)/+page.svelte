@@ -1,5 +1,4 @@
 <script lang="ts">
-	import NavItem from '$lib/components/new/NavItem.svelte';
 	import NewContainer from '$lib/components/new/NewContainer.svelte';
 	import Separator from '$lib/components/new/Separator.svelte';
 	import { categories } from '$lib/data';
@@ -8,10 +7,8 @@
 	// import HeroSection from '$lib/components/new/HeroSection.svelte';
 	import CategoryCarousel from '$lib/components/new/CategoryCarousel.svelte';
 	import ProductCarousel from '$lib/components/new/ProductCarousel.svelte';
-	import { ChevronRight } from 'lucide-svelte';
-	import type { PageData, PageServerData } from './$types';
+	import type { PageServerData } from './$types';
 	import { page } from '$app/stores';
-	import { HeroSectionImage } from '$lib/icons';
 	export let data:PageServerData
 	$:categoryName=$page.url.searchParams?.get?.("category")||""
 	
@@ -19,6 +16,7 @@
 
 <svelte:head>
 	<title>Home</title>
+	<meta name="description" content="Home page" />
 </svelte:head>
 
 <div class="w-full h-full min-h-screen py-10 HomePage">
@@ -96,7 +94,7 @@
 				<div class="flex flex-col gap-6">
 					<div class="flex flex-row items-center justify-between">
 						<p class="text-2xl poppins-medium">Best Selling Products</p>
-						<button
+						<button aria-label="View All Products"
 							type="button"
 							class="py-3 text-white bg-red-600 rounded-sm bg-opacity-80 px-7 poppins-medium"
 							>
@@ -141,7 +139,7 @@
 						{/if}
 					{/await}
 					<div class="flex flex-row items-center justify-center w-full mt-6">
-						<button
+						<button aria-label="View All Products"
 							type="button"
 							class="py-3 text-white bg-red-600 rounded-sm bg-opacity-80 px-7 poppins-medium"
 						>

@@ -28,9 +28,10 @@
             
             
 </script>
-<button class="icon-button">
+<button aria-label={provider} class="icon-button">
     <a href={link}>
-        <enhanced:img
+        <img
+            loading="lazy"
             src={Icon}
             alt={provider}
             class="social-icons"

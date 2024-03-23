@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Writable } from 'svelte/store';
 
-	export let enhance: any={};
+	export let enhance: any = {};
 	export let message: Writable<unknown>;
 	export let header: string;
 	export let description: string;
@@ -11,7 +11,7 @@
 	<div
 		class="flex flex-col gap-5 justify-center items-center lg:justify-start lg:items-start min-w-full"
 	>
-		<h2 class="text-5xl font-medium">{header}</h2>
+		<h1 class="text-2xl md:text-5xl font-medium">{header}</h1>
 		<p>{description}</p>
 		{#if $message}
 			<p class="text-red-500 font-medium">

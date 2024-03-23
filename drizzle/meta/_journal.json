@@ -1,0 +1,20 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1711064113487,
+      "tag": "0000_yellow_mephistopheles",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1711153451989,
+      "tag": "0001_stormy_toad_men",
+      "breakpoints": true
+    }
+  ]
+}

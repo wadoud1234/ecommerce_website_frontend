@@ -1,7 +1,6 @@
 import { fail, redirect } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
 import { auth } from "$lib/server/auth";
-import prisma from "$lib/server/prisma";
 
 export const GET: RequestHandler = async ({ cookies, locals }) => {
 	if (!locals.session) fail(401);

@@ -1,4 +1,5 @@
 import slugify from "slugify";
+import { createId, init, isCuid } from "@paralleldrive/cuid2";
 
 export const firstLetterUpperCase = (str: string) => {
 	return str.charAt(0).toUpperCase() + str.slice(1);
@@ -19,3 +20,5 @@ export const generateProductSearchText = (
 ) => {
 	return `${generateSlug(name)}-${generateSlug(description)}`;
 };
+
+

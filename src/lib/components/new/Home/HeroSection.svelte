@@ -22,7 +22,7 @@
             your ultimate destination for all things fabulous!</h1>
         <p class="-mt-2 text-center">Discover the latest phones, laptops, and accessories</p>
         <form on:submit={handleSearch}
-        class="flex flex-row items-center justify-center relative rounded-md border border-zinc-400 dark:border-zinc-700 gap-0.5 h-10 flex-1 w-full max-w-full"
+        class="flex flex-row items-center justify-center relative rounded-md border border-zinc-300 dark:border-zinc-700 gap-0.5 h-10 flex-1 w-full max-w-full"
     >
         <input
             type="text"
@@ -31,16 +31,16 @@
             class="w-full p-2 font-sans text-sm outline-none bg-inherit text-start"
         />
         {#if searchKeywords && searchKeywords.length>0}
-            <Button 
+            <Button  aria-label="Clear search"
                 class="h-full p-0 bg-inherit text-zinc-400 hover:bg-inherit hover:text-zinc-500" 
                 on:click={()=>{searchKeywords=""}}
             >
                 <X/>
             </Button>
         {/if}
-        <Button
+        <Button aria-label="Search"
             type="submit" size='icon'
-            class="flex items-center justify-center min-h-full px-2 text-black border border-r-0 rounded-none border-y-0 border-zinc-400 dark:border-zinc-800 bg-zinc-200 hover:bg-zinc-300 dark:bg-zinc-700 dark:hover:hover:bg-zinc-600 dark:text-zinc-400 rounded-r-md"
+            class="flex items-center justify-center min-h-full px-2 text-black border border-r-0 rounded-none border-y-0 border-zinc-300 dark:border-zinc-800 bg-zinc-200 hover:bg-zinc-300 dark:bg-zinc-700 dark:hover:hover:bg-zinc-600 dark:text-zinc-400 rounded-r-md"
         >
             <Search class="min-h-full"/>
     </Button>
