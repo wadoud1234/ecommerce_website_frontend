@@ -5,10 +5,10 @@ const drizzleConfig: Config = {
 	out: "./drizzle",
 	driver: "pg",
 	dbCredentials: {
-		host: "ep-odd-darkness-a2zry3xi-pooler.eu-central-1.aws.neon.tech",
-		user: "default",
-		password: "MJzu8L9KwNyv",
-		database: "verceldb",
+		host: process.env.NEON_PG_HOST as string,
+		user: process.env.NEON_PG_USER as string,
+		password: process.env.NEON_PG_PASSWORD as string,
+		database: process.env.NEON_PG_DATABASE as string,
 	},
 };
 export default drizzleConfig;
