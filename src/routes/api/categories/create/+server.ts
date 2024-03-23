@@ -1,6 +1,5 @@
 import { generateSlug } from "$lib/helpers/strings.js";
 import db from "$lib/server/db/index.js";
-import prisma from "$lib/server/prisma.js";
 import { z } from "zod";
 import { category as categoryModel } from "$lib/server/db/schema.js";
 export async function POST({ request }) {
@@ -24,12 +23,7 @@ export async function POST({ request }) {
 		name: parsingResult.data.categoryName,
 		slug: generateSlug(parsingResult.data.categoryName),
 	});
-	// const category = await prisma.category.create({
-	// 	data: {
-	// 		name: parsingResult.data.categoryName,
-	// 		slug: generateSlug(parsingResult.data.categoryName),
-	// 	},
-	// });
+
 	return new Response("Created", {
 		status: 200,
 	});

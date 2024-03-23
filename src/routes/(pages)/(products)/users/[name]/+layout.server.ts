@@ -10,9 +10,6 @@ export const load: LayoutServerLoad = async ({ locals, params }) => {
 	const visitedUser = await db.query.user.findFirst({
 		where: eq(userModel.name, params.name),
 	});
-	// const visitedUser = await prisma.user.findUnique({
-	// 	where: { name: params.name },
-	// });
 
 	if (!visitedUser || !visitedUser?.name) {
 		error(404, "NO USER FOUND");
@@ -25,17 +22,11 @@ export const load: LayoutServerLoad = async ({ locals, params }) => {
 		where: eq(userModel.id, visitedUser.id),
 		columns: { provider: true, link: true },
 	});
-	// const userLinksPromise = prisma.userLink.findMany({
-	// 	where: { userId: visitedUser.id },
-	// 	select: { provider: true, link: true },
-	// });
 
 	const productsPromise = db.query.product.findMany({
 		where: eq(userModel.id, visitedUser.id),
 	});
-	// const productsPromise = prisma.product.findMany({
-	// where: { userId: visitedUser.id },
-	// });
+
 	return {
 		userLinksPromise,
 		productsPromise,

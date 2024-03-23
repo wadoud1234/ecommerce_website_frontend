@@ -24,28 +24,13 @@ export const load: PageServerLoad = async ({ parent }) => {
 		},
 	});
 	console.log({ seller });
-	// const seller = await prisma.user.findUnique({
-	// where: { id: productFromParent.userId },
-	// select: {
-	// id: true,
-	// name: true,
-	// avatar: true,
-	// email: true,
-	// isAdmin: true,
-	// description: true,
-	// emailVerified: true,
-	// },
-	// });
+
 	if (!seller || !seller.name) error(404, "Something wrong happened");
 	const productCategory = await db.query.category.findFirst({
 		where: eq(category.id, productFromParent.categoryId),
 		columns: { name: true, id: true },
 	});
 	console.log({ productCategory });
-	// const productCategory = await prisma.category.findFirst({
-	// where: { id: productFromParent.categoryId },
-	// select: { name: true },
-	// });
 
 	if (!productCategory || !productCategory.name) error(404, "Bad Category");
 	const relatedProductsPromise = db.query.product.findMany({
@@ -55,18 +40,10 @@ export const load: PageServerLoad = async ({ parent }) => {
 		),
 	});
 	console.log("HEllo");
-	// const relatedProductsPromise = prisma.product.findMany({
-	// where: {
-	// userId: productFromParent.userId,
-	// id: { not: productFromParent.id },
-	// },
-	// });
+
 	const productsPromise = db.query.product.findMany({
 		where: not(eq(productModel.id, productFromParent.id)),
 	});
-	// const productsPromise = prisma.product.findMany({
-	// where: { id: { not: productFromParent.id } },
-	// });
 
 	// const { images, ...product } = productFromParent;
 	console.log({

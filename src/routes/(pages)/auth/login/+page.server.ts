@@ -32,22 +32,7 @@ export const actions = {
 		const { email, password } = form.data;
 		console.log({ email, password });
 
-		// const existingUser = await prisma.user.findUnique({ where: { email } });
 		console.time("Start fetching data from db");
-		// const existingUser = await db.query.users.findFirst({
-		// where: eq(users.email, email),
-		// columns: {
-		// id: true,
-		// name: true,
-		// email: true,
-		// provider: true,
-		// password: true,
-		// avatar: true,
-		// description: true,
-		// isAdmin: true,
-		// emailVerified: true,
-		// },
-		// });
 		const existingUser = await db.query.user.findFirst({
 			where: eq(user.email, email),
 			columns: {

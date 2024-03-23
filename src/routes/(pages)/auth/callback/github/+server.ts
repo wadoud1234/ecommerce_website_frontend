@@ -34,9 +34,6 @@ export async function GET({ url, cookies }: RequestEvent): Promise<Response> {
 				eq(userModel.providerId, `${githubUser.id}`),
 			),
 		});
-		// const existingUser = await prisma.user.findFirst({
-		// where: { github_id: `${githubUser.id}` },
-		// });
 
 		if (existingUser) {
 			const session = await auth.createSession(existingUser.id, {});
@@ -74,18 +71,7 @@ export async function GET({ url, cookies }: RequestEvent): Promise<Response> {
 					})
 					.returning({ id: userModel.id })
 					.then((data) => data?.[0]);
-				// const newUser = await prisma.user.create({
-				// 	data: {
-				// 		provider: Provider.GITHUB,
-				// 		github_id: `${githubUser.id}`,
-				// 		name: githubUser.login,
-				// 		slug: generateSlug(githubUser.name),
-				// 		searchText: generateProductSearchText(githubUser.name, ""),
-				// 		email: primary.email,
-				// 		isAdmin: false,
-				// 		avatar: avatar_url,
-				// 	},
-				// });
+
 				const session = await auth.createSession(newUser.id, {});
 				const sessionCookie = auth.createSessionCookie(session.id);
 				cookies.set(sessionCookie.name, sessionCookie.value, {

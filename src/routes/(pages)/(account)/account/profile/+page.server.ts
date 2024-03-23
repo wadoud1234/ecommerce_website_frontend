@@ -9,15 +9,9 @@ export const load: PageServerLoad = async ({ locals }) => {
 	const userLinksPromise = db.query.userLinks.findMany({
 		where: eq(userLinks.userId, user.id),
 	});
-	// const userLinksPromise = prisma.userLink.findMany({
-	// where: { userId: user.id },
-	// });
 	const productsPromise = db.query.product.findMany({
 		where: eq(product.userId, user.id),
 	});
-	// const productsPromise = prisma.product.findMany({
-	// where: { userId: user.id },
-	// });
 	return {
 		productsPromise,
 		userLinksPromise,

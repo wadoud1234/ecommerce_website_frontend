@@ -63,11 +63,6 @@ export const load: PageServerLoad = async ({ parent, url }) => {
 			})
 			.then((data) => data?.id);
 		console.log({ categoryId });
-
-		// categoryData = await prisma.category.findUnique({
-		// where: { slug: category },
-		// select: { id: true },
-		// });
 	}
 
 	let products: ProductToShow[];
@@ -87,19 +82,6 @@ export const load: PageServerLoad = async ({ parent, url }) => {
 			limit: 10,
 		});
 		console.log({ Cat: products });
-
-		// products = await prisma.product.findMany({
-		// where: {
-		// OR: [
-		// { name: { contains: keyword?.toLowerCase() || "" } },
-		// { description: { contains: keyword || "" } },
-		// ],
-		// AND: {
-		// categoryId: categoryData.id,
-		// },
-		// },
-		// take: limit ? parseInt(limit) : 10,
-		// });
 	} else {
 		products = await db.query.product.findMany({
 			where: like(
@@ -116,10 +98,6 @@ export const load: PageServerLoad = async ({ parent, url }) => {
 			},
 			limit: 10,
 		});
-		// products = await prisma.product.findMany({
-		// 	where: { searchText: { contains: keyword?.toLowerCase() || "" } },
-		// 	take: limit ? parseInt(limit) : 10,
-		// });
 	}
 	// "0-1000"|"1000-3000"|"3000-6000"|"6000-10000"|"over 10000"
 	const filterResults: ProductToShow[] = filterProductsFunction(

@@ -34,16 +34,10 @@ export const actions = {
 		const { name, email, password, confirm_password } = form.data;
 		console.log({ name, email, password, confirm_password });
 
-		// const existingUser = await prisma.user.findUnique({ where: { email } });
 		const existingUser = await db.query.user.findFirst({
 			where: eq(user.email, email),
 			columns: { name: true },
 		});
-		// .select()
-		// .from(user)
-		// .where(eq(user.email, email))
-		// .limit(1)
-		// .then((data) => data[0]);
 
 		if (existingUser) {
 			return setMessage(
@@ -59,16 +53,6 @@ export const actions = {
 			});
 		}
 		const hashedPassword = await hashPassword(password);
-		// const newUser = await prisma.user.create({
-		// 	data: {
-		// 		name,
-		// 		email,
-		// 		emailVerified: false,
-		// 		slug: generateSlug(name),
-		// 		searchText: generateProductSearchText(name, ""),
-		// 		password: hashedPassword,
-		// 	},
-		// });
 
 		const newUser = await db
 			.insert(user)

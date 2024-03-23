@@ -31,19 +31,7 @@ export async function POST({ locals, request }) {
 			description: parsingResult.data.description,
 		})
 		.where(eq(userModel.id, parsingResult.data.userId));
-	// .returning();
-	// console.log({ updatedUser: updatedUser[0] });
 
-	// const updatedUser = await prisma.user.update({
-	// where: { id: parsingResult.data.userId },
-	// data: {
-	// description: parsingResult.data.description,
-	// searchText: generateProductSearchText(
-	// userName,
-	// parsingResult.data.description,
-	// ),
-	// },
-	// });
 	console.timeEnd("updateUserDescription");
 	return new Response(null, {
 		status: 302,

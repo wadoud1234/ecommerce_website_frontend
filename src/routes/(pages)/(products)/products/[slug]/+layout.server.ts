@@ -16,22 +16,12 @@ export const load: LayoutServerLoad = async ({ locals, params }) => {
 		},
 	});
 	console.log({ layoutProduct: product });
-	// const product = await prisma.product.findUnique({
-	// where: { slug: productSlug },
-	// });
 
 	if (!product || !product?.slug) {
 		return redirect(302, "/");
 	}
 	const { images, ...productData } = product;
 	console.log({ images, productData });
-	// const secondaryImages = await db.query.productImages.findFirst({
-	// where: eq(productImages.productId, product.id),
-	// });
-	// const secondaryImages = await prisma.productImage.findMany({
-	// where: { productId: product.id },
-	// select: { link: true },
-	// });
 
 	const imagesData = [
 		product?.mainImage,
