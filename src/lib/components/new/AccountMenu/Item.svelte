@@ -9,7 +9,9 @@
 	export let onClick: () => void = () => {};
 </script>
 
-<Button aria-label={title}
+<Button
+	aria-label={title}
+	data-sveltekit-preload-code="tap"
 	on:click={onClick}
 	href={link}
 	data-sveltekit-preload-data="hover"

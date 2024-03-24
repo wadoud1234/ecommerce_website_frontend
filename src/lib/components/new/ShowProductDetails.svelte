@@ -94,7 +94,7 @@
 		<div class="w-full h-fit">
 			<h2 class="text-2xl font-medium">{product?.name}</h2>
 			<p class="flex flex-wrap items-center w-full gap-2">
-				<StarRatingBlock score={product?.rating} starSize={20} />
+				<StarRatingBlock score={product?.rating} starSize={16} />
 				<span class="text-sm text-zinc-600 dark:text-zinc-500 poppins-medium"
 					>({product?.sold || 0} sold)</span
 				>

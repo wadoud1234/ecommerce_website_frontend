@@ -58,8 +58,6 @@
 <script lang="ts">
 	import * as Select from '$lib/components/ui/select';
 	import Button from '$lib/components/ui/button/button.svelte';
-	const errorClasses = 'dark:text-red-500';
-	const labelClasses = 'dark:data-[fs-error]:text-red-500';
 	import { Input } from '$lib/components/ui/input';
 	import Label from '$lib/components/ui/label/label.svelte';
 	import { Textarea } from '$lib/components/ui/textarea';
@@ -68,6 +66,17 @@
 	import { page } from '$app/stores';
 	import { goto, invalidateAll } from '$app/navigation';
 	import toast from 'svelte-french-toast';
+	import { Description } from '$lib/components/ui/form';
+	import { z } from 'zod';
+	import {
+		categorySchema,
+		descriptionSchema,
+		inputValidator,
+		nameSchema,
+		priceSchema,
+		quantitySchema
+	} from './validators';
+	import RequiredInput from '$lib/components/new/RequiredInput.svelte';
 	let productImages: string[] = new Array<string>();
 	let productEnteredData = {
 		name: '',
@@ -77,13 +86,19 @@
 		category: '',
 		images: new Array<File>()
 	};
-	let errors: any;
+	let errors = {
+		name: new Array<string>(),
+		description: new Array<string>(),
+		price: new Array<string>(),
+		quantity: new Array<string>(),
+		category: new Array<string>(),
+		images: new Array<string>()
+	};
 	const onSubmit = async (e: Event) => {
 		console.log({ images: productEnteredData.images });
 		const results = AddProductSchemaFront.safeParse(productEnteredData);
-		console.log({ results });
 
-		if (results.success) {
+		if (results?.success) {
 			const formdata = new FormData();
 			formdata.append('name', results.data.name);
 			formdata.append('description', results.data.description);
@@ -109,9 +124,28 @@
 				});
 			} else {
 				toast('Something wrong happend , Refreshing ...');
-				window.location.reload();
+				const responseData = await response.json();
+				errors = {
+					name: responseData?.name || new Array<string>(),
+					description: responseData?.description || new Array<string>(),
+					price: responseData?.price || new Array<string>(),
+					quantity: responseData?.quantity || new Array<string>(),
+					category: responseData?.category || new Array<string>(),
+					images: responseData?.images || new Array<string>()
+				};
 			}
 			console.log({ response });
+		} else {
+			const { error } = results;
+			const { fieldErrors } = error.formErrors;
+			errors = {
+				name: fieldErrors?.name || new Array<string>(),
+				description: fieldErrors?.description || new Array<string>(),
+				price: fieldErrors?.price || new Array<string>(),
+				quantity: fieldErrors?.quantity || new Array<string>(),
+				category: fieldErrors?.category || new Array<string>(),
+				images: fieldErrors?.images || new Array<string>()
+			};
 		}
 	};
 	export let data: PageServerData;
@@ -128,6 +162,10 @@
 
 		previewImages[i] = URL.createObjectURL(file as Blob);
 	};
+
+	const labelErrorClasses = 'text-red-500';
+	const descriptionErrorsClasses = 'text-red-500 text-sm w-full flex flex-col';
+	const inputErrorClasses = 'border border-red-500';
 </script>
 
 <svelte:head>
@@ -147,48 +185,136 @@
 			class="lg:max-w-[50%] flex flex-col items-start justify-between flex-1 h-full min-h-full gap-4"
 		>
 			<div class="flex flex-col w-full gap-1">
-				<Label class="text-base">Name</Label>
-				<Input type="text" bind:value={productEnteredData.name} />
-			</div>
-
-			<div class="flex flex-col w-full gap-1">
-				<Label class="text-base">Description</Label>
-				<Textarea class="resize-none" bind:value={productEnteredData.description} />
-			</div>
-
-			<div class="flex flex-col w-full gap-1">
-				<Label class="text-base">Price</Label>
+				<Label class={`text-base ${errors?.name?.length > 0 ? labelErrorClasses : ''}`}
+					>Name <RequiredInput /></Label
+				>
 				<Input
+					class={` ${errors?.name.length > 0 ? inputErrorClasses : ''}`}
+					placeholder="Product Name"
+					type="text"
+					bind:value={productEnteredData.name}
+					on:input={(e) => {
+						errors.name = inputValidator(e?.target?.value, errors, 'name', nameSchema);
+					}}
+				/>
+				{#if errors?.name?.length > 0}
+					<p class={descriptionErrorsClasses}>
+						{#each errors.name as error}
+							<span>{error}</span>
+						{/each}
+					</p>
+				{/if}
+			</div>
+
+			<div class="flex flex-col w-full gap-1">
+				<Label
+					class={`text-base poppins-medium ${errors?.description?.length > 0 ? labelErrorClasses : ''}`}
+					>Description</Label
+				>
+				<Textarea
+					class={`resize-none ${errors?.description?.length > 0 ? inputErrorClasses : ''}`}
+					rows={5}
+					placeholder="Product Description"
+					bind:value={productEnteredData.description}
+					on:input={(e) => {
+						errors.description = inputValidator(
+							e?.target?.value,
+							errors,
+							'description',
+							descriptionSchema
+						);
+					}}
+				/>
+				{#if errors?.description?.length > 0}
+					<p class={descriptionErrorsClasses}>
+						{#each errors.description as error}
+							<span>{error}</span>
+						{/each}
+					</p>
+				{/if}
+			</div>
+
+			<div class="flex flex-col w-full gap-1">
+				<Label
+					class={`text-base poppins-medium ${errors?.price?.length > 0 ? labelErrorClasses : ''}`}
+					>Price <RequiredInput /></Label
+				>
+				<Input
+					class={`${errors?.price?.length > 0 ? inputErrorClasses : ''}`}
 					type="number"
 					step={0.01}
+					placeholder="Product Price"
 					on:change={(priceValue) => {
 						productEnteredData.price = Number(priceValue?.target?.value) || 1;
 					}}
+					on:input={(e) => {
+						const inputValue = Number(e?.target?.value) || 1;
+						productEnteredData.price = inputValue;
+						errors.price = inputValidator(inputValue, errors, 'price', priceSchema);
+					}}
 					bind:value={productEnteredData.price}
 				/>
+				{#if errors?.price?.length > 0}
+					<p class={descriptionErrorsClasses}>
+						{#each errors.price as error}
+							<span>{error}</span>
+						{/each}
+					</p>
+				{/if}
 			</div>
 
 			<div class="flex flex-col w-full gap-1">
-				<Label class="text-base">Quantity</Label>
+				<Label
+					class={`text-base poppins-medium ${errors?.quantity?.length > 0 ? labelErrorClasses : ''}`}
+					>Quantity <RequiredInput /></Label
+				>
 				<Input
+					class={`${errors?.quantity?.length > 0 ? inputErrorClasses : ''}`}
+					placeholder="Product Quantity"
 					type="number"
-					on:change={(priceValue) => {
-						productEnteredData.quantity = Number(priceValue?.target?.value) || 1;
+					on:input={(e) => {
+						const inputValue = Number(e?.target?.value) || 1;
+						productEnteredData.quantity = inputValue;
+						errors.quantity = inputValidator(inputValue, errors, 'quantity', quantitySchema);
 					}}
 					bind:value={productEnteredData.quantity}
 				/>
+				{#if errors?.quantity?.length > 0}
+					<p class={descriptionErrorsClasses}>
+						{#each errors.quantity as error}
+							<span>{error}</span>
+						{/each}
+					</p>
+				{/if}
 			</div>
 			<div class="flex flex-col items-start w-full gap-4">
 				<div class="flex flex-col w-full gap-1">
-					<Label class="text-base">Select Category</Label>
+					<Label
+						class={`text-base poppins-medium ${errors?.category?.length > 0 ? labelErrorClasses : ''}`}
+						>Select Category <RequiredInput /></Label
+					>
 					<Select.Root
+						multiple={false}
 						name="category"
 						onSelectedChange={(e) => {
+							console.log({ value: e?.value });
+							errors.category = inputValidator(
+								e && e.value ? e.value : '',
+								errors,
+								'category',
+								categorySchema
+							);
 							productEnteredData.category = String(e?.value) || '';
 						}}
 					>
-						<Select.Trigger value={productEnteredData.category}>
-							<Select.Value placeholder={productEnteredData.category || 'Category'} />
+						<Select.Trigger
+							value={productEnteredData.category}
+							class={errors?.category?.length > 0 ? inputErrorClasses : ''}
+						>
+							<Select.Value
+								on:change={(e) => console.log('ValueChange', { e, target: e.target })}
+								placeholder={productEnteredData.category || 'Category'}
+							/>
 						</Select.Trigger>
 						<Select.Content>
 							{#each categories as { name, slug }}
@@ -196,6 +322,13 @@
 							{/each}
 						</Select.Content>
 					</Select.Root>
+					{#if errors?.category?.length > 0}
+						<p class={descriptionErrorsClasses}>
+							{#each errors.category as error}
+								<span>{error}</span>
+							{/each}
+						</p>
+					{/if}
 				</div>
 				<div class="flex flex-col w-full gap-1">
 					<Label class="text-base">Or Create One</Label>
@@ -349,7 +482,7 @@
 			<!-- <div
 				class="flex flex-col items-center justify-start w-full h-full max-w-full min-w-full gap-y-4 gap-x-10"
 			> -->
-			<div class="gap-1 flex flex-col">
+			<div class="flex flex-col gap-1">
 				<Label class="text-base" for="image_1">Main Image</Label>
 				<Input
 					name="image_1"
@@ -360,7 +493,7 @@
 					on:change={(e) => onUpload(e, 0)}
 				/>
 			</div>
-			<div class="gap-1 flex flex-col">
+			<div class="flex flex-col gap-1">
 				<Label class="text-base" for="image_2">Thumbnail Image 1</Label>
 				<Input
 					name="image_2"
@@ -371,7 +504,7 @@
 					on:change={(e) => onUpload(e, 1)}
 				/>
 			</div>
-			<div class="gap-1 flex flex-col">
+			<div class="flex flex-col gap-1">
 				<Label class="text-base" for="image_3">Thumbnail Image 2</Label>
 				<Input
 					name="image_3"
@@ -382,7 +515,7 @@
 					on:change={(e) => onUpload(e, 2)}
 				/>
 			</div>
-			<div class="gap-1 flex flex-col">
+			<div class="flex flex-col gap-1">
 				<Label class="text-base" for="image_4">Thumbnail Image 3</Label>
 				<Input
 					name="image_4"
@@ -422,8 +555,8 @@
 	<!-- {#if hello}<img src={hello} alt="" />{/if} -->
 	<!-- <AddProductImage uploadPreset="ecommerce_products" header="Picture 1"/> -->
 	{#if previewImages && previewImages.length > 0}
-		<h1 class="w-full text-center text-lg font-medium">Images Preview</h1>
-		<div class="flex flex-row items-center justify-center gap-4 w-full flex-wrap">
+		<h1 class="w-full text-lg font-medium text-center">Images Preview</h1>
+		<div class="flex flex-row flex-wrap items-center justify-center w-full gap-4">
 			{#each previewImages as image}
 				{#if image}
 					<img
@@ -431,7 +564,7 @@
 						alt="product"
 						width="160"
 						height="160"
-						class="object-cover object-center h-40 w-40 max-w-40 max-h-40 rounded-xl"
+						class="object-cover object-center w-40 h-40 max-w-40 max-h-40 rounded-xl"
 					/>
 				{:else}
 					<div class="w-40 h-40 max-w-40 max-h-40 rounded-xl"></div>{/if}

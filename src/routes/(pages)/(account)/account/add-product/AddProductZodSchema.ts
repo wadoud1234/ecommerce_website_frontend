@@ -2,10 +2,15 @@ import { z } from "zod";
 
 export const AddProductSchemaFront = z
 	.object({
-		name: z.string(), //.min(8, { message: "Name should be at least 8 characters" }),
+		name: z
+			.string()
+			.min(8, { message: "Name should be at least 8 characters" }),
 		description: z.string(),
-		price: z.number(), //.min(1, { message: "Price is required" }).nonnegative(),
-		quantity: z.number(), //.min(1, { message: "Quantity is required" }).nonnegative(),
+		price: z.number().min(1, { message: "Price is required" }).nonnegative(),
+		quantity: z
+			.number()
+			.min(1, { message: "Quantity is required" })
+			.nonnegative(),
 		category: z.string().min(1, { message: "Category is required" }),
 		images: z.array(z.instanceof(File).optional()),
 	})
@@ -18,10 +23,15 @@ export const AddProductSchemaFront = z
 
 export const AddProductSchemaBack = z
 	.object({
-		name: z.string(), //.min(8, { message: "Name should be at least 8 characters" }),
+		name: z
+			.string()
+			.min(8, { message: "Name should be at least 8 characters" }),
 		description: z.string(),
-		price: z.number(), //.min(1, { message: "Price is required" }).nonnegative(),
-		quantity: z.number(), //.min(1, { message: "Quantity is required" }).nonnegative(),
+		price: z.number().min(1, { message: "Price is required" }).nonnegative(),
+		quantity: z
+			.number()
+			.min(1, { message: "Quantity is required" })
+			.nonnegative(),
 		category: z.string().min(1, { message: "Category is required" }),
 		images: z.array(z.instanceof(File).optional()),
 	})

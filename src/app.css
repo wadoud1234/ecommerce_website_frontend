@@ -72,6 +72,13 @@
     src: local('Poppins'),
       url('/static/fonts/poppins/Poppins-Black.ttf') format('ttf');
   }
+
+  @font-face {
+    font-family: 'poppins-medium';
+    src: local('Poppins'),
+      url('/static/fonts/poppins/Poppins-Medium.ttf') format('ttf');
+  }
+
 }
 
 * {
@@ -90,21 +97,21 @@
 }
 
 .poppins-thin {
-  font-family: Poppins, sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 300;
 }
 
 .poppins-regular {
-  font-family: Poppins, sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 400;
 }
 
 .poppins-medium {
-  font-family: Poppins, sans-serif;
+  font-family: 'poppins-medium', sans-serif;
   font-weight: 500;
 }
 
 .poppins-bold {
-  font-family: Poppins, sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 700;
 }

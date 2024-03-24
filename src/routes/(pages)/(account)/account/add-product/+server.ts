@@ -24,7 +24,6 @@ export async function POST({ request, locals }) {
 		});
 	const formData = await request.formData();
 	const data = Object.fromEntries(formData.entries());
-	console.log({ data });
 
 	const validationResults = AddProductSchemaBack.safeParse({
 		...data,
@@ -120,14 +119,21 @@ export async function POST({ request, locals }) {
 					},
 				},
 			);
-		} catch (e) {
-			console.log(e);
+		} catch (e: unknown) {
+			console.log({ errors: e });
 			return new Response("Something went wrong", { status: 500 });
 		}
 	} else {
-		console.log("fail", validationResults.error);
-		return new Response(JSON.stringify(validationResults.error), {
-			status: 400,
-		});
+		// console.log("format", validationResults.error.format());
+		console.log("formerrors", validationResults.error.formErrors.fieldErrors);
+		// console.log("errors", validationResults.error.errors);
+		// console.log("message", validationResults.error.message);
+
+		return new Response(
+			JSON.stringify(validationResults.error.formErrors.fieldErrors),
+			{
+				status: 400,
+			},
+		);
 	}
 }

@@ -54,8 +54,8 @@
 				>${productToShow?.price}</span
 			>
 		</p>
-		<p class="flex items-center gap-1">
-			<StarRatingBlock score={productToShow?.rating} starSize={20} />
+		<p class="flex items-center gap-3">
+			<StarRatingBlock score={productToShow?.rating} starSize={16} />
 			<span class="text-zinc-600 dark:text-zinc-400 poppins-medium">({productToShow?.sold})</span>
 		</p>
 	</div>
