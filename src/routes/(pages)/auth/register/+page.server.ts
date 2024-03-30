@@ -10,7 +10,7 @@ import {
 } from "$lib/helpers/strings.js";
 import { getUserFromLocals } from "$lib/server/auth.js";
 import db from "$lib/server/db/index.js";
-import { user } from "$lib/server/db/schema.js";
+import { userModel } from "$lib/server/db/schema.js";
 import { eq } from "drizzle-orm";
 
 export const load = async ({ locals }) => {
@@ -34,8 +34,8 @@ export const actions = {
 		const { name, email, password, confirm_password } = form.data;
 		console.log({ name, email, password, confirm_password });
 
-		const existingUser = await db.query.user.findFirst({
-			where: eq(user.email, email),
+		const existingUser = await db.query.userModel.findFirst({
+			where: eq(userModel.email, email),
 			columns: { name: true },
 		});
 
@@ -55,7 +55,7 @@ export const actions = {
 		const hashedPassword = await hashPassword(password);
 
 		const newUser = await db
-			.insert(user)
+			.insert(userModel)
 			.values({
 				name,
 				password: hashedPassword,

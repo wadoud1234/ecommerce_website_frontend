@@ -25,7 +25,10 @@ export const quantitySchema = z
 	.nonnegative();
 export const categorySchema = z
 	.string()
-	.min(1, { message: "Category is required" });
+	.min(1, { message: "Category is required" })
+	.refine((category) => category !== "Select a category...", {
+		message: "Category is required",
+	});
 export const imagesSchema = z
 	.array(z.instanceof(File).optional())
 	.refine((data) => data.length >= 1, {

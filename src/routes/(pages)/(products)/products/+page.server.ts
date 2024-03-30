@@ -1,11 +1,8 @@
 import type { PageServerLoad } from "./$types";
 import type { Product, ProductToShow } from "$lib/types";
 import db from "$lib/server/db";
-import { eq, like } from "drizzle-orm";
-import {
-	category as categoryModel,
-	product as productModel,
-} from "$lib/server/db/schema";
+import { and, between, desc, eq, inArray, like } from "drizzle-orm";
+import { categoryModel, productModel } from "$lib/server/db/schema";
 import { generateSlug } from "$lib/helpers/strings";
 
 function filterProductsFunction(
@@ -50,69 +47,68 @@ function filterProductsFunction(
 
 export const load: PageServerLoad = async ({ parent, url }) => {
 	const { user } = await parent();
-	const { limit, keyword, price, category } = Object.fromEntries(
-		url.searchParams.entries(),
-	);
-	console.log({ CATA: category });
-	let categoryId: string | null = null;
-	if (category) {
-		categoryId = await db.query.category
-			.findFirst({
-				where: eq(categoryModel.slug, generateSlug(category)),
+	const { keyword, category, pageNumber, maxPrice, minPrice } =
+		Object.fromEntries(url.searchParams.entries());
+	console.log("CATEGORIES", url.searchParams.getAll("category"));
+
+	console.log("SERVER CATEGORY PARAMS", category);
+
+	const listOfCategories = category?.length ? category.split(",") : [];
+
+	const wantedCategoryId = await Promise.all(
+		listOfCategories.map((categoryName) =>
+			db.query.categoryModel.findFirst({
+				where: eq(categoryModel.slug, generateSlug(categoryName)),
 				columns: { id: true },
+			}),
+		),
+	).then((categoriesArray) =>
+		categoriesArray
+			.filter((category) => {
+				if (category?.id) return category;
 			})
-			.then((data) => data?.id);
-		console.log({ categoryId });
-	}
-
-	let products: ProductToShow[];
-	if (categoryId) {
-		console.log("ID", categoryId);
-
-		products = await db.query.product.findMany({
-			where: eq(productModel.categoryId, categoryId),
-			columns: {
-				name: true,
-				price: true,
-				mainImage: true,
-				rating: true,
-				sold: true,
-				slug: true,
-			},
-			limit: 10,
-		});
-		console.log({ Cat: products });
-	} else {
-		products = await db.query.product.findMany({
-			where: like(
-				productModel.searchText,
-				`%${keyword?.toLowerCase().trim() || ""}%`,
-			),
-			columns: {
-				name: true,
-				price: true,
-				mainImage: true,
-				rating: true,
-				sold: true,
-				slug: true,
-			},
-			limit: 10,
-		});
-	}
-	// "0-1000"|"1000-3000"|"3000-6000"|"6000-10000"|"over 10000"
-	const filterResults: ProductToShow[] = filterProductsFunction(
-		price,
-		products,
+			.map((category) => {
+				const id = category?.id || "";
+				return id;
+			}),
 	);
-	console.log({ filterResults });
-	const categories = await db.query.category.findMany({
+
+	const products = await db.query.productModel.findMany({
+		where: and(
+			between(
+				productModel.price,
+				Number(minPrice || 0),
+				Number(maxPrice || Number.MAX_SAFE_INTEGER)
+					? Number(maxPrice || Number.MAX_SAFE_INTEGER)
+					: Number.MAX_SAFE_INTEGER,
+			),
+			wantedCategoryId && wantedCategoryId.length > 0
+				? inArray(productModel.categoryId, wantedCategoryId)
+				: undefined,
+			like(productModel.searchText, `%${keyword?.toLowerCase().trim() || ""}%`),
+		),
+		columns: {
+			name: true,
+			price: true,
+			mainImage: true,
+			rating: true,
+			sold: true,
+			slug: true,
+			searchText: true,
+		},
+		limit: 10,
+		offset: (Number(pageNumber || 1) - 1) * 10,
+		orderBy: (productModel) => desc(productModel.sold),
+	});
+	const categories = await db.query.categoryModel.findMany({
 		columns: {
 			name: true,
 		},
 	});
 	return {
-		categories,
+		products,
+		selectedCategories: listOfCategories,
+		categories: categories.map((cat) => cat.name),
 		user,
-		products: filterResults,
 	};
 };

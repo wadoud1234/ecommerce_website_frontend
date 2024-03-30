@@ -6,7 +6,7 @@
 	export let user: User | null;
 </script>
 
-<div class="flex-row items-center justify-between hidden gap-4 pr-2 md:flex">
+<div class="flex-row items-center justify-between hidden gap-4 md:flex">
 	<NewSearchBar />
 	<ThemeToggleButton />
 	<AccountMenu {user} />

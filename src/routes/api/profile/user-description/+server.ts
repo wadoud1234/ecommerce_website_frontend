@@ -1,6 +1,6 @@
 import { getUserFromLocals } from "$lib/server/auth.js";
 import db from "$lib/server/db/index.js";
-import { user as userModel } from "$lib/server/db/schema.js";
+import { userModel } from "$lib/server/db/schema.js";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 

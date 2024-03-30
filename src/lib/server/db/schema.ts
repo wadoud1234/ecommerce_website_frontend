@@ -37,12 +37,12 @@ export const linkProviders = pgEnum("linkProviders", [
 ]);
 
 // USERS
-export const user = pgTable("user", {
+export const userModel = pgTable("user", {
 	id: varchar("id", { length: 50 })
 		.$default(() => generateDatabaseId())
 		.primaryKey(),
 	name: varchar("name", { length: 255 }).unique().notNull(),
-	slug: varchar("slug", { length: 255 }).unique().notNull(),
+	slug: varchar("slug", { length: 255 }).notNull(),
 	searchText: text("searchText").notNull(),
 
 	email: varchar("email", { length: 255 }).unique().notNull(),
@@ -50,7 +50,7 @@ export const user = pgTable("user", {
 
 	avatar: text("avatar").default("").notNull(),
 	password: varchar("password", { length: 255 }).notNull(),
-	description: varchar("description", { length: 255 }).default("").notNull(),
+	description: text("description").default("").notNull(),
 	isAdmin: boolean("isAdmin").default(false).notNull(),
 
 	provider: providers("provider").notNull(),
@@ -61,20 +61,20 @@ export const user = pgTable("user", {
 	// sessions links products cart orders
 });
 
-export const userRelations = relations(user, ({ many, one }) => ({
-	sessions: many(session),
-	links: many(userLinks),
-	products: many(product),
-	cart: one(cart),
+export const userRelations = relations(userModel, ({ many, one }) => ({
+	sessions: many(sessionModel),
+	links: many(userLinksModel),
+	products: many(productModel),
+	cart: one(cartModel),
 }));
 
 // SESSIONS
-export const session = pgTable("session", {
+export const sessionModel = pgTable("session", {
 	id: varchar("id", { length: 50 })
 		// .$defaultFn(() => generateDatabaseId())
 		.primaryKey(),
 	userId: varchar("user_id", { length: 50 })
-		.references(() => user.id, { onDelete: "cascade" })
+		.references(() => userModel.id, { onDelete: "cascade" })
 		.notNull(),
 	expiresAt: timestamp("expires_at", {
 		withTimezone: true,
@@ -82,10 +82,10 @@ export const session = pgTable("session", {
 	}).notNull(),
 });
 
-export const sessionRelations = relations(session, ({ one }) => ({
-	user: one(user, {
-		fields: [session.userId],
-		references: [user.id],
+export const sessionRelations = relations(sessionModel, ({ one }) => ({
+	user: one(userModel, {
+		fields: [sessionModel.userId],
+		references: [userModel.id],
 	}),
 }));
 // PRODUCTS
@@ -94,14 +94,14 @@ export const productStatus = pgEnum("status", [
 	"out of stock",
 	"disactivated",
 ]);
-export const product = pgTable("product", {
+export const productModel = pgTable("product", {
 	id: varchar("id", { length: 50 })
 		.$defaultFn(() => generateDatabaseId())
 		.primaryKey(),
 	name: varchar("name", { length: 255 }).notNull(),
 	slug: varchar("slug", { length: 255 }).notNull(),
 	searchText: text("searchText").notNull(),
-	description: varchar("description", { length: 255 }).notNull(),
+	description: text("description").notNull(),
 	price: real("price").notNull(),
 	likes: integer("likes").default(0).notNull(),
 	rating: real("rating").default(0).notNull(),
@@ -115,44 +115,50 @@ export const product = pgTable("product", {
 
 	userId: varchar("userId", { length: 50 })
 		.notNull()
-		.references(() => user.id, { onDelete: "cascade" }),
+		.references(() => userModel.id, { onDelete: "cascade" }),
 
 	categoryId: varchar("categoryId", { length: 50 })
 		.notNull()
-		.references(() => category.id, { onDelete: "cascade" }),
+		.references(() => categoryModel.id, { onDelete: "cascade" }),
 });
 
-export const productRelations = relations(product, ({ many, one }) => ({
-	users: one(user, {
-		fields: [product.userId],
-		references: [user.id],
+export const productRelations = relations(productModel, ({ many, one }) => ({
+	users: one(userModel, {
+		fields: [productModel.userId],
+		references: [userModel.id],
 	}),
-	images: one(productImages),
-	orderItem: many(orderItem),
-	cartItems: many(cartItem),
-	category: one(category),
+	images: one(productImagesModel),
+	orderItems: many(orderItemModel),
+	cartItems: many(cartItemModel),
+	category: one(categoryModel, {
+		fields: [productModel.categoryId],
+		references: [categoryModel.id],
+	}),
 }));
 
 // PRODUCT IMAGES
-export const productImages = pgTable("productImages", {
+export const productImagesModel = pgTable("productImages", {
 	id: varchar("id", { length: 50 })
 		.$defaultFn(() => generateDatabaseId())
 		.primaryKey(),
-	thumbnail1: varchar("picture1", { length: 255 }).default("").notNull(),
-	thumbnail2: varchar("picture2", { length: 255 }).default("").notNull(),
-	thumbnail3: varchar("picture3", { length: 255 }).default("").notNull(),
+	picture1: varchar("picture1", { length: 255 }).default("").notNull(),
+	picture2: varchar("picture2", { length: 255 }).default("").notNull(),
+	picture3: varchar("picture3", { length: 255 }).default("").notNull(),
 
 	productId: varchar("productId", { length: 50 }).notNull(),
 });
 
-export const productImagesRelations = relations(productImages, ({ one }) => ({
-	product: one(product, {
-		fields: [productImages.productId],
-		references: [product.id],
+export const productImagesRelations = relations(
+	productImagesModel,
+	({ one }) => ({
+		product: one(productModel, {
+			fields: [productImagesModel.productId],
+			references: [productModel.id],
+		}),
 	}),
-}));
+);
 // LINKS
-export const userLinks = pgTable("userLinks", {
+export const userLinksModel = pgTable("userLinks", {
 	id: varchar("id", { length: 50 })
 		.$defaultFn(() => generateDatabaseId())
 		.primaryKey(),
@@ -160,19 +166,19 @@ export const userLinks = pgTable("userLinks", {
 	provider: linkProviders("provider").notNull().default("personal"),
 
 	userId: varchar("userId", { length: 50 })
-		.references(() => user.id, { onDelete: "cascade" })
+		.references(() => userModel.id, { onDelete: "cascade" })
 		.notNull(),
 });
 
-export const userLinksRelations = relations(userLinks, ({ one }) => ({
-	user: one(user, {
-		fields: [userLinks.userId],
-		references: [user.id],
+export const userLinksRelations = relations(userLinksModel, ({ one }) => ({
+	user: one(userModel, {
+		fields: [userLinksModel.userId],
+		references: [userModel.id],
 	}),
 }));
 
 // CATEGORIES
-export const category = pgTable("category", {
+export const categoryModel = pgTable("category", {
 	id: varchar("id", { length: 50 })
 		.$defaultFn(() => generateDatabaseId())
 		.primaryKey(),
@@ -183,48 +189,20 @@ export const category = pgTable("category", {
 	updatedAt: timestamp("updatedAt").defaultNow().notNull(),
 });
 
-export const categoryRelations = relations(category, ({ many }) => ({
-	products: many(product),
+export const categoryRelations = relations(categoryModel, ({ many }) => ({
+	products: many(productModel),
 }));
 
-// // PRODUCT CATEGORY
-// export const productCategory = pgTable(
-// "productCategory",
-// {
-// productId: varchar("productId", { length: 50 })
-// .references(() => product.id, { onDelete: "cascade" })
-// .notNull(),
-// categoryId: varchar("categoryId", { length: 50 })
-// .references(() => category.id, { onDelete: "cascade" })
-// .notNull(),
-// },
-// (t) => ({ pk: primaryKey({ columns: [t.productId, t.categoryId] }) }),
-// );
-
-// export const productCategoryRelations = relations(
-// productCategory,
-// ({ one }) => ({
-// product: one(product, {
-// fields: [productCategory.productId],
-// references: [product.id],
-// }),
-// category: one(category, {
-// fields: [productCategory.categoryId],
-// references: [category.id],
-// }),
-// }),
-// );
-
 // CART ITEMS
-export const cartItem = pgTable(
+export const cartItemModel = pgTable(
 	"cartItem",
 	{
 		cartId: varchar("cartId", { length: 50 })
-			.references(() => cart.id, { onDelete: "cascade" })
+			.references(() => cartModel.id, { onDelete: "cascade" })
 			.notNull(),
 		// createdAt: timestamp("createdAt").defaultNow().notNull(),
 		productId: varchar("productId", { length: 50 })
-			.references(() => product.id, { onDelete: "cascade" })
+			.references(() => productModel.id, { onDelete: "cascade" })
 			.notNull(),
 		// quantity: varchar("quantity", { length: 255 }).notNull(),
 	},
@@ -233,35 +211,35 @@ export const cartItem = pgTable(
 	}),
 );
 
-export const cartItemRelations = relations(cartItem, ({ one }) => ({
-	cart: one(cart, {
-		fields: [cartItem.cartId],
-		references: [cart.id],
+export const cartItemRelations = relations(cartItemModel, ({ one }) => ({
+	cart: one(cartModel, {
+		fields: [cartItemModel.cartId],
+		references: [cartModel.id],
 	}),
-	product: one(product, {
-		fields: [cartItem.productId],
-		references: [product.id],
+	product: one(productModel, {
+		fields: [cartItemModel.productId],
+		references: [productModel.id],
 	}),
 }));
 
 // CART
-export const cart = pgTable("cart", {
+export const cartModel = pgTable("cart", {
 	id: varchar("id", { length: 50 })
 		.$defaultFn(() => generateDatabaseId())
 		.primaryKey(),
 	userId: varchar("userId", { length: 50 }).notNull(),
 });
 
-export const cartRelations = relations(cart, ({ many, one }) => ({
-	cartItems: many(cartItem),
-	user: one(user, {
-		fields: [cart.userId],
-		references: [user.id],
+export const cartRelations = relations(cartModel, ({ many, one }) => ({
+	cartItems: many(cartItemModel),
+	user: one(userModel, {
+		fields: [cartModel.userId],
+		references: [userModel.id],
 	}),
 }));
 
 // ORDER ITEMS
-export const orderItem = pgTable(
+export const orderItemModel = pgTable(
 	"orderItem",
 	{
 		orderId: varchar("orderId", { length: 50 }).notNull(),
@@ -272,19 +250,19 @@ export const orderItem = pgTable(
 	},
 	(t) => ({ pk: primaryKey({ columns: [t.orderId, t.productId] }) }),
 );
-export const orderItemRelations = relations(orderItem, ({ one }) => ({
-	order: one(order, {
-		fields: [orderItem.orderId],
-		references: [order.id],
+export const orderItemRelations = relations(orderItemModel, ({ one }) => ({
+	order: one(orderModel, {
+		fields: [orderItemModel.orderId],
+		references: [orderModel.id],
 	}),
-	product: one(product, {
-		fields: [orderItem.productId],
-		references: [product.id],
+	product: one(productModel, {
+		fields: [orderItemModel.productId],
+		references: [productModel.id],
 	}),
 }));
 
 // ORDERS
-export const order = pgTable("order", {
+export const orderModel = pgTable("order", {
 	id: varchar("id", { length: 50 })
 		.$defaultFn(() => generateDatabaseId())
 		.primaryKey(),
@@ -293,10 +271,10 @@ export const order = pgTable("order", {
 	total: varchar("total", { length: 255 }).notNull(),
 	// orderItems products users
 });
-export const orderRelations = relations(order, ({ many, one }) => ({
-	orderItems: many(orderItem),
-	user: one(user, {
-		fields: [order.userId],
-		references: [user.id],
+export const orderRelations = relations(orderModel, ({ many, one }) => ({
+	orderItems: many(orderItemModel),
+	user: one(userModel, {
+		fields: [orderModel.userId],
+		references: [userModel.id],
 	}),
 }));

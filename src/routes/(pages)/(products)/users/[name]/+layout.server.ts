@@ -3,11 +3,11 @@ import type { LayoutServerLoad } from "./$types";
 import { getUserFromLocals } from "$lib/server/auth";
 import db from "$lib/server/db";
 import { eq } from "drizzle-orm";
-import { user as userModel } from "$lib/server/db/schema";
+import { userModel } from "$lib/server/db/schema";
 
 export const load: LayoutServerLoad = async ({ locals, params }) => {
 	const actualUser = getUserFromLocals(locals);
-	const visitedUser = await db.query.user.findFirst({
+	const visitedUser = await db.query.userModel.findFirst({
 		where: eq(userModel.name, params.name),
 	});
 
@@ -18,12 +18,12 @@ export const load: LayoutServerLoad = async ({ locals, params }) => {
 	if (visitedUser.id === actualUser?.id) {
 		return redirect(302, "/account/profile");
 	}
-	const userLinksPromise = db.query.userLinks.findMany({
+	const userLinksPromise = db.query.userLinksModel.findMany({
 		where: eq(userModel.id, visitedUser.id),
 		columns: { provider: true, link: true },
 	});
 
-	const productsPromise = db.query.product.findMany({
+	const productsPromise = db.query.productModel.findMany({
 		where: eq(userModel.id, visitedUser.id),
 	});
 

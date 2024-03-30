@@ -56,6 +56,7 @@
 </script>
 -->
 <script lang="ts">
+	import * as Dialog from '$lib/components/ui/dialog';
 	import * as Select from '$lib/components/ui/select';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { Input } from '$lib/components/ui/input';
@@ -92,11 +93,15 @@
 		price: new Array<string>(),
 		quantity: new Array<string>(),
 		category: new Array<string>(),
-		images: new Array<string>()
+		images: new Array<string>(),
+		general: new Array<string>()
 	};
+	let loading: boolean = false;
 	const onSubmit = async (e: Event) => {
+		loading = true;
 		console.log({ images: productEnteredData.images });
 		const results = AddProductSchemaFront.safeParse(productEnteredData);
+		console.log({ results });
 
 		if (results?.success) {
 			const formdata = new FormData();
@@ -131,22 +136,29 @@
 					price: responseData?.price || new Array<string>(),
 					quantity: responseData?.quantity || new Array<string>(),
 					category: responseData?.category || new Array<string>(),
-					images: responseData?.images || new Array<string>()
+					images: responseData?.images || new Array<string>(),
+					general: responseData?.general || new Array<string>()
 				};
 			}
 			console.log({ response });
 		} else {
 			const { error } = results;
-			const { fieldErrors } = error.formErrors;
+			const { fieldErrors, formErrors } = error.formErrors;
+			console.log({ flatten: error.flatten() });
+
+			console.log({ fieldErrors, formErrors });
+
 			errors = {
 				name: fieldErrors?.name || new Array<string>(),
 				description: fieldErrors?.description || new Array<string>(),
 				price: fieldErrors?.price || new Array<string>(),
 				quantity: fieldErrors?.quantity || new Array<string>(),
 				category: fieldErrors?.category || new Array<string>(),
-				images: fieldErrors?.images || new Array<string>()
+				images: fieldErrors?.images || new Array<string>(),
+				general: formErrors?.length > 0 ? formErrors : new Array<string>()
 			};
 		}
+		loading = false;
 	};
 	export let data: PageServerData;
 	const { categories } = data;
@@ -166,6 +178,90 @@
 	const labelErrorClasses = 'text-red-500';
 	const descriptionErrorsClasses = 'text-red-500 text-sm w-full flex flex-col';
 	const inputErrorClasses = 'border border-red-500';
+	$: isThereErrors =
+		errors?.name?.length > 0 ||
+		errors?.description?.length > 0 ||
+		errors?.price?.length > 0 ||
+		errors?.quantity?.length > 0 ||
+		errors?.category?.length > 0 ||
+		errors?.images?.length > 0 ||
+		errors?.general?.length > 0;
+	$: buttonDisabled = loading || isThereErrors;
+	import type { Snapshot } from './$types';
+	import type { Selected } from 'bits-ui';
+	import { BadgePlus, BadgePlusIcon } from 'lucide-svelte';
+	import { buttonVariants } from '$lib/components/ui/button';
+	import CreateCategoryModal from './category/CreateCategoryModal.svelte';
+	import CategoryModalStore, {
+		closeCreateCategoryModal,
+		openCreateCategoryModal
+	} from './category/CategoryModalStore';
+	import { get } from 'svelte/store';
+	import CategoryCarousel from '$lib/components/new/CategoryCarousel.svelte';
+	import CategoryCombobox from '$lib/components/new/Product/CategoryCombobox.svelte';
+
+	export const snapshot: Snapshot<typeof productEnteredData> = {
+		capture: () => productEnteredData,
+		restore: (value) => {
+			productEnteredData = value;
+		}
+	};
+
+	const handleNameInput = (e: Event) => {
+		const target = e?.target as HTMLInputElement;
+		const value = target?.value;
+		errors.name = inputValidator(value?.trim() || '', errors, 'name', nameSchema);
+	};
+	const handleDescriptionInput = (e: Event) => {
+		const target = e?.target as HTMLInputElement;
+		const value = target?.value;
+		errors.description = inputValidator(
+			value?.trim() || '',
+			errors,
+			'description',
+			descriptionSchema
+		);
+	};
+	const handlePriceInput = (e: Event) => {
+		const target = e?.target as HTMLInputElement;
+		const value = target?.value;
+		const inputValue = Number(value) || 1;
+		productEnteredData.price = inputValue;
+		errors.price = inputValidator(inputValue, errors, 'price', priceSchema);
+	};
+	const handleQuantityInput = (e: Event) => {
+		const target = e?.target as HTMLInputElement;
+		const value = target?.value;
+		const inputValue = Number(value) || 1;
+		productEnteredData.quantity = inputValue;
+		errors.quantity = inputValidator(inputValue, errors, 'quantity', quantitySchema);
+	};
+	const handleCategoryChange = (e: Selected<string> | undefined) => {
+		if (e) {
+			const { value } = e;
+			productEnteredData.category = String(value) || '';
+
+			errors.category = inputValidator(value ? value : '', errors, 'category', categorySchema);
+			errors = { ...errors, general: errors?.general?.filter((e) => e !== 'Category is required') };
+		}
+	};
+	const handleCategoryErrorRemove = () => {
+		errors = { ...errors, general: errors?.general?.filter((e) => e !== 'Category is required') };
+	};
+	$: console.log(get(CategoryModalStore));
+	let openCreateCategory = false;
+	$: console.log({ productEnteredData });
+	const handleImageInput = (e: Event, index: number) => {
+		const target = e?.target as HTMLInputElement;
+		const file = target?.files?.[0];
+		if (file) {
+			productEnteredData.images[index] = file;
+		}
+		console.log('Uploaded', { file });
+		errors.images = [];
+		errors = { ...errors, general: errors?.general?.filter((e) => e !== 'Images are required') };
+		errors = errors;
+	};
 </script>
 
 <svelte:head>
@@ -175,7 +271,11 @@
 	class="flex flex-col items-start justify-start w-full h-full max-w-full max-h-full min-w-full min-h-full gap-4"
 >
 	<h1 class="text-3xl font-medium">Add Product</h1>
-
+	{#if errors?.general?.length > 0}
+		{#each errors.general as error}
+			<p class="text-red-500">{error}</p>
+		{/each}
+	{/if}
 	<form
 		on:submit={onSubmit}
 		class="flex flex-row items-start justify-start w-full min-h-full gap-10"
@@ -193,9 +293,7 @@
 					placeholder="Product Name"
 					type="text"
 					bind:value={productEnteredData.name}
-					on:input={(e) => {
-						errors.name = inputValidator(e?.target?.value, errors, 'name', nameSchema);
-					}}
+					on:input={handleNameInput}
 				/>
 				{#if errors?.name?.length > 0}
 					<p class={descriptionErrorsClasses}>
@@ -216,14 +314,7 @@
 					rows={5}
 					placeholder="Product Description"
 					bind:value={productEnteredData.description}
-					on:input={(e) => {
-						errors.description = inputValidator(
-							e?.target?.value,
-							errors,
-							'description',
-							descriptionSchema
-						);
-					}}
+					on:input={handleDescriptionInput}
 				/>
 				{#if errors?.description?.length > 0}
 					<p class={descriptionErrorsClasses}>
@@ -244,14 +335,7 @@
 					type="number"
 					step={0.01}
 					placeholder="Product Price"
-					on:change={(priceValue) => {
-						productEnteredData.price = Number(priceValue?.target?.value) || 1;
-					}}
-					on:input={(e) => {
-						const inputValue = Number(e?.target?.value) || 1;
-						productEnteredData.price = inputValue;
-						errors.price = inputValidator(inputValue, errors, 'price', priceSchema);
-					}}
+					on:input={handlePriceInput}
 					bind:value={productEnteredData.price}
 				/>
 				{#if errors?.price?.length > 0}
@@ -272,11 +356,7 @@
 					class={`${errors?.quantity?.length > 0 ? inputErrorClasses : ''}`}
 					placeholder="Product Quantity"
 					type="number"
-					on:input={(e) => {
-						const inputValue = Number(e?.target?.value) || 1;
-						productEnteredData.quantity = inputValue;
-						errors.quantity = inputValidator(inputValue, errors, 'quantity', quantitySchema);
-					}}
+					on:input={handleQuantityInput}
 					bind:value={productEnteredData.quantity}
 				/>
 				{#if errors?.quantity?.length > 0}
@@ -293,20 +373,7 @@
 						class={`text-base poppins-medium ${errors?.category?.length > 0 ? labelErrorClasses : ''}`}
 						>Select Category <RequiredInput /></Label
 					>
-					<Select.Root
-						multiple={false}
-						name="category"
-						onSelectedChange={(e) => {
-							console.log({ value: e?.value });
-							errors.category = inputValidator(
-								e && e.value ? e.value : '',
-								errors,
-								'category',
-								categorySchema
-							);
-							productEnteredData.category = String(e?.value) || '';
-						}}
-					>
+					<!-- <Select.Root multiple={false} name="category" onSelectedChange={handleCategoryChange}>
 						<Select.Trigger
 							value={productEnteredData.category}
 							class={errors?.category?.length > 0 ? inputErrorClasses : ''}
@@ -321,7 +388,12 @@
 								<Select.Item value={slug} placeholder={name} />
 							{/each}
 						</Select.Content>
-					</Select.Root>
+					</Select.Root> -->
+					<CategoryCombobox
+						{handleCategoryErrorRemove}
+						categories={data.categories}
+						bind:selectedCategory={productEnteredData.category}
+					/>
 					{#if errors?.category?.length > 0}
 						<p class={descriptionErrorsClasses}>
 							{#each errors.category as error}
@@ -331,8 +403,39 @@
 					{/if}
 				</div>
 				<div class="flex flex-col w-full gap-1">
-					<Label class="text-base">Or Create One</Label>
-					<Input placeholder="Category Name" type="text" />
+					<!-- <Label class="text-base">Or Create One</Label> -->
+					<!-- <Input placeholder="Category Name" type="text" /> -->
+					<p class="mt-1">Or create new category</p>
+					<Dialog.Root on:close={closeCreateCategoryModal} bind:open={openCreateCategory}>
+						<Dialog.Trigger
+							class={`px-0 w-fit`}
+							on:click={() => {
+								openCreateCategory = true;
+							}}
+						>
+							<Button class="flex flex-row items-center gap-2 w-fit">
+								<BadgePlusIcon />Create
+							</Button>
+						</Dialog.Trigger>
+						<Dialog.Content class="sm:max-w-[425px]">
+							<Dialog.Header>
+								<Dialog.Title>Create Category</Dialog.Title>
+								<Dialog.Description>
+									Create new category here. Click save when you're done.
+								</Dialog.Description>
+							</Dialog.Header>
+
+							<CreateCategoryModal
+								onClose={() => {
+									openCreateCategory = false;
+								}}
+							/>
+
+							<Dialog.Footer>
+								<Button type="submit">Save changes</Button>
+							</Dialog.Footer>
+						</Dialog.Content>
+					</Dialog.Root>
 				</div>
 			</div>
 
@@ -435,6 +538,7 @@
 			<label for="images" hidden>Images</label>
 			<input name="images" id="images" type="hidden" hidden bind:value={productImages} />
 			<Button
+				disabled={buttonDisabled}
 				aria-label="Add product"
 				type="submit"
 				class="border bg-inherit text-inherit border-zinc-300 dark:border-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-800"
@@ -490,7 +594,7 @@
 					type="file"
 					class="cursor-pointer"
 					accept="image/*"
-					on:change={(e) => onUpload(e, 0)}
+					on:input={(e) => handleImageInput(e, 0)}
 				/>
 			</div>
 			<div class="flex flex-col gap-1">
@@ -501,7 +605,7 @@
 					type="file"
 					class="cursor-pointer"
 					accept="image/*"
-					on:change={(e) => onUpload(e, 1)}
+					on:input={(e) => handleImageInput(e, 1)}
 				/>
 			</div>
 			<div class="flex flex-col gap-1">
@@ -512,7 +616,7 @@
 					type="file"
 					class="cursor-pointer"
 					accept="image/*"
-					on:change={(e) => onUpload(e, 2)}
+					on:input={(e) => handleImageInput(e, 2)}
 				/>
 			</div>
 			<div class="flex flex-col gap-1">
@@ -523,7 +627,7 @@
 					type="file"
 					class="cursor-pointer"
 					accept="image/*"
-					on:change={(e) => onUpload(e, 3)}
+					on:input={(e) => handleImageInput(e, 3)}
 				/>
 			</div>
 			<img src="" alt="" />

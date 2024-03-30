@@ -1,11 +1,11 @@
 import { DrizzlePostgreSQLAdapter } from "@lucia-auth/adapter-drizzle";
-import { session, user } from "./db/schema";
+import { sessionModel, userModel } from "./db/schema";
 import db from "./db";
 import { redirect } from "@sveltejs/kit";
 import { Lucia } from "lucia";
 import { dev } from "$app/environment";
 import { GitHub } from "arctic";
-const adapter = new DrizzlePostgreSQLAdapter(db, session, user);
+const adapter = new DrizzlePostgreSQLAdapter(db, sessionModel, userModel);
 
 export function getUserFromLocals(locals: App.Locals) {
 	const user = locals.user;

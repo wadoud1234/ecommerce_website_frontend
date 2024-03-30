@@ -1,7 +1,6 @@
 <script lang="ts">
 	import NewContainer from '$lib/components/new/NewContainer.svelte';
 	import Separator from '$lib/components/new/Separator.svelte';
-	import { categories } from '$lib/data';
 	import HeroSection from '$lib/components/new/Home/HeroSection.svelte';
 
 	// import HeroSection from '$lib/components/new/HeroSection.svelte';
@@ -9,9 +8,10 @@
 	import ProductCarousel from '$lib/components/new/ProductCarousel.svelte';
 	import type { PageServerData } from './$types';
 	import { page } from '$app/stores';
-	export let data:PageServerData
-	$:categoryName=$page.url.searchParams?.get?.("category")||""
-	
+	import { BadgePlus } from 'lucide-svelte';
+	export let data: PageServerData;
+	$: categoryName = $page.url.searchParams?.get?.('category') || '';
+	$: console.log({ data });
 </script>
 
 <svelte:head>
@@ -22,7 +22,6 @@
 <div class="w-full h-full min-h-screen py-10 HomePage">
 	<NewContainer>
 		<div class="flex flex-col w-full gap-6">
-
 			<!-- HERO SECTION -->
 			<!-- <div class="HeroSection flex flex-row items-start min-h-fit md:h-[450px] w-full lg:h-[380px]">
 				<div
@@ -50,8 +49,8 @@
 				<HeroSection />
 			</div>
 			<Separator /> -->
-			
-			<HeroSection/>
+
+			<HeroSection />
 			<!-- SEARCH BY CATEGORY -->
 			<section class="py-5">
 				<h3
@@ -64,21 +63,25 @@
 				</h3>
 				<div class="flex flex-col gap-6">
 					<p class="text-2xl poppins-medium">Browse By Categories</p>
-					<CategoryCarousel {categories}/>
+					<CategoryCarousel
+						categories={[...data.categories.map((cat) => ({ ...cat, Icon: BadgePlus }))]}
+					/>
 					{#await data.categoryProductsPromise}
 						<p>Wait we are fetching products</p>
-					{:then data}
-						<p>Products Are available</p>
-						{#if data && data.length>0}
-							<ProductCarousel products={data} classNames="my-4"/>
-						{:else if (!data || data.length<=0) && categoryName && categoryName.length>0}
-							<p class="text-xl poppins-medium h-[330px] w-full flex flex-col items-center justify-center">No Products Found For Selected Category</p>
+					{:then products}
+						{#if products && products?.length > 0}
+							<ProductCarousel {products} classNames="my-4" />
+						{:else if categoryName && categoryName.length > 0}
+							<p
+								class="text-xl poppins-medium h-[330px] w-full flex flex-col items-center justify-center"
+							>
+								No Products Found For Selected Category
+							</p>
 						{/if}
 					{/await}
-					
 				</div>
 			</section>
-			
+
 			<Separator />
 
 			<!-- Best Selling Products -->
@@ -94,28 +97,31 @@
 				<div class="flex flex-col gap-6">
 					<div class="flex flex-row items-center justify-between">
 						<p class="text-2xl poppins-medium">Best Selling Products</p>
-						<button aria-label="View All Products"
+						<button
+							aria-label="View All Products"
 							type="button"
 							class="py-3 text-white bg-red-600 rounded-sm bg-opacity-80 px-7 poppins-medium"
-							>
-								<a class="w-full h-full" href="/products">View All</a>
-							</button
 						>
+							<a class="w-full h-full" href="/products">View All</a>
+						</button>
 					</div>
 					{#await data.productsPromise}
 						<p>Wait we are fetching products</p>
 					{:then products}
-						{#if products && products?.length>0}
+						{#if products && products?.length > 0}
 							<ProductCarousel {products} />
 						{:else}
-							<p class="text-xl poppins-medium h-[100px] w-full flex flex-col items-center justify-center">No Products Found</p>
+							<p
+								class="text-xl poppins-medium h-[100px] w-full flex flex-col items-center justify-center"
+							>
+								No Products Found
+							</p>
 						{/if}
 					{/await}
-					
 				</div>
 			</section>
 			<Separator />
-			
+
 			<section class="py-5">
 				<h3
 					class="flex flex-row items-center justify-start h-8 gap-2 mb-4 text-sm font-semibold text-red-600 dark:text-red-500"
@@ -132,14 +138,19 @@
 					{#await data.productsPromise}
 						<p>Wait we are fetching products</p>
 					{:then products}
-						{#if products && products?.length>0}
+						{#if products && products?.length > 0}
 							<ProductCarousel {products} />
 						{:else}
-							<p class="text-xl poppins-medium h-[100px] w-full flex flex-col items-center justify-center">No Products Found</p>
+							<p
+								class="text-xl poppins-medium h-[100px] w-full flex flex-col items-center justify-center"
+							>
+								No Products Found
+							</p>
 						{/if}
 					{/await}
 					<div class="flex flex-row items-center justify-center w-full mt-6">
-						<button aria-label="View All Products"
+						<button
+							aria-label="View All Products"
 							type="button"
 							class="py-3 text-white bg-red-600 rounded-sm bg-opacity-80 px-7 poppins-medium"
 						>

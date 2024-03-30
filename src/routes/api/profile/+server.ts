@@ -2,7 +2,7 @@ import { z } from "zod";
 import { getUserFromLocals } from "$lib/server/auth.js";
 import db from "$lib/server/db/index.js";
 import { eq } from "drizzle-orm";
-import { user as userModel } from "$lib/server/db/schema.js";
+import { userModel } from "$lib/server/db/schema.js";
 
 export async function POST({ request, locals }) {
 	const user = getUserFromLocals(locals);

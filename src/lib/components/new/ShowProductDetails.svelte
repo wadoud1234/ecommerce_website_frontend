@@ -23,13 +23,13 @@
 >
 	<!-- OTHERS THAN MD -->
 	<div
-		class="flex md:hidden lg:flex flex-row items-start min-h-full h-[400px] w-full lg:h-[500px] justify-between gap-2 sm:gap-4 lg:gap-8"
+		class="flex md:hidden lg:flex flex-row items-start min-h-full h-[300px] w-full lg:h-[500px] justify-between gap-2 sm:gap-4 lg:gap-8"
 	>
 		<div class="flex flex-col items-center justify-center h-full gap-4">
 			{#each [...productImages?.filter((_, i) => i != cursor)] as image}
 				<button
 					aria-label="product image"
-					class="bg-zinc-700 max-w-[88px] min-w-[88px] w-full max-h-[88px] min-h-[88px] rounded-lg object-contain object-center"
+					class="bg-zinc-600 max-w-[88px] min-w-[88px] w-full max-h-[88px] min-h-[88px] rounded-md object-contain object-center"
 					on:click={() => {
 						cursor = productImages?.indexOf(image);
 					}}
@@ -38,25 +38,25 @@
 						loading="lazy"
 						src={image}
 						alt="product-image"
-						class="rounded-lg hover:scale-110 transition-all duration-200 w-[88px] h-[88px] p-2"
+						class="rounded-md hover:scale-110 transition-all duration-200 w-[88px] h-[88px] p-2"
 					/>
 				</button>
 			{/each}
 		</div>
 		<div
-			class="flex flex-col items-center justify-center flex-1 w-full h-full min-h-full p-4 lg:w-auto bg-zinc-400 rounded-xl"
+			class="flex flex-col items-center justify-center flex-1 w-full h-full min-h-full lg:w-auto rounded-xl"
 		>
 			<CldImage
 				loading="lazy"
 				src={productImages?.[cursor]}
 				alt="main-product-image"
-				class=" rounded-md max-w-[200px] sm:max-w-[300px] md:max-w-[260px] lg:max-w-[290px] lg:w-[300px] h-auto object-center object-contain hover:scale-110 md:hover:scale-125 duration-200 transition-all"
+				class=" rounded-md bg-zinc-600 p-2 sm:w-full max-h-full md:max-w-[260px] lg:min-w-full lg:w-full object-cover  duration-200 transition-all"
 			/>
 		</div>
 	</div>
 	<!-- MD ONLY -->
 	<div
-		class="flex-col justify-between hidden w-full h-full max-h-full min-h-full gap-1 md:flex lg:hidden"
+		class="flex-col mb-10 justify-between hidden w-full h-full min-h-full max-h-full gap-1 md:flex lg:hidden"
 	>
 		<div
 			class="flex-1 w-full md:max-w-full lg:min-w-[290px] flex flex-col justify-center items-center bg-zinc-400 p-4 min-h-full rounded-xl"

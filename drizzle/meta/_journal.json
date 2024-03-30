@@ -15,6 +15,20 @@
       "when": 1711153451989,
       "tag": "0001_stormy_toad_men",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1711355707407,
+      "tag": "0002_mature_dakota_north",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1711367587510,
+      "tag": "0003_nosy_krista_starr",
+      "breakpoints": true
     }
   ]
 }

@@ -1,7 +1,7 @@
 import { generateSlug } from "$lib/helpers/strings.js";
 import db from "$lib/server/db/index.js";
 import { z } from "zod";
-import { category as categoryModel } from "$lib/server/db/schema.js";
+import { categoryModel } from "$lib/server/db/schema.js";
 export async function POST({ request }) {
 	const data = await request.json();
 

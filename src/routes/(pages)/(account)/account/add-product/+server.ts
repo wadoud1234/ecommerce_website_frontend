@@ -5,10 +5,9 @@ import {
 } from "$lib/helpers/strings.js";
 import db from "$lib/server/db/index.js";
 import {
-	category as categoryModel,
-	productImages,
-	productImages as productImagesModel,
-	product as productModel,
+	categoryModel,
+	productImagesModel,
+	productModel,
 } from "$lib/server/db/schema.js";
 import { eq } from "drizzle-orm";
 import { AddProductSchemaBack } from "./AddProductZodSchema.js";
@@ -64,7 +63,7 @@ export async function POST({ request, locals }) {
 				}),
 			);
 			console.log({ thumbnailsUrl });
-			let isCategoryExist = await db.query.category.findFirst({
+			let isCategoryExist = await db.query.categoryModel.findFirst({
 				where: eq(categoryModel.slug, generateSlug(category)),
 				columns: { name: true, slug: true, id: true },
 			});
@@ -102,9 +101,9 @@ export async function POST({ request, locals }) {
 				.insert(productImagesModel)
 				.values({
 					productId: newProduct.id,
-					thumbnail1: thumbnailsUrl[0],
-					thumbnail2: thumbnailsUrl[1],
-					thumbnail3: thumbnailsUrl[2],
+					picture1: thumbnailsUrl[0],
+					picture2: thumbnailsUrl[1],
+					picture3: thumbnailsUrl[2],
 				})
 				.returning({ id: productImagesModel.id })
 				.then((data) => data[0]);

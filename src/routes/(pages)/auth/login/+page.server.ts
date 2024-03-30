@@ -7,9 +7,8 @@ import { auth, getUserFromLocals } from "$lib/server/auth";
 import { verifyPassword } from "$lib/helpers/password";
 import { Provider } from "$lib/types";
 import db from "$lib/server/db";
-import { providers, user } from "$lib/server/db/schema";
+import { userModel } from "$lib/server/db/schema";
 import { eq } from "drizzle-orm";
-import { TURSO_AUTH_TOKEN } from "$env/static/private";
 export const load = async ({ locals }) => {
 	const user = getUserFromLocals(locals);
 	if (user?.id) return redirect(302, "/account/profile");
@@ -33,8 +32,8 @@ export const actions = {
 		console.log({ email, password });
 
 		console.time("Start fetching data from db");
-		const existingUser = await db.query.user.findFirst({
-			where: eq(user.email, email),
+		const existingUser = await db.query.userModel.findFirst({
+			where: eq(userModel.email, email),
 			columns: {
 				id: true,
 				name: true,

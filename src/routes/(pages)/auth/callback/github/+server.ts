@@ -1,6 +1,6 @@
 import { OAuth2RequestError } from "arctic";
 import { github, auth } from "$lib/server/auth";
-import { user as userModel } from "$lib/server/db/schema";
+import { userModel } from "$lib/server/db/schema";
 import type { RequestEvent } from "@sveltejs/kit";
 import { generateProductSearchText, generateSlug } from "$lib/helpers/strings";
 import db from "$lib/server/db";
@@ -28,7 +28,7 @@ export async function GET({ url, cookies }: RequestEvent): Promise<Response> {
 
 		const { avatar_url } = githubUser;
 
-		const existingUser = await db.query.user.findFirst({
+		const existingUser = await db.query.userModel.findFirst({
 			where: and(
 				eq(userModel.provider, "github"),
 				eq(userModel.providerId, `${githubUser.id}`),

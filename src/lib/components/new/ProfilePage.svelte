@@ -100,12 +100,14 @@
 		</div>
 	</section>
 	<!-- MY PRODUCTS SECTION -->
-	<section class="flex flex-col items-center justify-center w-full md:justify-start md:items-start">
+	<section
+		class="flex flex-col items-center justify-center w-full md:justify-start md:items-start gap-4"
+	>
 		<div class="flex flex-row items-center justify-between w-full">
 			<h3
-				class="flex flex-row items-center justify-start h-8 gap-2 mb-4 text-sm font-semibold text-red-600 dark:text-red-500"
+				class="flex flex-row items-center h-full gap-2 text-sm font-semibold text-red-600 dark:text-red-500"
 			>
-				<span class="h-full text-transparent bg-red-600 rounded-md min-w-4 dark:bg-red-500">
+				<span class="h-8 text-transparent bg-red-600 rounded-md min-w-4 dark:bg-red-500">
 					{'.'}
 				</span>
 				My Products

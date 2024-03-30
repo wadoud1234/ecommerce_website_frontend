@@ -14,6 +14,9 @@ export const AddProductSchemaFront = z
 		category: z.string().min(1, { message: "Category is required" }),
 		images: z.array(z.instanceof(File).optional()),
 	})
+	.refine((data) => data.category && data.category !== "Select a category...", {
+		message: "Category is required",
+	})
 	.refine((data) => data.images.length >= 1, {
 		message: "Images are required",
 	})

@@ -15,6 +15,8 @@
 	}
 </script>
 
+<svelte:head><title>{data?.product?.name}</title></svelte:head>
+
 <div class="flex flex-col items-start justify-start min-h-full gap-8 min-w-screen h-fir">
 	<div
 		class="flex flex-row flex-wrap items-center justify-between w-full h-full gap-2 md:flex-nowrap"
