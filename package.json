@@ -2,6 +2,7 @@
 	"name": "ecommerce-frontend",
 	"version": "0.0.1",
 	"scripts": {
+		"postbuild": "npx svelte-sitemap --out-dir .vercel/output/static --domain https://ecommerce-website-frontend-mu.vercel.app",
 		"pre-deploy": "pnpm build && sleep 1 && pnpm preview",
 		"db:push": "pnpm tsx ./src/lib/server/db.migrate.ts",
 		"db:generate": "drizzle-kit generate:pg",
@@ -47,6 +48,7 @@
 		"svelte": "^4.2.7",
 		"svelte-check": "^3.6.0",
 		"svelte-loading-spinners": "^0.3.4",
+		"svelte-sitemap": "^2.6.0",
 		"tailwindcss": "^3.4.1",
 		"tslib": "^2.4.1",
 		"typescript": "^5.0.0",
